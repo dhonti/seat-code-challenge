@@ -1,7 +1,7 @@
 package com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.dhontiveros.seatcodechallenge.domain.models.InputData
+import com.dhontiveros.seatcodechallenge.domain.model.InputData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
