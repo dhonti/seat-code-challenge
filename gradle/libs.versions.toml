@@ -4,20 +4,26 @@ appcompat = "1.7.0"
 catalogUpdate = "0.8.5"
 # @keep this version, it is removed by version catalog update plugin
 compile-sdk = "35"
+compose = "2025.05.01"
+compose-activity = "1.10.1"
+compose-viewmodel = "2.9.0"
 coreKtx = "1.16.0"
 core-splashscreen = "1.0.1"
+kotlinx-coroutines = "1.7.3"
 espressoCore = "3.6.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 kotlin = "2.1.0"
 manesVersions = "0.52.0"
 material = "1.12.0"
+moshi = "1.15.2"
 # @keep this version, it is removed by version catalog update plugin
 min-sdk = "24"
 # @keep this version, it is removed by version catalog update plugin
 target-sdk = "35"
 dagger-hilt = "2.55"
 ksp = "2.1.0-1.0.29"
+activity = "1.10.1"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -25,15 +31,27 @@ androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx"
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
 core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "core-splashscreen" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
+compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "compose-viewmodel" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger-hilt" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 ben-manes-versions = { id = "com.github.ben-manes.versions", version.ref = "manesVersions" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "catalogUpdate" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger-hilt" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -4,6 +4,7 @@ plugins {
 
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -36,6 +37,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_18.majorVersion
     }
+
+    buildFeatures {
+        compose = true
+    }
 }
 
 dependencies {
@@ -48,10 +53,34 @@ dependencies {
 
     // Dagger
     implementation(libs.hilt.android)
+    implementation(libs.androidx.activity)
     ksp(libs.hilt.compiler)
+
+    // Compose BoM
+    // ----------------------------------
+    val composeBom = platform(libs.compose.bom)
+    implementation(composeBom)
+
+    // Compose libraries:
+    implementation(libs.compose.ui)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.runtime)
+
+    implementation(libs.compose.activity)
+    implementation(libs.compose.viewmodel)
+    // ----------------------------------
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Moshi
+    implementation(libs.moshi)
 
     testImplementation(libs.junit)
 
+    androidTestImplementation(composeBom)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
