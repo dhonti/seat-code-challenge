@@ -40,7 +40,7 @@ data class Position(
     val posY: Long,
     val direction: Direction
 ) {
-    fun next(inputMovement: Movement): Position =
+    fun updateFromMovement(inputMovement: Movement): Position =
         when (inputMovement) {
             Movement.MoveForward -> when (direction) {
                 Direction.North -> this.copy(posY = posY + 1)
