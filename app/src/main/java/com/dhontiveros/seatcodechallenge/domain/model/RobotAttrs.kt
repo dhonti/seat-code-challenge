@@ -12,6 +12,10 @@ sealed class Direction {
     data object East : Direction()
     data object West : Direction()
 
+    override fun toString(): String {
+        return this::class.simpleName?.first()?.uppercaseChar().toString()
+    }
+
     fun nextDirection(inputMovement: Movement): Direction =
         when (inputMovement) {
             Movement.TurnLeft -> turnLeft()
@@ -55,4 +59,6 @@ data class Position(
                 )
             )
         }
+
+    override fun toString(): String = "$posX $posY $direction"
 }
