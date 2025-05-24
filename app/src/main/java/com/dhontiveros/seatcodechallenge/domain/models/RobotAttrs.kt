@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.domain
+package com.dhontiveros.seatcodechallenge.domain.models
 
 sealed class Movement {
     data object TurnLeft : Movement()

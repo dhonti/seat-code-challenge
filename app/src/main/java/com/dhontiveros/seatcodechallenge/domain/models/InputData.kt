@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.domain
+package com.dhontiveros.seatcodechallenge.domain.models
 
 data class InputData(
     val plateauSize: Pair<Int, Int>,
