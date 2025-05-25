@@ -1,18 +1,16 @@
 package com.dhontiveros.seatcodechallenge.presentation.ui.screen
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -32,8 +30,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dhontiveros.seatcodechallenge.R
-import com.dhontiveros.seatcodechallenge.presentation.ui.composables.AppButton
-import com.dhontiveros.seatcodechallenge.presentation.ui.composables.AppInputField
+import com.dhontiveros.seatcodechallenge.presentation.commons.composables.AppButton
+import com.dhontiveros.seatcodechallenge.presentation.commons.composables.AppInputField
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.InitialInputData
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainIntent
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainViewState
@@ -53,7 +51,7 @@ fun MainScreen(
 }
 
 @Composable
-fun MainBody(
+private fun MainBody(
     modifier: Modifier = Modifier,
     state: MainViewState,
     processIntent: (MainIntent) -> Unit
@@ -65,20 +63,19 @@ fun MainBody(
     ) {
         Column(
             modifier = Modifier
-                .weight(1f, false)
+                .weight(1f, true)
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            RobotInputForm(state = state, processIntent = processIntent)
-            ResultSection(state = state)
+            RobotInputForm(state = state)
         }
-        Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+        SubmitAndResultSection(state = state, processIntent = processIntent)
     }
 }
 
 @Composable
-fun RobotInputForm(state: MainViewState, processIntent: (MainIntent) -> Unit) {
+private fun RobotInputForm(state: MainViewState) {
     var plateauSizeX by remember { mutableStateOf("") }
     var plateauSizeY by remember { mutableStateOf("") }
 
@@ -104,31 +101,13 @@ fun RobotInputForm(state: MainViewState, processIntent: (MainIntent) -> Unit) {
             movements = mov
         }
     )
-
-    Text("this is a sample")
-    AppButton(
-        modifier = Modifier.fillMaxWidth(),
-        text = stringResource(R.string.main_screen_calculate_button),
-        isEnabled = !state.isLoading,
-        onClick = {
-            processIntent(
-                MainIntent.CalculateCoordinates(
-                    inputData = InitialInputData(
-                        posX = 1,
-                        posY = 2,
-                        direction = "N",
-                        plateauSizeX = 5,
-                        plateauSizeY = 5,
-                        movementsList = "LMLMLMLMM"
-                    )
-                )
-            )
-        }
-    )
 }
 
 @Composable
-fun PlateauInputSection(modifier: Modifier = Modifier, onSizeChange: (String, String) -> Unit) {
+private fun PlateauInputSection(
+    modifier: Modifier = Modifier,
+    onSizeChange: (String, String) -> Unit
+) {
     var sizeX by remember { mutableStateOf("") }
     var sizeY by remember { mutableStateOf("") }
 
@@ -168,7 +147,7 @@ fun PlateauInputSection(modifier: Modifier = Modifier, onSizeChange: (String, St
 }
 
 @Composable
-fun RobotInputSection(
+private fun RobotInputSection(
     modifier: Modifier = Modifier,
     onRobotChange: (String, String, String, String) -> Unit
 ) {
@@ -226,7 +205,7 @@ fun RobotInputSection(
 }
 
 @Composable
-fun DirectionToggleGroup(
+private fun DirectionToggleGroup(
     selected: String,
     onSelectedDirection: (String) -> Unit
 ) {
@@ -251,8 +230,27 @@ fun DirectionToggleGroup(
 }
 
 @Composable
-fun ResultSection(state: MainViewState) {
+private fun SubmitAndResultSection(state: MainViewState, processIntent: (MainIntent) -> Unit) {
     state.response?.let {
         Text("Result: $it")
     }
+    AppButton(
+        modifier = Modifier.fillMaxWidth(),
+        text = stringResource(R.string.main_screen_calculate_button),
+        isEnabled = !state.isLoading,
+        onClick = {
+            processIntent(
+                MainIntent.CalculateCoordinates(
+                    inputData = InitialInputData(
+                        posX = 1,
+                        posY = 2,
+                        direction = "N",
+                        plateauSizeX = 5,
+                        plateauSizeY = 5,
+                        movementsList = "LMLMLMLMM"
+                    )
+                )
+            )
+        }
+    )
 }

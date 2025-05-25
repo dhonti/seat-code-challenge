@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.dhontiveros.seatcodechallenge.presentation.extensions.configureEdgeToEdgeAppearance
+import com.dhontiveros.seatcodechallenge.presentation.commons.extensions.configureEdgeToEdgeAppearance
 import com.dhontiveros.seatcodechallenge.presentation.ui.screen.MainScreen
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.presentation.ui.composables
+package com.dhontiveros.seatcodechallenge.presentation.commons.composables
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors

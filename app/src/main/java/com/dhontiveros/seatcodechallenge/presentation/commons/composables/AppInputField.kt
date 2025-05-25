@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.presentation.ui.composables
+package com.dhontiveros.seatcodechallenge.presentation.commons.composables
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardOptions
