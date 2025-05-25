@@ -1,21 +1,13 @@
 package com.dhontiveros.seatcodechallenge.presentation.ui.screen
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,12 +18,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dhontiveros.seatcodechallenge.R
 import com.dhontiveros.seatcodechallenge.presentation.commons.composables.AppButton
-import com.dhontiveros.seatcodechallenge.presentation.commons.composables.AppInputField
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.InitialInputData
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainIntent
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainViewState
@@ -56,6 +47,8 @@ private fun MainBody(
     state: MainViewState,
     processIntent: (MainIntent) -> Unit
 ) {
+    var formState by remember { mutableStateOf(RobotFormState()) }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -68,14 +61,24 @@ private fun MainBody(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            RobotInputForm(state = state)
+            RobotInputForm(
+                state = state,
+                onFormStateChange = { formState = it }
+            )
         }
-        SubmitAndResultSection(state = state, processIntent = processIntent)
+        SubmitAndResultSection(
+            state = state,
+            formState = formState,
+            processIntent = processIntent
+        )
     }
 }
 
 @Composable
-private fun RobotInputForm(state: MainViewState) {
+private fun RobotInputForm(
+    state: MainViewState,
+    onFormStateChange: (RobotFormState) -> Unit
+) {
     var plateauSizeX by remember { mutableStateOf("") }
     var plateauSizeY by remember { mutableStateOf("") }
 
@@ -84,6 +87,21 @@ private fun RobotInputForm(state: MainViewState) {
     var direction by remember { mutableStateOf("N") }
     var movements by remember { mutableStateOf("") }
 
+    // Emit when some filed is changed
+    LaunchedEffect(plateauSizeX, plateauSizeY, posX, posY, direction, movements) {
+        onFormStateChange(
+            RobotFormState(
+                posX = posX,
+                posY = posY,
+                direction = direction,
+                plateauSizeX = plateauSizeX,
+                plateauSizeY = plateauSizeY,
+                movements = movements
+            )
+        )
+    }
+
+    Spacer(modifier = Modifier.height(8.dp))
     PlateauInputSection(
         modifier = Modifier.fillMaxWidth(),
         onSizeChange = { x, y ->
@@ -104,135 +122,18 @@ private fun RobotInputForm(state: MainViewState) {
 }
 
 @Composable
-private fun PlateauInputSection(
-    modifier: Modifier = Modifier,
-    onSizeChange: (String, String) -> Unit
+private fun SubmitAndResultSection(
+    state: MainViewState,
+    formState: RobotFormState,
+    processIntent: (MainIntent) -> Unit
 ) {
-    var sizeX by remember { mutableStateOf("") }
-    var sizeY by remember { mutableStateOf("") }
 
-    LaunchedEffect(sizeX, sizeY) {
-        onSizeChange(sizeX, sizeY)
-    }
-
-    Column(
-        modifier = modifier
-            .border(
-                border = BorderStroke(width = 1.dp, color = Color.Gray),
-                shape = RoundedCornerShape(4.dp)
-            )
-            .padding(16.dp)
-    ) {
-        Text(text = stringResource(R.string.main_screen_form_input_plateau_title))
-        Text(text = stringResource(R.string.main_screen_form_input_plateau_body))
-        Row(modifier = Modifier.fillMaxWidth()) {
-            AppInputField(
-                modifier = Modifier
-                    .weight(1f, false)
-                    .padding(end = 4.dp),
-                textId = R.string.main_screen_form_input_plateau_size_x,
-                currentValue = sizeX,
-                onValueChange = { sizeX = it },
-            )
-            AppInputField(
-                modifier = Modifier
-                    .weight(1f, false)
-                    .padding(start = 4.dp),
-                textId = R.string.main_screen_form_input_plateau_size_y,
-                currentValue = sizeY,
-                onValueChange = { sizeY = it },
-            )
-        }
-    }
-}
-
-@Composable
-private fun RobotInputSection(
-    modifier: Modifier = Modifier,
-    onRobotChange: (String, String, String, String) -> Unit
-) {
-    var posX by remember { mutableStateOf("") }
-    var posY by remember { mutableStateOf("") }
-    var direction by remember { mutableStateOf("N") }
-    var movements by remember { mutableStateOf("") }
-
-    LaunchedEffect(posX, posY, direction, movements) {
-        onRobotChange(posX, posY, direction, movements)
-    }
-
-    Column(
-        modifier = modifier
-            .border(
-                border = BorderStroke(width = 1.dp, color = Color.Gray),
-                shape = RoundedCornerShape(4.dp)
-            )
-            .padding(16.dp)
-    ) {
-        Text(text = stringResource(R.string.main_screen_form_input_robot_title))
-        Text(text = stringResource(R.string.main_screen_form_input_robot_body))
-        Row(modifier = Modifier.fillMaxWidth()) {
-            AppInputField(
-                modifier = Modifier
-                    .weight(1f, false)
-                    .padding(end = 4.dp),
-                textId = R.string.main_screen_form_input_robot_pos_x,
-                currentValue = posX,
-                onValueChange = { posX = it },
-            )
-            AppInputField(
-                modifier = Modifier
-                    .weight(1f, false)
-                    .padding(start = 4.dp),
-                textId = R.string.main_screen_form_input_robot_pos_y,
-                currentValue = posY,
-                onValueChange = { posY = it },
-            )
-
-        }
-        Spacer(Modifier.height(4.dp))
-        DirectionToggleGroup(
-            selected = direction,
-            onSelectedDirection = { direction = it }
-        )
-        Spacer(Modifier.height(4.dp))
-        AppInputField(
-            modifier = Modifier.fillMaxWidth(),
-            textId = R.string.main_screen_form_input_robot_movements,
-            currentValue = movements,
-            onValueChange = { movements = it },
-        )
-    }
-}
-
-@Composable
-private fun DirectionToggleGroup(
-    selected: String,
-    onSelectedDirection: (String) -> Unit
-) {
-    val directions = listOf("N", "S", "E", "W")
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        directions.forEach { dir ->
-            val isSelected = selected == dir
-            AppButton(
-                modifier = Modifier.weight(1f),
-                text = dir,
-                onClick = { onSelectedDirection(dir) },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isSelected) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.surfaceContainerHigh
-                )
-            )
-        }
-    }
-}
-
-@Composable
-private fun SubmitAndResultSection(state: MainViewState, processIntent: (MainIntent) -> Unit) {
     state.response?.let {
-        Text("Result: $it")
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            text = stringResource(R.string.main_screen_result_position, it)
+        )
     }
     AppButton(
         modifier = Modifier.fillMaxWidth(),
@@ -242,15 +143,25 @@ private fun SubmitAndResultSection(state: MainViewState, processIntent: (MainInt
             processIntent(
                 MainIntent.CalculateCoordinates(
                     inputData = InitialInputData(
-                        posX = 1,
-                        posY = 2,
-                        direction = "N",
-                        plateauSizeX = 5,
-                        plateauSizeY = 5,
-                        movementsList = "LMLMLMLMM"
+                        posX = formState.posX.toLongOrNull() ?: 0L,
+                        posY = formState.posY.toLongOrNull() ?: 0L,
+                        direction = formState.direction,
+                        plateauSizeX = formState.plateauSizeX.toLongOrNull() ?: 0L,
+                        plateauSizeY = formState.plateauSizeY.toLongOrNull() ?: 0L,
+                        movementsList = formState.movements
                     )
                 )
             )
         }
     )
 }
+
+
+data class RobotFormState(
+    val posX: String = "",
+    val posY: String = "",
+    val direction: String = "N",
+    val plateauSizeX: String = "",
+    val plateauSizeY: String = "",
+    val movements: String = ""
+)

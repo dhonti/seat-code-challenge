@@ -10,18 +10,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
-fun AppInputField(
+fun AppPositiveIntInputField(
     modifier: Modifier = Modifier,
     @StringRes textId: Int,
     currentValue: String,
     onValueChange: (String) -> Unit,
-    keyboardType: KeyboardType = KeyboardType.Text
 ) {
     OutlinedTextField(
         modifier = modifier,
         value = currentValue,
-        onValueChange = onValueChange,
+        onValueChange = { input ->
+            val filtered = input.filter { it.isDigit() }
+            val sanitized = when {
+                filtered.isEmpty() -> ""
+                filtered.startsWith("0") && filtered.length > 1 -> filtered.trimStart('0')
+                else -> filtered
+            }
+            onValueChange(sanitized)
+        },
         label = { Text(text = stringResource(textId)) },
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType)
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
     )
 }
