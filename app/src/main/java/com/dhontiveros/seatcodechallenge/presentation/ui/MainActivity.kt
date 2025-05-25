@@ -1,11 +1,12 @@
 package com.dhontiveros.seatcodechallenge.presentation.ui
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dhontiveros.seatcodechallenge.presentation.extensions.configureEdgeToEdgeAppearance
 import com.dhontiveros.seatcodechallenge.presentation.ui.screen.MainScreen
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainViewModel
@@ -16,12 +17,16 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         configureEdgeToEdgeAppearance(isLightMode = true)
-        super.onCreate(savedInstanceState, persistentState)
+        super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                MainScreen()
+                val state by viewModel.state.collectAsStateWithLifecycle()
+                MainScreen(
+                    state = state,
+                    processIntent = viewModel::processIntent
+                )
             }
         }
     }

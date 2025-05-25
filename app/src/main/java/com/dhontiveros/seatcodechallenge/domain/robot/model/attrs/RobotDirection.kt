@@ -1,14 +1,12 @@
 package com.dhontiveros.seatcodechallenge.domain.robot.model.attrs
 
-sealed class RobotDirection {
-    data object North : RobotDirection()
-    data object South : RobotDirection()
-    data object East : RobotDirection()
-    data object West : RobotDirection()
+sealed class RobotDirection(private val code: String) {
+    object North : RobotDirection("N")
+    object South : RobotDirection("S")
+    object East : RobotDirection("E")
+    object West : RobotDirection("W")
 
-    override fun toString(): String {
-        return this::class.simpleName?.first()?.uppercaseChar().toString()
-    }
+    override fun toString(): String = code
 
     fun nextDirection(inputRobotMovement: RobotMovement): RobotDirection =
         when (inputRobotMovement) {

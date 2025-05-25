@@ -30,18 +30,24 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = calculateRobotCoordinates(inputData = inputData)) {
                 is ResultMovementRobot.Success -> {
-                    updateState { it.response = result.robotPosition.toString() }
+                    updateState {
+                        it.response = result.robotPosition.toString()
+                        it.isLoading = false
+                    }
                 }
 
                 is ResultMovementRobot.Error -> {
-                    updateState { it.error = result.typeErrorInput.toMainScreenError() }
+                    updateState {
+                        it.error = result.typeErrorInput.toMainScreenError()
+                        it.isLoading = false
+                    }
                 }
             }
         }
     }
 
     private fun updateState(transformation: (MainViewState) -> Unit) {
-        val deepCopy = _state.value
+        val deepCopy = _state.value.copy()
         transformation(deepCopy)
         _state.value = deepCopy
     }

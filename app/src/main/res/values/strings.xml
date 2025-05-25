@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">SEAT CODE Challenge</string>
+
+    <string name="main_screen_calculate_button">Calculate coordinates</string>
 </resources>
