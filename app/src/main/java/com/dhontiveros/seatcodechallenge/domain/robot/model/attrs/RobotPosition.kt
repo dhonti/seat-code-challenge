@@ -10,8 +10,8 @@ data class RobotPosition(
             RobotMovement.MoveForward -> when (robotDirection) {
                 RobotDirection.North -> this.copy(posY = posY + 1)
                 RobotDirection.South -> this.copy(posY = posY - 1)
-                RobotDirection.East -> this.copy(posY = posX + 1)
-                RobotDirection.West -> this.copy(posY = posX - 1)
+                RobotDirection.East -> this.copy(posX = posX + 1)
+                RobotDirection.West -> this.copy(posX = posX - 1)
             }
 
             RobotMovement.TurnLeft, RobotMovement.TurnRight -> copy(
