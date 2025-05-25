@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">SEAT CODE Challenge</string>
 
+    <string name="main_screen_form_input_plateau_title">Plateau</string>
+    <string name="main_screen_form_input_plateau_body">Insert the dimensions corresponding to X and Y axis</string>
+    <string name="main_screen_form_input_plateau_size_x">Size X</string>
+    <string name="main_screen_form_input_plateau_size_y">Size Y</string>
     <string name="main_screen_calculate_button">Calculate coordinates</string>
 </resources>
