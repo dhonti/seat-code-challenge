@@ -21,5 +21,8 @@ data class RobotPosition(
             )
         }
 
+    fun isInBounds(sizeX: Long, sizeY: Long): Boolean =
+        (posX in 0L..sizeX) && (posY in 0L..sizeY)
+
     override fun toString(): String = "$posX $posY $robotDirection"
 }

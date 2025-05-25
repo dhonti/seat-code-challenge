@@ -19,16 +19,26 @@ class RobotProcessor @Inject constructor(
             }
 
             val robotInputData = convertInputJsonToInputData(input = robotInputJsonData)
-            var currentRobotPosition = RobotPosition(
+            var currentPosition = RobotPosition(
                 posX = robotInputData.position.first,
                 posY = robotInputData.position.second,
                 robotDirection = robotInputData.robotDirection
             )
-            robotInputData.movementsList.forEach { movement ->
-                currentRobotPosition =
-                    currentRobotPosition.updateFromMovement(inputRobotMovement = movement)
+            var targetPosition: RobotPosition
+            robotInputData.movementsList.forEachIndexed { index, movement ->
+                targetPosition =
+                    currentPosition.updateFromMovement(inputRobotMovement = movement)
+                if (targetPosition.isInBounds(
+                        robotInputData.surfaceSize.first,
+                        robotInputData.surfaceSize.second
+                    )
+                ) {
+                    currentPosition = targetPosition
+                } else {
+                    return@forEachIndexed
+                }
             }
-            return ResultMovementRobot.Success(robotPosition = currentRobotPosition)
+            return ResultMovementRobot.Success(robotPosition = currentPosition)
         } ?: return ResultMovementRobot.Error(typeErrorInput = ErrorInputRobot.General)
     }
 
