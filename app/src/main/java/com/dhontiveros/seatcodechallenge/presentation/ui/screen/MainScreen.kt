@@ -127,7 +127,6 @@ private fun SubmitAndResultSection(
     formState: RobotFormState,
     processIntent: (MainIntent) -> Unit
 ) {
-
     state.response?.let {
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -138,7 +137,7 @@ private fun SubmitAndResultSection(
     AppButton(
         modifier = Modifier.fillMaxWidth(),
         text = stringResource(R.string.main_screen_calculate_button),
-        isEnabled = !state.isLoading,
+        isEnabled = formState.isCompleted && !state.isLoading,
         onClick = {
             processIntent(
                 MainIntent.CalculateCoordinates(
@@ -164,4 +163,14 @@ data class RobotFormState(
     val plateauSizeX: String = "",
     val plateauSizeY: String = "",
     val movements: String = ""
-)
+) {
+    val isCompleted: Boolean
+        get() = listOf(
+            posX,
+            posY,
+            direction,
+            plateauSizeX,
+            plateauSizeY,
+            movements
+        ).all { it.isNotBlank() }
+}
