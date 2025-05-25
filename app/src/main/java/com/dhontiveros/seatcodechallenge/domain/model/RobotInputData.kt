@@ -1,8 +1,8 @@
 package com.dhontiveros.seatcodechallenge.domain.model
 
-data class InputData(
+data class RobotInputData(
     val surfaceSize: Pair<Long, Long>,
     val position: Pair<Long, Long>,
-    val direction: Direction,
-    val movementsList: List<Movement>
+    val robotDirection: RobotDirection,
+    val movementsList: List<RobotMovement>
 )
