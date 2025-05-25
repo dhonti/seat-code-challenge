@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.domain.robot.model
+package com.dhontiveros.seatcodechallenge.domain.robot.model.attrs
 
 sealed class RobotDirection {
     data object North : RobotDirection()
@@ -29,5 +29,15 @@ sealed class RobotDirection {
         East -> South
         South -> West
         West -> North
+    }
+
+    companion object {
+        fun from(char: Char): RobotDirection? = when (char.uppercaseChar()) {
+            'N' -> North
+            'S' -> South
+            'E' -> East
+            'W' -> West
+            else -> null
+        }
     }
 }

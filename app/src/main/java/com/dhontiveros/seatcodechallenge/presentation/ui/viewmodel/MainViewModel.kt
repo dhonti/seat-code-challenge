@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.ErrorInputRobot
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.ResultMovementRobot
-import com.dhontiveros.seatcodechallenge.domain.robot.model.RobotInputData
 import com.dhontiveros.seatcodechallenge.domain.usecase.CalculateRobotCoordinates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,14 +21,14 @@ class MainViewModel @Inject constructor(
 
     fun processIntent(intent: MainIntent) {
         if (intent is MainIntent.CalculateCoordinates) {
-            submit(robotInputData = intent.robotInputData)
+            submit(inputData = intent.inputData)
         }
     }
 
-    private fun submit(robotInputData: RobotInputData) {
+    private fun submit(inputData: InitialInputData) {
         updateState { it.isLoading = true }
         viewModelScope.launch {
-            when (val result = calculateRobotCoordinates(robotInputData = robotInputData)) {
+            when (val result = calculateRobotCoordinates(inputData = inputData)) {
                 is ResultMovementRobot.Success -> {
                     updateState { it.response = result.robotPosition.toString() }
                 }
@@ -55,8 +54,17 @@ data class MainViewState(
 )
 
 sealed class MainIntent {
-    data class CalculateCoordinates(val robotInputData: RobotInputData) : MainIntent()
+    data class CalculateCoordinates(val inputData: InitialInputData) : MainIntent()
 }
+
+data class InitialInputData(
+    val plateauSizeX: Long,
+    val plateauSizeY: Long,
+    val posX: Long,
+    val posY: Long,
+    val direction: String,
+    val movementsList: String
+)
 
 sealed class MainScreenErrorInput {
     data object PlateauSize : MainScreenErrorInput()

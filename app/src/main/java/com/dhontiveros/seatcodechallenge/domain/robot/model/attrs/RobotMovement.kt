@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.domain.robot.model
+package com.dhontiveros.seatcodechallenge.domain.robot.model.attrs
 
 sealed class RobotMovement {
     data object TurnLeft : RobotMovement()

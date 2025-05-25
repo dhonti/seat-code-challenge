@@ -1,43 +1,56 @@
 package com.dhontiveros.seatcodechallenge.domain.robot.processor
 
-import com.dhontiveros.seatcodechallenge.domain.robot.model.RobotInputData
-import com.dhontiveros.seatcodechallenge.domain.robot.model.RobotMovement
+import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotDirection
+import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotMovement
+import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJson
+import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJsonPosition
 import javax.inject.Inject
 
 class RobotInputValidator @Inject constructor() {
 
-    fun validateInput(robotInputData: RobotInputData): ErrorInputRobot {
-        if (!validateInputPlateauSize(inputSize = robotInputData.surfaceSize)) return ErrorInputRobot.PlateauSize
-        if (!validateInputStarPosition(robotInputData = robotInputData)) return ErrorInputRobot.StartPosition
-        if (!validateInputMovements(movementsList = robotInputData.movementsList)) ErrorInputRobot.Movements
+    fun validateInput(inputData: RobotInputJson): ErrorInputRobot {
+        if (!validateInputPlateauSize(inputSize = inputData.topRightCorner)) return ErrorInputRobot.PlateauSize
+        if (!validateInputStartDirection(inputDirection = inputData.roverDirection)) return ErrorInputRobot.StartDirection
+        if (!validateInputStartPosition(robotInputData = inputData)) return ErrorInputRobot.StartPosition
+        if (!validateInputMovements(movementsList = inputData.movements)) ErrorInputRobot.Movements
 
         return ErrorInputRobot.None
     }
 
-    private fun validateInputPlateauSize(inputSize: Pair<Long, Long>): Boolean =
-        if (inputSize.first == 0L && inputSize.second == 0L) {
+    private fun validateInputPlateauSize(inputSize: RobotInputJsonPosition): Boolean =
+        if (inputSize.x == 0L && inputSize.y == 0L) {
             false
-        } else if (inputSize.first < 0L || inputSize.second < 0L) {
+        } else if (inputSize.x < 0L || inputSize.y < 0L) {
             false
         } else true
 
-    private fun validateInputStarPosition(robotInputData: RobotInputData): Boolean {
-        val startPosition = robotInputData.position
-        val plateauSize = robotInputData.surfaceSize
-        return !(startPosition.first < 0L ||
-                startPosition.second < 0L ||
-                startPosition.first > plateauSize.first ||
-                startPosition.second > plateauSize.second)
+    private fun validateInputStartDirection(inputDirection: String): Boolean {
+        if (inputDirection.isEmpty() || inputDirection.length > 1) return false
+        RobotDirection.from(inputDirection[0])?.let { return true } ?: return false
     }
 
-    private fun validateInputMovements(movementsList: List<RobotMovement>): Boolean =
-        movementsList.isNotEmpty()
+    private fun validateInputStartPosition(robotInputData: RobotInputJson): Boolean {
+        val startPosition = robotInputData.roverPosition
+        val plateauSize = robotInputData.topRightCorner
+        return !(startPosition.x < 0L ||
+                startPosition.y < 0L ||
+                startPosition.x > plateauSize.x ||
+                startPosition.y > plateauSize.y)
+    }
+
+    private fun validateInputMovements(movementsList: String): Boolean {
+        if (movementsList.isEmpty()) return false
+        val result = RobotMovement.parse(input = movementsList)
+        return !result.isFailure
+    }
 
 }
 
 sealed class ErrorInputRobot {
     data object None : ErrorInputRobot()
     data object PlateauSize : ErrorInputRobot()
+    data object StartDirection : ErrorInputRobot()
     data object StartPosition : ErrorInputRobot()
     data object Movements : ErrorInputRobot()
+    data object General : ErrorInputRobot()
 }
