@@ -5,5 +5,13 @@
     <string name="main_screen_form_input_plateau_body">Insert the dimensions corresponding to X and Y axis</string>
     <string name="main_screen_form_input_plateau_size_x">Size X</string>
     <string name="main_screen_form_input_plateau_size_y">Size Y</string>
+
+    <string name="main_screen_form_input_robot_title">Rober Robot</string>
+    <string name="main_screen_form_input_robot_body">Insert corresponding data to provide the robot start position and the movement sequence to apply</string>
+    <string name="main_screen_form_input_robot_pos_x">Position X</string>
+    <string name="main_screen_form_input_robot_pos_y">Position Y</string>
+    <string name="main_screen_form_input_robot_direction">Direction</string>
+    <string name="main_screen_form_input_robot_movements">Movements (L, R, M)</string>
+
     <string name="main_screen_calculate_button">Calculate coordinates</string>
 </resources>

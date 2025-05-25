@@ -2,18 +2,23 @@ package com.dhontiveros.seatcodechallenge.presentation.ui.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,7 +71,7 @@ fun MainBody(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            InputSection(state = state, processIntent = processIntent)
+            RobotInputForm(state = state, processIntent = processIntent)
             ResultSection(state = state)
         }
         Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
@@ -74,14 +79,30 @@ fun MainBody(
 }
 
 @Composable
-fun InputSection(state: MainViewState, processIntent: (MainIntent) -> Unit) {
+fun RobotInputForm(state: MainViewState, processIntent: (MainIntent) -> Unit) {
     var plateauSizeX by remember { mutableStateOf("") }
     var plateauSizeY by remember { mutableStateOf("") }
 
-    PlateauDataInput(
+    var posX by remember { mutableStateOf("") }
+    var posY by remember { mutableStateOf("") }
+    var direction by remember { mutableStateOf("N") }
+    var movements by remember { mutableStateOf("") }
+
+    PlateauInputSection(
+        modifier = Modifier.fillMaxWidth(),
         onSizeChange = { x, y ->
             plateauSizeX = x
             plateauSizeY = y
+        }
+    )
+    Spacer(modifier = Modifier.height(16.dp))
+    RobotInputSection(
+        modifier = Modifier.fillMaxWidth(),
+        onRobotChange = { x, y, dir, mov ->
+            posX = x
+            posY = y
+            direction = dir
+            movements = mov
         }
     )
 
@@ -108,7 +129,7 @@ fun InputSection(state: MainViewState, processIntent: (MainIntent) -> Unit) {
 }
 
 @Composable
-fun PlateauDataInput(onSizeChange: (String, String) -> Unit) {
+fun PlateauInputSection(modifier: Modifier = Modifier, onSizeChange: (String, String) -> Unit) {
     var sizeX by remember { mutableStateOf("") }
     var sizeY by remember { mutableStateOf("") }
 
@@ -117,8 +138,7 @@ fun PlateauDataInput(onSizeChange: (String, String) -> Unit) {
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .border(
                 border = BorderStroke(width = 1.dp, color = Color.Gray),
                 shape = RoundedCornerShape(4.dp)
@@ -149,8 +169,87 @@ fun PlateauDataInput(onSizeChange: (String, String) -> Unit) {
 }
 
 @Composable
-fun RobotDataInput() {
+fun RobotInputSection(
+    modifier: Modifier = Modifier,
+    onRobotChange: (String, String, String, String) -> Unit
+) {
+    var posX by remember { mutableStateOf("") }
+    var posY by remember { mutableStateOf("") }
+    var direction by remember { mutableStateOf("N") }
+    var movements by remember { mutableStateOf("") }
 
+    LaunchedEffect(posX, posY, direction, movements) {
+        onRobotChange(posX, posY, direction, movements)
+    }
+
+    Column(
+        modifier = modifier
+            .border(
+                border = BorderStroke(width = 1.dp, color = Color.Gray),
+                shape = RoundedCornerShape(4.dp)
+            )
+            .padding(16.dp)
+    ) {
+        Text(text = stringResource(R.string.main_screen_form_input_robot_title))
+        Text(text = stringResource(R.string.main_screen_form_input_robot_body))
+        Row(modifier = Modifier.fillMaxWidth()) {
+            AppInputField(
+                modifier = Modifier
+                    .weight(1f, false)
+                    .padding(end = 4.dp),
+                textId = R.string.main_screen_form_input_robot_pos_x,
+                currentValue = posX,
+                onValueChange = { posX = it },
+            )
+            AppInputField(
+                modifier = Modifier
+                    .weight(1f, false)
+                    .padding(start = 4.dp),
+                textId = R.string.main_screen_form_input_robot_pos_y,
+                currentValue = posY,
+                onValueChange = { posY = it },
+            )
+
+        }
+        Spacer(Modifier.height(4.dp))
+        DirectionToggleGroup(
+            selected = direction,
+            onSelected = { direction = it }
+        )
+        Spacer(Modifier.height(4.dp))
+        AppInputField(
+            modifier = Modifier.fillMaxWidth(),
+            textId = R.string.main_screen_form_input_robot_movements,
+            currentValue = movements,
+            onValueChange = { movements = it },
+        )
+    }
+}
+
+@Composable
+fun DirectionToggleGroup(
+    selected: String,
+    onSelected: (String) -> Unit
+) {
+    val directions = listOf("N", "S", "E", "W")
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        directions.forEach { dir ->
+            val isSelected = selected == dir
+            Button(
+                modifier = Modifier.weight(1f),
+                onClick = { onSelected(dir) },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isSelected) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.surfaceVariant
+                )
+            ) {
+                Text(dir)
+            }
+        }
+    }
 }
 
 @Composable

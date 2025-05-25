@@ -1,6 +1,7 @@
 package com.dhontiveros.seatcodechallenge.presentation.ui.composables
 
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,7 +11,7 @@ fun AppButton(
     modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
-    isEnabled: Boolean = true
+    isEnabled: Boolean = true,
 ) {
     Button(
         modifier = modifier,
