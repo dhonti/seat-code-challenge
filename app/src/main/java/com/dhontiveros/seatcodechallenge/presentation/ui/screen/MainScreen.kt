@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -214,7 +213,7 @@ fun RobotInputSection(
         Spacer(Modifier.height(4.dp))
         DirectionToggleGroup(
             selected = direction,
-            onSelected = { direction = it }
+            onSelectedDirection = { direction = it }
         )
         Spacer(Modifier.height(4.dp))
         AppInputField(
@@ -229,7 +228,7 @@ fun RobotInputSection(
 @Composable
 fun DirectionToggleGroup(
     selected: String,
-    onSelected: (String) -> Unit
+    onSelectedDirection: (String) -> Unit
 ) {
     val directions = listOf("N", "S", "E", "W")
     Row(
@@ -238,16 +237,15 @@ fun DirectionToggleGroup(
     ) {
         directions.forEach { dir ->
             val isSelected = selected == dir
-            Button(
+            AppButton(
                 modifier = Modifier.weight(1f),
-                onClick = { onSelected(dir) },
+                text = dir,
+                onClick = { onSelectedDirection(dir) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (isSelected) MaterialTheme.colorScheme.primary
-                    else MaterialTheme.colorScheme.surfaceVariant
+                    else MaterialTheme.colorScheme.surfaceContainerHigh
                 )
-            ) {
-                Text(dir)
-            }
+            )
         }
     }
 }
