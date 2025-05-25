@@ -2,9 +2,9 @@ package com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dhontiveros.seatcodechallenge.domain.model.ErrorInputRobot
-import com.dhontiveros.seatcodechallenge.domain.model.ResultMovementRobot
-import com.dhontiveros.seatcodechallenge.domain.model.RobotInputData
+import com.dhontiveros.seatcodechallenge.domain.robot.processor.ErrorInputRobot
+import com.dhontiveros.seatcodechallenge.domain.robot.processor.ResultMovementRobot
+import com.dhontiveros.seatcodechallenge.domain.robot.model.RobotInputData
 import com.dhontiveros.seatcodechallenge.domain.usecase.CalculateRobotCoordinates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

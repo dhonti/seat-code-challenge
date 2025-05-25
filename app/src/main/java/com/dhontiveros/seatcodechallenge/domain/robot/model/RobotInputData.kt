@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.domain.model
+package com.dhontiveros.seatcodechallenge.domain.robot.model
 
 data class RobotInputData(
     val surfaceSize: Pair<Long, Long>,

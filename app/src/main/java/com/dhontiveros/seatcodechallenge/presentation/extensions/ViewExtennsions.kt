@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.presentation.commons.extensions
+package com.dhontiveros.seatcodechallenge.presentation.extensions
 
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle

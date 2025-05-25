@@ -1,5 +1,7 @@
-package com.dhontiveros.seatcodechallenge.domain.model
+package com.dhontiveros.seatcodechallenge.domain.robot.processor
 
+import com.dhontiveros.seatcodechallenge.domain.robot.model.RobotInputData
+import com.dhontiveros.seatcodechallenge.domain.robot.model.RobotMovement
 import javax.inject.Inject
 
 class RobotInputValidator @Inject constructor() {

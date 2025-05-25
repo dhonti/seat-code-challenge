@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.MaterialTheme
-import com.dhontiveros.seatcodechallenge.presentation.commons.extensions.configureEdgeToEdgeAppearance
+import com.dhontiveros.seatcodechallenge.presentation.extensions.configureEdgeToEdgeAppearance
 import com.dhontiveros.seatcodechallenge.presentation.ui.screen.MainScreen
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
