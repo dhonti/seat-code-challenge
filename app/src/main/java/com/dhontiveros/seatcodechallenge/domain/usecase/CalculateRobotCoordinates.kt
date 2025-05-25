@@ -17,7 +17,7 @@ class CalculateRobotCoordinates @Inject constructor(
 
     suspend operator fun invoke(inputData: InitialInputData): ResultMovementRobot =
         withContext(mainDispatcher) {
-            robotProcessor.move(robotInputMapper.toJsonString(inputData = inputData))
+            robotProcessor.move(robotInputMapper.toJsonString(initialInputData = inputData))
         }
 
 }
