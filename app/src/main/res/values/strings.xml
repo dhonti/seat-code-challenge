@@ -12,5 +12,6 @@
     <string name="main_screen_form_input_robot_movements">Movements (L, R, M)</string>
 
     <string name="main_screen_result_position">Final position: %s</string>
+    <string name="main_screen_result_movements">Total movements: %1s\nApplied movements: %2s</string>
     <string name="main_screen_calculate_button">Calculate coordinates</string>
 </resources>

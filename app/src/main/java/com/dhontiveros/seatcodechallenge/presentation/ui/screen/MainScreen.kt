@@ -131,7 +131,16 @@ private fun SubmitAndResultSection(
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            text = stringResource(R.string.main_screen_result_position, it)
+            text = stringResource(R.string.main_screen_result_position, it.finalPosition.toString())
+        )
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            text = stringResource(
+                R.string.main_screen_result_movements,
+                it.totalMovements,
+                it.appliedMovements
+            )
         )
     }
     AppButton(

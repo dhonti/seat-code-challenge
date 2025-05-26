@@ -25,7 +25,8 @@ class RobotProcessor @Inject constructor(
                 robotDirection = robotInputData.robotDirection
             )
             var targetPosition: RobotPosition
-            robotInputData.movementsList.forEachIndexed { index, movement ->
+            var movementsApplied = 0L
+            robotInputData.movementsList.forEach { movement ->
                 targetPosition =
                     currentPosition.updateFromMovement(inputRobotMovement = movement)
                 if (targetPosition.isInBounds(
@@ -34,11 +35,15 @@ class RobotProcessor @Inject constructor(
                     )
                 ) {
                     currentPosition = targetPosition
+                    ++movementsApplied
                 } else {
-                    return@forEachIndexed
+                    return@forEach
                 }
             }
-            return ResultMovementRobot.Success(robotPosition = currentPosition)
+            return ResultMovementRobot.Success(
+                robotPosition = currentPosition,
+                movementsApplied = movementsApplied
+            )
         } ?: return ResultMovementRobot.Error(typeErrorInput = ErrorInputRobot.General)
     }
 
@@ -59,5 +64,6 @@ class RobotProcessor @Inject constructor(
 
 sealed class ResultMovementRobot {
     data class Error(val typeErrorInput: ErrorInputRobot) : ResultMovementRobot()
-    data class Success(val robotPosition: RobotPosition) : ResultMovementRobot()
+    data class Success(val robotPosition: RobotPosition, val movementsApplied: Long) :
+        ResultMovementRobot()
 }

@@ -2,6 +2,7 @@ package com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotPosition
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.ErrorInputRobot
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.ResultMovementRobot
 import com.dhontiveros.seatcodechallenge.domain.usecase.CalculateRobotCoordinates
@@ -31,7 +32,11 @@ class MainViewModel @Inject constructor(
             when (val result = calculateRobotCoordinates(inputData = inputData)) {
                 is ResultMovementRobot.Success -> {
                     updateState {
-                        it.response = result.robotPosition.toString()
+                        it.response = OutputRobotData(
+                            finalPosition = result.robotPosition,
+                            totalMovements = inputData.movementsList.length.toLong(),
+                            appliedMovements = result.movementsApplied
+                        )
                         it.isLoading = false
                     }
                 }
@@ -55,7 +60,7 @@ class MainViewModel @Inject constructor(
 
 data class MainViewState(
     var isLoading: Boolean = false,
-    var response: String? = null,
+    var response: OutputRobotData? = null,
     var error: MainScreenErrorInput? = null
 )
 
@@ -70,6 +75,12 @@ data class InitialInputData(
     val posY: Long,
     val direction: String,
     val movementsList: String
+)
+
+data class OutputRobotData(
+    val finalPosition: RobotPosition,
+    val totalMovements: Long,
+    val appliedMovements: Long
 )
 
 sealed class MainScreenErrorInput {
