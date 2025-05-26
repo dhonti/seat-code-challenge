@@ -12,7 +12,7 @@ class RobotInputValidator @Inject constructor() {
         if (!validateInputPlateauSize(inputSize = inputData.topRightCorner)) return ErrorInputRobot.PlateauSize
         if (!validateInputStartDirection(inputDirection = inputData.roverDirection)) return ErrorInputRobot.StartDirection
         if (!validateInputStartPosition(robotInputData = inputData)) return ErrorInputRobot.StartPosition
-        if (!validateInputMovements(movementsList = inputData.movements)) ErrorInputRobot.Movements
+        if (!validateInputMovements(movementsList = inputData.movements)) return ErrorInputRobot.Movements
 
         return ErrorInputRobot.None
     }
