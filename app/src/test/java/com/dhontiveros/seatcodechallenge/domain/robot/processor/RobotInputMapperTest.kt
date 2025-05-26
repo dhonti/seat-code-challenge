@@ -1,6 +1,5 @@
-package com.dhontiveros.seatcodechallenge.domain.robot
+package com.dhontiveros.seatcodechallenge.domain.robot.processor
 
-import com.dhontiveros.seatcodechallenge.domain.robot.processor.RobotInputMapper
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.InitialInputData
 import com.squareup.moshi.Moshi
 import org.junit.Assert.assertEquals
