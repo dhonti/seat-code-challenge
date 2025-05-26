@@ -77,8 +77,14 @@ dependencies {
 
     // Moshi
     implementation(libs.moshi)
+    ksp(libs.moshi.kotlin.codegen)
 
+    // JUnit
     testImplementation(libs.junit)
+
+    // Mockito:
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
 
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.androidx.junit)
