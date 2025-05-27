@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.utils.toSetOrEmpty
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -88,6 +90,9 @@ dependencies {
 
     // Mockk:
     testImplementation(libs.mockk)
+
+    // KotlinX Coroutines
+    testImplementation(libs.kotlinx.coroutines.test)
 
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.androidx.junit)
