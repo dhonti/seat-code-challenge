@@ -1,5 +1,7 @@
 package com.dhontiveros.seatcodechallenge.domain.robot.processor
 
+import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_INVALID_JSON
+import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_VALID_JSON
 import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.InitialInputData
 import com.squareup.moshi.Moshi
 import org.junit.Assert.assertEquals
@@ -20,22 +22,16 @@ class RobotInputMapperTest {
 
     @Test
     fun `The toJsonString() method should serialize InitialInputData to String correctly`() {
-        // Given
-        val inputData = SOME_INITIAL_INPUT_DATA
-        // When
-        val jsonResult = robotInputMapper.toJsonString(initialInputData = inputData)
-        // Then
-        val expectedResult = SOME_JSON_INPUT.trimIndent().replace("\\s".toRegex(), "")
+        val jsonResult = robotInputMapper.toJsonString(initialInputData = SOME_INITIAL_INPUT_DATA)
+        val expectedResult = SOME_VALID_JSON.trimIndent().replace("\\s".toRegex(), "")
+
         assertEquals(expectedResult, jsonResult)
     }
 
     @Test
     fun `The toRobotInputJson() method should deserialize JSON String to RobotInputJson`() {
-        // Given
-        val inputData = SOME_JSON_INPUT
-        // When
-        val result = robotInputMapper.toRobotInputJson(inputData)
-        // Then
+        val result = robotInputMapper.toRobotInputJson(SOME_VALID_JSON)
+
         assertNotNull(result)
         assertEquals(5L, result!!.topRightCorner.x)
         assertEquals(5L, result.topRightCorner.x)
@@ -47,11 +43,8 @@ class RobotInputMapperTest {
 
     @Test
     fun `The toRobotInputJson() method should return NULL when receives an invalid JSON`() {
-        // Given
-        val inputData = SOME_INVALID_JSON_INPUT
-        // When
-        val result = robotInputMapper.toRobotInputJson(inputData)
-        // Then
+        val result = robotInputMapper.toRobotInputJson(SOME_INVALID_JSON)
+
         assertNull(result)
     }
 
@@ -64,26 +57,5 @@ class RobotInputMapperTest {
             direction = "N",
             movementsList = "LMLMLMLMM"
         )
-
-        const val SOME_JSON_INPUT =
-            """
-            {
-                "topRightCorner": {
-                    "x": 5,
-                    "y": 5
-                },
-                "roverPosition": {
-                    "x": 1,
-                    "y": 2
-                },
-                "roverDirection": "N",
-                "movements": "LMLMLMLMM"
-            }
-            """
-
-        const val SOME_INVALID_JSON_INPUT =
-            """
-            { "topRightCorner": "N", "roverDirection": }
-            """
     }
 }

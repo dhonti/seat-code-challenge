@@ -18,6 +18,7 @@ manesVersions = "0.52.0"
 material = "1.12.0"
 mockito-core = "5.11.0"
 mockito-kotlin = "5.2.1"
+mockk = "1.14.2"
 moshi = "1.15.2"
 # @keep this version, it is removed by version catalog update plugin
 min-sdk = "24"
@@ -46,6 +47,7 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 material = { module = "com.google.android.material:material", version.ref = "material" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
+mockk = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }

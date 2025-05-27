@@ -2,6 +2,7 @@ package com.dhontiveros.seatcodechallenge.domain.robot.processor
 
 import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotDirection
 import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotMovement
+import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputData
 import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJson
 import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJsonPosition
 import javax.inject.Inject
@@ -14,7 +15,7 @@ class RobotInputValidator @Inject constructor() {
         if (!validateInputStartPosition(robotInputData = inputData)) return ErrorInputRobot.StartPosition
         if (!validateInputMovements(movementsList = inputData.movements)) return ErrorInputRobot.Movements
 
-        return ErrorInputRobot.None
+        return ErrorInputRobot.None(result = convertInputJsonToInputData(input = inputData))
     }
 
     private fun validateInputPlateauSize(inputSize: RobotInputJsonPosition): Boolean =
@@ -44,10 +45,25 @@ class RobotInputValidator @Inject constructor() {
         return !result.isFailure
     }
 
+    private fun convertInputJsonToInputData(input: RobotInputJson): RobotInputData {
+        val startPosition = Pair(first = input.roverPosition.x, second = input.roverPosition.y)
+        val surfaceSize = Pair(first = input.topRightCorner.x, second = input.topRightCorner.y)
+
+        val robotDirection = RobotDirection.from(input.roverDirection[0]) ?: RobotDirection.North
+        val movementsList = RobotMovement.parse(input.movements).getOrDefault(emptyList())
+
+        return RobotInputData(
+            surfaceSize = surfaceSize,
+            position = startPosition,
+            robotDirection = robotDirection,
+            movementsList = movementsList
+        )
+    }
+
 }
 
 sealed class ErrorInputRobot {
-    data object None : ErrorInputRobot()
+    data class None(val result: RobotInputData) : ErrorInputRobot()
     data object PlateauSize : ErrorInputRobot()
     data object StartDirection : ErrorInputRobot()
     data object StartPosition : ErrorInputRobot()
