@@ -43,6 +43,10 @@ android {
     buildFeatures {
         compose = true
     }
+
+    testOptions {
+        animationsDisabled = true
+    }
 }
 
 dependencies {
@@ -81,6 +85,9 @@ dependencies {
     implementation(libs.moshi)
     ksp(libs.moshi.kotlin.codegen)
 
+    // TESTING
+    // ----------------------------------
+
     // JUnit
     testImplementation(libs.junit)
 
@@ -97,4 +104,13 @@ dependencies {
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // UI testing:
+    // Compose
+    androidTestImplementation(libs.compose.ui.test.junit)
+    debugImplementation(libs.compose.ui.test.manifest)
+
+    // Hilt:
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.compiler)
 }
