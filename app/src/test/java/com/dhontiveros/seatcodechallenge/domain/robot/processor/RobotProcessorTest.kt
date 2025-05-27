@@ -57,7 +57,7 @@ class RobotProcessorTest {
 
         assertTrue(result is ResultMovementRobot.Error)
         assertEquals(
-            ErrorInputRobot.PlateauSize,
+            ErrorInputRobot.StartPosition,
             (result as ResultMovementRobot.Error).typeErrorInput
         )
     }
