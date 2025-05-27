@@ -5,6 +5,7 @@ import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotMovement
 import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJson
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_INVALID_JSON
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_VALID_JSON_INVALID_PLATEAU
+import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_VALID_JSON_INVALID_START_POSITION
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.buildRobotInputData
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.buildRobotInputJson
 import io.mockk.every
@@ -23,7 +24,7 @@ class RobotProcessorTest {
     )
 
     @Test
-    fun `move() function returns General error when input cannot be parsed correctly`() {
+    fun `given an invalid JSON, when move() is called then return return General error`() {
         every { robotInputMapper.toRobotInputJson(SOME_INVALID_JSON) } returns null
         val result = robotProcessor.move(SOME_INVALID_JSON)
 
@@ -32,7 +33,7 @@ class RobotProcessorTest {
     }
 
     @Test
-    fun `move() function returns PlateauSize error when plateau size is invalid`() {
+    fun `given an invalid plateau size, when move() function is called then return PlateauSize error`() {
         val input = mockk<RobotInputJson>()
         every { robotInputMapper.toRobotInputJson(SOME_VALID_JSON_INVALID_PLATEAU) } returns input
         every { robotInputValidator.validateInput(input) } returns ErrorInputRobot.PlateauSize
@@ -47,12 +48,12 @@ class RobotProcessorTest {
     }
 
     @Test
-    fun `move() function returns StartPosition error when plateau size is invalid`() {
+    fun `given an invalid start position, when move() function is called then return StartPosition error`() {
         val input = mockk<RobotInputJson>()
-        every { robotInputMapper.toRobotInputJson(SOME_VALID_JSON_INVALID_PLATEAU) } returns input
-        every { robotInputValidator.validateInput(input) } returns ErrorInputRobot.PlateauSize
+        every { robotInputMapper.toRobotInputJson(SOME_VALID_JSON_INVALID_START_POSITION) } returns input
+        every { robotInputValidator.validateInput(input) } returns ErrorInputRobot.StartPosition
 
-        val result = robotProcessor.move(SOME_VALID_JSON_INVALID_PLATEAU)
+        val result = robotProcessor.move(SOME_VALID_JSON_INVALID_START_POSITION)
 
         assertTrue(result is ResultMovementRobot.Error)
         assertEquals(
@@ -62,7 +63,7 @@ class RobotProcessorTest {
     }
 
     @Test
-    fun `move() function returns Success when input is valid all moves are applied correctly`() {
+    fun `given a valid JSON input, when move() function is called then return Success with all moves applied correctly`() {
         val robotInputJson = buildRobotInputJson()
         val inputData = buildRobotInputData()
         every { robotInputMapper.toRobotInputJson(VALID_JSON) } returns robotInputJson
@@ -86,7 +87,7 @@ class RobotProcessorTest {
             plateauX = 2, plateauY = 2,
             posX = 1, posY = 1,
             direction = "N",
-            movements = "MMMMMv"
+            movements = "MMMMM"
         )
         val inputData = buildRobotInputData(
             plateauX = 1, plateauY = 1,
