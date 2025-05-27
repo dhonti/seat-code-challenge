@@ -1,11 +1,14 @@
 package com.dhontiveros.seatcodechallenge.presentation.ui.screen
 
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import com.dhontiveros.seatcodechallenge.presentation.ui.MainActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 
 @HiltAndroidTest
 class MainScreenTest {
@@ -20,5 +23,10 @@ class MainScreenTest {
     fun setUp() {
         hiltRule.inject()
     }
-    
+
+    @Test
+    fun robotForm_isInitiallyEmpty_andSubmitButtonIsDisabled(){
+        composeTestRule.onNodeWithTag(MainScreenTestTags.ROBOT_SUBMIT_FORM_BUTTON).assertIsNotEnabled()
+    }
+
 }
