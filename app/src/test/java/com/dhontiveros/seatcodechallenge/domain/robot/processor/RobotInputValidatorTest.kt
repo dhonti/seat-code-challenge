@@ -1,7 +1,7 @@
 package com.dhontiveros.seatcodechallenge.domain.robot.processor
 
 import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJson
-import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_VALID_INPUT_DATA
+import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.buildRobotInputData
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.buildRobotInputJson
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -14,7 +14,7 @@ class RobotInputValidatorTest {
     fun `validateInput() method should return None error when is provided a correct input`() {
         checkInputWithResult(
             input = buildRobotInputJson(),
-            expectedResult = ErrorInputRobot.None(result = SOME_VALID_INPUT_DATA)
+            expectedResult = ErrorInputRobot.None(result = buildRobotInputData())
         )
     }
 
