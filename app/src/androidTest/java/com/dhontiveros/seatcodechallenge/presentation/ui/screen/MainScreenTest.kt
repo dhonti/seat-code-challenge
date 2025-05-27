@@ -9,13 +9,13 @@ import org.junit.Rule
 
 @HiltAndroidTest
 class MainScreenTest {
-
+    
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
-
+    
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<MainActivity>()
-
+    
     @Before
     fun setUp() {
         hiltRule.inject()

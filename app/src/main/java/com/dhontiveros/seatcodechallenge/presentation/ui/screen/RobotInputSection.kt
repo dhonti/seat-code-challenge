@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -59,6 +60,7 @@ fun RobotInputSection(
         Row(modifier = Modifier.fillMaxWidth()) {
             AppPositiveIntInputField(
                 modifier = Modifier
+                    .testTag(MainScreenTestTags.ROBOT_INPUT_POS_X)
                     .weight(1f, false)
                     .padding(end = 4.dp),
                 textId = R.string.main_screen_form_input_robot_pos_x,
@@ -67,6 +69,7 @@ fun RobotInputSection(
             )
             AppInputField(
                 modifier = Modifier
+                    .testTag(MainScreenTestTags.ROBOT_INPUT_POS_Y)
                     .weight(1f, false)
                     .padding(start = 4.dp),
                 textId = R.string.main_screen_form_input_robot_pos_y,
@@ -82,7 +85,9 @@ fun RobotInputSection(
         )
         Spacer(Modifier.height(4.dp))
         MovementsInputFiled(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .testTag(MainScreenTestTags.ROBOT_INPUT_MOVEMENTS)
+                .fillMaxWidth(),
             textId = R.string.main_screen_form_input_robot_movements,
             value = movements,
             onValueChange = { movements = it },
@@ -104,7 +109,14 @@ private fun DirectionToggleGroup(
         directions.forEach { dir ->
             val isSelected = selected == dir
             AppButton(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .testTag(
+                        String.format(
+                            MainScreenTestTags.ROBOT_INPUT_DIRECTION,
+                            dir
+                        )
+                    )
+                    .weight(1f),
                 text = dir,
                 onClick = { onSelectedDirection(dir) },
                 colors = ButtonDefaults.buttonColors(
@@ -122,7 +134,7 @@ fun MovementsInputFiled(
     @StringRes textId: Int,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-){
+) {
     OutlinedTextField(
         modifier = modifier,
         value = value,

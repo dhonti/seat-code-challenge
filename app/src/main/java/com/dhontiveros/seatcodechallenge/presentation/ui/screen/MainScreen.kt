@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -61,10 +62,7 @@ private fun MainBody(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            RobotInputForm(
-                state = state,
-                onFormStateChange = { formState = it }
-            )
+            RobotInputForm(onFormStateChange = { formState = it })
         }
         SubmitAndResultSection(
             state = state,
@@ -76,7 +74,6 @@ private fun MainBody(
 
 @Composable
 private fun RobotInputForm(
-    state: MainViewState,
     onFormStateChange: (RobotFormState) -> Unit
 ) {
     var plateauSizeX by remember { mutableStateOf("") }
@@ -129,12 +126,16 @@ private fun SubmitAndResultSection(
 ) {
     state.response?.let {
         Text(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .testTag(MainScreenTestTags.ROBOT_RESULT_POSITION)
+                .fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = stringResource(R.string.main_screen_result_position, it.finalPosition.toString())
         )
         Text(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .testTag(MainScreenTestTags.ROBOT_RESULT_MOVEMENTS)
+                .fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = stringResource(
                 R.string.main_screen_result_movements,
@@ -144,7 +145,9 @@ private fun SubmitAndResultSection(
         )
     }
     AppButton(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .testTag(MainScreenTestTags.ROBOT_SUBMIT_FORM_BUTTON)
+            .fillMaxWidth(),
         text = stringResource(R.string.main_screen_calculate_button),
         isEnabled = formState.isCompleted && !state.isLoading,
         onClick = {
