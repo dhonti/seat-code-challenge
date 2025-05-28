@@ -1,40 +1,110 @@
-name: Run tests
+name: Generate reference test screenshots
+
+# Since this is a baseline generation workflow,
+# we will only allow manual triggering, just go to the "Actions" tab
+# of your GitHub repo and check the left vertical section, your actions
+# should be displayed there!
 on:
-  push:
-    branches: [main]
-  pull_request:
+  workflow_dispatch:
 
 jobs:
-  run-tests:
-      name: Run tests
-      runs-on: ubuntu-latest
+  generate-reference-test-screenshots:
+    runs-on: ubuntu-latest
+    # Specifying an array of API levels will be useful for us
+    # if we want to generate screenshot baselines
+    # for different APIs at once
+    strategy:
+      matrix:
+        api-level: [ 29 ]
+    # Since we will be pushing some images,
+    # we will need permissions to do so
+    permissions:
+      contents: write
+      pull-requests: write
 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+    steps:
+      # Get your changes into the virtual machine
+      - name: Check out code
+        uses: actions/checkout@v4
 
-        - name: Android Setup
-          uses: ./.github/actions/android-setup
+      # Specify the JDK version that your project depends on
+      # (in my case JDK 17)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
 
-        - name: Run detekt
-          run: ./gradlew detekt
+      # Prepare the Android SDK
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
-        - name: Run lint
-          run: ./gradlew lint
+      # Enable hardware acceleration for the linux runner
+      # to enhance test execution speed, for more info on this, check:
+      # https://github.com/ReactiveCircus/android-emulator-runner?tab=readme-ov-file#running-hardware-accelerated-emulators-on-linux-runners
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
-        - name: Run unit test
-          run: ./gradlew testDebugUnitTest
+      # Not necessary but recommended if you want to have
+      # an android emulator AVD snapshot cached
+      - name: Generate AVD snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: echo "Generated AVD snapshot for caching."
 
-        - name: Start emulator and run screenshot tests
-          uses: reactivecircus/android-emulator-runner@v2
-          with:
-              api-level: 30
-              target: google_apis
-              arch: x86
-              profile: pixel_3
-              emulator-options: -no-window -no-audio -no-boot-anim
-              disable-animations: true
-              script: ./gradlew executeScreenshotTests -Pshot
+      # THIS is the step where the baseline will be generated,
+      # the command is just like the screenshot test execution one
+      # with a "-Precord" at the end, see:
+      # ./gradlew executeScreenshotTests -Precord
+      - name: Generate screenshots
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: ./gradlew executeScreenshotTests -Precord
 
-        - name: Verify screenshots
-          run: ./gradlew verifyScreenshotTests -Pshot
+      # Since these are instrumental tests, the tests report will be
+      # generated at the end of the baseline generation execution,
+      # you will want to know what happened in case something went wrong,
+      # so we will be uploading the report as an artifact (.zip file)
+      # available for download in the workflow summary section!
+      - name: Upload instrumental report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: instrumental-report
+          path: app/build/reports/androidTests/connected/debug
+
+      # Important, since we will want the new baseline uploaded to the repo,
+      # In order to add your email and name to the commit, you can set up
+      # some secrets in your repository config :)
+      - name: Commit screenshots
+        run: |
+          git config --global user.email "${{ secrets.GIT_EMAIL }}"
+          git config --global user.name "${{ secrets.GIT_NAME }}"
+          git add app/screenshots/
+          git commit -m "Add generated screenshots"
+
+      # Very important! include the GITHUB_TOKEN secret here,
+      # it is automatically created, so do not worry
+      - name: Push screenshots
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+      # Build dirs cleanup
+      - name: Cleanup
+        if: always()
+        run: ./gradlew clean
