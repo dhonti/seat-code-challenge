@@ -6,7 +6,8 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTextClearance
+import androidx.compose.ui.test.performTextReplacement
 import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotDirection
 import com.dhontiveros.seatcodechallenge.presentation.ui.commons.base.BaseScreen
 import com.dhontiveros.seatcodechallenge.presentation.ui.commons.extensions.waitForNodeDisplayed
@@ -16,12 +17,8 @@ class MainScreen(
     private val composeTestRule: ComposeTestRule
 ) : BaseScreen(composeTestRule, MainScreenTestTags.SCREEN) {
 
-    fun checkSubmitButtonIsNotEnabled() = apply {
-        composeTestRule
-            .waitForNodeWithTagDisplayed(tag = MainScreenTestTags.ROBOT_SUBMIT_FORM_BUTTON)
-            .assertIsNotEnabled()
-    }
-
+    // Plateau - Size
+    // -------------------------------------------------------------
     fun inputValidPlateauSize() = apply {
         inputTextByTag(
             testTag = MainScreenTestTags.PLATEAU_INPUT_POS_X,
@@ -36,7 +33,11 @@ class MainScreen(
     fun inputInvalidPlateauSize() = apply {
         inputTextByTag(
             testTag = MainScreenTestTags.PLATEAU_INPUT_POS_X,
-            message = INPUT_INVALID_PLATEAU_SIZE
+            message = INPUT_NUMBERS_INVALID
+        )
+        inputTextByTag(
+            testTag = MainScreenTestTags.PLATEAU_INPUT_POS_Y,
+            message = INPUT_NUMBERS_INVALID
         )
     }
 
@@ -53,8 +54,11 @@ class MainScreen(
 
     fun checkPlateauInputIsEmpty() = apply {
         checkInputText(MainScreenTestTags.PLATEAU_INPUT_POS_X, "")
+        checkInputText(MainScreenTestTags.PLATEAU_INPUT_POS_Y, "")
     }
 
+    // Robot - Start position
+    // -------------------------------------------------------------
     fun inputValidStartRobotPosition() = apply {
         inputTextByTag(
             testTag = MainScreenTestTags.ROBOT_INPUT_POS_X,
@@ -66,6 +70,24 @@ class MainScreen(
         )
     }
 
+    fun inputInvalidStartPosition() = apply {
+        inputTextByTag(
+            testTag = MainScreenTestTags.ROBOT_INPUT_POS_X,
+            message = INPUT_NUMBERS_INVALID
+        )
+        inputTextByTag(
+            testTag = MainScreenTestTags.ROBOT_INPUT_POS_Y,
+            message = INPUT_NUMBERS_INVALID
+        )
+    }
+
+    fun checkStartPositionInputIsEmpty() = apply {
+        checkInputText(MainScreenTestTags.ROBOT_INPUT_POS_X, "")
+        checkInputText(MainScreenTestTags.ROBOT_INPUT_POS_Y, "")
+    }
+
+    // Robot- Direction
+    // -------------------------------------------------------------
     fun selectRobotDirection(direction: RobotDirection) = apply {
         composeTestRule.waitForNodeWithTagDisplayed(
             String.format(
@@ -75,11 +97,35 @@ class MainScreen(
         ).performClick()
     }
 
+    // Robot - Movements
+    // -------------------------------------------------------------
     fun inputValidMovements() = apply {
         inputTextByTag(
             testTag = MainScreenTestTags.ROBOT_INPUT_MOVEMENTS,
             message = INPUT_VALID_MOVEMENTS
         )
+    }
+
+    fun inputTextMovements(text: String) = apply {
+        inputTextByTag(
+            testTag = MainScreenTestTags.ROBOT_INPUT_MOVEMENTS,
+            message = text
+        )
+    }
+
+    fun checkTextInputMovement(text: String) = apply {
+        checkInputText(
+            testTag = MainScreenTestTags.ROBOT_INPUT_MOVEMENTS,
+            text = text
+        )
+    }
+
+    // Form - Submit button
+    // -------------------------------------------------------------
+    fun checkSubmitButtonIsNotEnabled() = apply {
+        composeTestRule
+            .waitForNodeWithTagDisplayed(tag = MainScreenTestTags.ROBOT_SUBMIT_FORM_BUTTON)
+            .assertIsNotEnabled()
     }
 
     fun submitFormAndWaitForResult() = apply {
@@ -96,8 +142,10 @@ class MainScreen(
     }
 
     private fun inputTextByTag(testTag: String, message: String) {
-        composeTestRule.waitForNodeWithTagDisplayed(tag = testTag)
-            .performTextInput(text = message)
+        composeTestRule.waitForNodeWithTagDisplayed(tag = testTag).apply {
+            performTextClearance()
+            performTextReplacement(text = message)
+        }
     }
 
     private fun checkInputText(testTag: String, text: String) {
@@ -112,8 +160,7 @@ class MainScreen(
         const val INPUT_VALID_ROBOT_POS_Y = "2"
         const val INPUT_VALID_MOVEMENTS = "LMLMLMLMM"
 
-        const val INPUT_INVALID_PLATEAU_SIZE = "añldk"
+        const val INPUT_NUMBERS_INVALID = "añldk"
         const val INPUT_INVALID_NUMBER_PREFIX = "-0,%s"
     }
-
 }

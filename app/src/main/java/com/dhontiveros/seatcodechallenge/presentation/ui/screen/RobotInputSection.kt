@@ -31,7 +31,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.dhontiveros.seatcodechallenge.R
 import com.dhontiveros.seatcodechallenge.presentation.commons.composables.AppButton
-import com.dhontiveros.seatcodechallenge.presentation.commons.composables.AppInputField
 import com.dhontiveros.seatcodechallenge.presentation.commons.composables.AppPositiveIntInputField
 
 @Composable
@@ -67,7 +66,7 @@ fun RobotInputSection(
                 currentValue = posX,
                 onValueChange = { posX = it },
             )
-            AppInputField(
+            AppPositiveIntInputField(
                 modifier = Modifier
                     .testTag(MainScreenTestTags.ROBOT_INPUT_POS_Y)
                     .weight(1f, false)
@@ -130,10 +129,10 @@ private fun DirectionToggleGroup(
 
 @Composable
 fun MovementsInputFiled(
+    modifier: Modifier = Modifier,
     value: String,
     @StringRes textId: Int,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     OutlinedTextField(
         modifier = modifier,

@@ -15,6 +15,14 @@ class MainScreenTest : AcceptanceTest() {
     }
 
     @Test
+    fun robotForm_IsPartiallyFilled_andSubmitButtonIsDisabled(){
+        onMainScreen()
+            .inputValidPlateauSize()
+            .inputValidStartRobotPosition()
+        closeKeyBoard()
+    }
+
+    @Test
     fun robotFormPlateauInput_receivesInvalidInput_andPlateauInputIsEmpty(){
         onMainScreen()
             .inputInvalidPlateauSize()
@@ -30,11 +38,21 @@ class MainScreenTest : AcceptanceTest() {
     }
 
     @Test
-    fun robotForm_IsPartiallyFilled_andSubmitButtonIsDisabled(){
+    fun robotFormStartPositionInput_receivesInvalidInput_andStartPositionInputIsEmpty(){
         onMainScreen()
-            .inputValidPlateauSize()
-            .inputValidStartRobotPosition()
-        closeKeyBoard()
+            .inputInvalidStartPosition()
+            .checkStartPositionInputIsEmpty()
+    }
+
+    @Test
+    fun robotFormInputMovements_receivesInvalidInput_andFilterOnlyAcceptedCharacters() {
+        val startInputText = "LMRMmTXMtLrUI"
+        val filteredInputText = startInputText.uppercase().filter {
+            it == 'L' || it == 'R' || it == 'M'
+        }
+        onMainScreen()
+            .inputTextMovements(text = startInputText)
+            .checkTextInputMovement(text = filteredInputText)
     }
 
     @Test
