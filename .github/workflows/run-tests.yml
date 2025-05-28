@@ -1,0 +1,29 @@
+name: Run tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-detekt:
+      name: Run Lint & Detekt
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Android Setup
+          uses: ./.github/actions/android-setup
+
+        - name: Run detekt
+          run: ./gradlew detekt
+
+        - name: Run lint
+          run: ./gradlew lint
+
+        - name: Run unit test
+          run: ./gradlew testDebugUnitTest
+
+        - name: Run screenshot tests
+          run: ./gradlew executeScreenshotTests -Pshot
+
+        - name: Verify screenshots
+          run: ./gradlew verifyScreenshotTests -Pshot
