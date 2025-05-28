@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.utils.toSetOrEmpty
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -42,10 +40,6 @@ android {
 
     buildFeatures {
         compose = true
-    }
-
-    testOptions {
-        animationsDisabled = true
     }
 }
 
@@ -104,6 +98,9 @@ dependencies {
     androidTestImplementation(composeBom)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // UI Automator (used to create TestRule
+    androidTestImplementation(libs.androidx.uiautomator)
 
     // UI testing:
     // Compose
