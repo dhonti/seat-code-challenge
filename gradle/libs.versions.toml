@@ -21,7 +21,7 @@ mockito-kotlin = "5.2.1"
 mockk = "1.14.2"
 moshi = "1.15.2"
 # @keep this version, it is removed by version catalog update plugin
-min-sdk = "24"
+min-sdk = "26"
 # @keep this version, it is removed by version catalog update plugin
 target-sdk = "35"
 dagger-hilt = "2.55"
