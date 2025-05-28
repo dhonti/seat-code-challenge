@@ -31,10 +31,9 @@ jobs:
           api-level: 30
           target: google_apis_playstore
           arch: x86_64
-          emulator-build: 9129289
+          emulator-boot-timeout: 600
           emulator-options: -no-audio -no-boot-anim
           disable-animations: true
-          emulator-timeout: 600 
           script: ./gradlew executeScreenshotTests -Pshot
 
       - name: Verify screenshots

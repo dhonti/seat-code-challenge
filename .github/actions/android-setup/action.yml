@@ -1,5 +1,6 @@
 name: Android Setup
 description: Configure JDK and Android SDK to execute Android tasks in CI
+
 runs:
   using: "composite"
   steps:
@@ -11,3 +12,16 @@ runs:
 
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
+
+    - name: Install required Android SDK packages
+      shell: bash
+      run: |
+        sdkmanager --install \
+          "platform-tools" \
+          "emulator" \
+          "platforms;android-30" \
+          "system-images;android-30;google_apis_playstore;x86_64" \
+          "build-tools;30.0.3" \
+          "cmdline-tools;latest"
+
+        yes | sdkmanager --licenses
