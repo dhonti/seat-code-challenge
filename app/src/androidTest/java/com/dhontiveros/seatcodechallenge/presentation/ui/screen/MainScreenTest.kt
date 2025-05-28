@@ -1,32 +1,52 @@
 package com.dhontiveros.seatcodechallenge.presentation.ui.screen
 
-import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithTag
-import com.dhontiveros.seatcodechallenge.presentation.ui.MainActivity
-import dagger.hilt.android.testing.HiltAndroidRule
+import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotDirection
+import com.dhontiveros.seatcodechallenge.presentation.ui.commons.base.AcceptanceTest
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class MainScreenTest {
-    
-    @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
-    
-    @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
-    
-    @Before
-    fun setUp() {
-        hiltRule.inject()
+class MainScreenTest : AcceptanceTest() {
+
+    @Test
+    fun robotForm_isInitiallyEmpty_andSubmitButtonIsDisabled() {
+        onMainScreen()
+            .checkSubmitButtonIsNotEnabled()
     }
 
     @Test
-    fun robotForm_isInitiallyEmpty_andSubmitButtonIsDisabled(){
-        composeTestRule.onNodeWithTag(MainScreenTestTags.ROBOT_SUBMIT_FORM_BUTTON).assertIsNotEnabled()
+    fun robotFormPlateauInput_receivesInvalidInput_andPlateauInputIsEmpty(){
+        onMainScreen()
+            .inputInvalidPlateauSize()
+            .checkPlateauInputIsEmpty()
+    }
+
+    @Test
+    fun robotFormPlateauInput_receivesInvalidNumber_andPlateauInputFilterCorrectNumber(){
+        val inputNumber = 5L
+        onMainScreen()
+            .inputInvalidNumberPlateauSizeX(inputNumber = inputNumber)
+            .checkInputPlateauSizeXNumber(inputNumber = inputNumber)
+    }
+
+    @Test
+    fun robotForm_IsPartiallyFilled_andSubmitButtonIsDisabled(){
+        onMainScreen()
+            .inputValidPlateauSize()
+            .inputValidStartRobotPosition()
+        closeKeyBoard()
+    }
+
+    @Test
+    fun whenFormIsFilled_buttonIsEnabled_andResultAppearsAfterClickSubmit() {
+        val mainScreen = onMainScreen()
+            .inputValidPlateauSize()
+            .inputValidStartRobotPosition()
+            .selectRobotDirection(RobotDirection.North)
+            .inputValidMovements()
+
+        closeKeyBoard()
+        mainScreen.submitFormAndWaitForResult()
     }
 
 }

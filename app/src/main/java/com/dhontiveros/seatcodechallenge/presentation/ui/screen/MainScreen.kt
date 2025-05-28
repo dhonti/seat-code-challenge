@@ -33,7 +33,7 @@ fun MainScreen(
     state: MainViewState,
     processIntent: (MainIntent) -> Unit
 ) {
-    Scaffold { padding ->
+    Scaffold(modifier = Modifier.testTag(MainScreenTestTags.SCREEN)) { padding ->
         MainBody(
             modifier = Modifier.padding(padding),
             state = state,

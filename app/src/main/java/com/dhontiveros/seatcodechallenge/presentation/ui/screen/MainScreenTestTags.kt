@@ -1,6 +1,8 @@
 package com.dhontiveros.seatcodechallenge.presentation.ui.screen
 
 object MainScreenTestTags {
+    const val SCREEN = "main-screen"
+
     const val PLATEAU_INPUT_POS_X = "plateau-input-size-x"
     const val PLATEAU_INPUT_POS_Y = "plateau-input-size-y"
     const val ROBOT_INPUT_POS_X = "robot-input-pos-x"
