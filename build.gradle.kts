@@ -1,4 +1,5 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import java.io.FilenameFilter
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -12,6 +13,15 @@ plugins {
 
     alias(libs.plugins.ben.manes.versions)
     alias(libs.plugins.version.catalog.update)
+}
+
+detekt {
+    // Defining custom "detekt.yml" file rules:
+    config = files("$projectDir/detekt.yml")
+    // Directories list that have to analyze (except hidden directories with prefix ".")
+    source = files(rootProject.rootDir.listFiles { _, name -> !name.startsWith(".") })
+    // Start with default configuration and apply after custom rules from file "detekt.yml"
+    buildUponDefaultConfig = true
 }
 
 allprojects {
