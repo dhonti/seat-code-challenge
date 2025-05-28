@@ -24,30 +24,23 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install system image manually (API 29)
+        run: |
+          yes | sdkmanager --install "system-images;android-29;google_apis;x86"
+
       - name: Run screenshot tests on stable emulator
-        uses: reactivecircus/android-emulator-runner@v2.25.0
+        uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          arch: arm64-v8a
-          profile: pixel_5
+          target: google_apis
+          arch: x86
+          profile: Nexus 6
+          headless: true
+          disable-animations: true
+          disable-linux-hw-accel: true
           force-avd-creation: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          channel: canary
-          disable-animations: false
+          emulator-boot-timeout: 360
           script: ./gradlew executeScreenshotTests
-        
-#        uses: reactivecircus/android-emulator-runner@v2
-#        with:
-#          api-level: 29
-#          target: google_apis
-#          arch: x86
-#          profile: Nexus 6
-#          headless: true
-#          disable-animations: true
-#          disable-linux-hw-accel: true
-#          force-avd-creation: true
-#          emulator-boot-timeout: 360
-#          script: ./gradlew executeScreenshotTests
 
       - name: Upload screenshots as artifact
         if: always()
