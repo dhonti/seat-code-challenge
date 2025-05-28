@@ -1,5 +1,14 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath(libs.shot)
+    }
+}
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.android.application) apply false
