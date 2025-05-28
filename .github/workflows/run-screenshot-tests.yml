@@ -24,31 +24,22 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: AVD Cache
-        uses: actions/cache@v4
+      - name: Run screenshot tests on emulator
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          path: ~/.android/avd
-          key: avd-${{ runner.os }}-api30
-          restore-keys: |
-            avd-${{ runner.os }}-
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: pixel
+          disable-animations: true
+          emulator-boot-timeout: 360
+          script: ./gradlew executeScreenshotTests
 
-      - name: Create AVD and start emulator
-        run: |
-          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --device "pixel"
-          $ANDROID_HOME/emulator/emulator -avd test -no-snapshot -no-window -no-audio -gpu swiftshader_indirect &
-        shell: bash
-
-      - name: Wait for emulator to boot
-        run: |
-          adb wait-for-device
-          boot_completed=""
-          until [[ "$boot_completed" == "1" ]]; do
-            sleep 5
-            boot_completed=$(adb shell getprop sys.boot_completed | tr -d '\r')
-            echo "Waiting for emulator to boot... ($boot_completed)"
-          done
-          adb shell input keyevent 82
-        shell: bash
-
-      - name: Run screenshot tests
-        run: ./gradlew executeScreenshotTests
+      - name: Upload screenshots as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-test-results
+          path: |
+            **/build/outputs/shot/**/screenshots/
+            **/build/reports/shot/
