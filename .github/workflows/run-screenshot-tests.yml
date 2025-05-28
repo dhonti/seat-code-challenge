@@ -24,14 +24,15 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Run screenshot tests on emulator
+      - name: Run screenshot tests on emulator (lightweight & stable)
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
           target: google_apis
           arch: x86_64
-          profile: pixel
+          profile: Nexus 5
           disable-animations: true
+          disable-linux-hw-accel: true
           emulator-boot-timeout: 360
           script: ./gradlew executeScreenshotTests
 
