@@ -12,6 +12,8 @@ class MainScreenTest : AcceptanceTest() {
     fun robotForm_isInitiallyEmpty_andSubmitButtonIsDisabled() {
         onMainScreen()
             .checkSubmitButtonIsNotEnabled()
+
+        compareScreenshot()
     }
 
     @Test
@@ -65,6 +67,8 @@ class MainScreenTest : AcceptanceTest() {
 
         closeKeyBoard()
         mainScreen.submitFormAndWaitForResult()
+
+        compareScreenshot()
     }
 
 }
