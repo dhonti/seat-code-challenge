@@ -36,6 +36,9 @@ Thumbs.db
 app/build/
 */build/
 
+# Shot (screenshots)
+app/screenshots
+
 # Proguard configuration files
 proguard-rules.pro
 

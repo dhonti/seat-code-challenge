@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.compose.compiler)
+
+    alias(libs.plugins.shot)
 }
 
 android {
@@ -107,7 +109,14 @@ dependencies {
     androidTestImplementation(libs.compose.ui.test.junit)
     debugImplementation(libs.compose.ui.test.manifest)
 
+    // Shot
+    androidTestImplementation(libs.shot)
+
     // Hilt:
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.compiler)
+}
+
+shot {
+    applicationId = "com.dhontiveros.seatcodechallenge"
 }

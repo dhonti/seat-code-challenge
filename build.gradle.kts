@@ -1,6 +1,15 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import java.io.FilenameFilter
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath(libs.shot)
+    }
+}
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.detekt)
