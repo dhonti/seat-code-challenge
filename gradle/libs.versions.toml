@@ -1,4 +1,5 @@
 [versions]
+# @keep this version, update manually
 agp = "8.7.3"
 appcompat = "1.7.0"
 catalogUpdate = "0.8.5"
@@ -57,7 +58,8 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-core" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 mockk = { module = "io.mockk:mockk-android", version.ref = "mockk" }
-moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger-hilt" }
