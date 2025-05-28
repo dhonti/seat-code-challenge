@@ -32,14 +32,9 @@ jobs:
               target: google_apis
               arch: x86
               profile: pixel_3
-              emulator-options: no-window -no-audio -no-boot-anim
+              emulator-options: -no-window -no-audio -no-boot-anim
               disable-animations: true
               script: ./gradlew executeScreenshotTests -Pshot
-
-        - name: Wait for emulator boot completion
-          run: |
-            $ANDROID_HOME/platform-tools/adb wait-for-device
-            $ANDROID_HOME/platform-tools/adb shell getprop sys.boot_completed
 
         - name: Verify screenshots
           run: ./gradlew verifyScreenshotTests -Pshot
