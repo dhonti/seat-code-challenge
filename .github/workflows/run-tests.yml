@@ -32,14 +32,13 @@ jobs:
           target: google_apis_playstore
           arch: x86_64
           emulator-boot-timeout: 600
-          emulator-options: -no-audio -no-boot-anim
+          emulator-options: -no-audio -no-window -no-boot-anim
           disable-animations: true
           script: ./gradlew executeScreenshotTests -Pshot
 
       - name: Verify screenshots
         run: ./gradlew verifyScreenshotTests -Pshot
 
-      # Opcional para depuración
-      - name: Check ADB devices (debug)
+      - name: Check ADB devices (on failure)
         if: failure()
         run: adb devices

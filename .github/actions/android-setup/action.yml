@@ -13,15 +13,14 @@ runs:
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Install required Android SDK packages
+    - name: Install required SDK packages
       shell: bash
       run: |
+        yes | sdkmanager --licenses
         sdkmanager --install \
           "platform-tools" \
           "emulator" \
-          "platforms;android-30" \
-          "system-images;android-30;google_apis_playstore;x86_64" \
+          "cmdline-tools;latest" \
           "build-tools;30.0.3" \
-          "cmdline-tools;latest"
-
-        yes | sdkmanager --licenses
+          "platforms;android-30" \
+          "system-images;android-30;google_apis_playstore;x86_64"
