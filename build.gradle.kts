@@ -1,5 +1,4 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import java.io.FilenameFilter
 
 buildscript {
     repositories {

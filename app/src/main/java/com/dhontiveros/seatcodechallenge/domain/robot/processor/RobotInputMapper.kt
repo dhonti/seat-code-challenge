@@ -19,7 +19,7 @@ class RobotInputMapper @Inject constructor(
     fun toRobotInputJson(jsonString: String): RobotInputJson? =
         try {
             adapter.fromJson(jsonString)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
 
