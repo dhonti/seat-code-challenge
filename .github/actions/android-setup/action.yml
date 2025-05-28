@@ -13,10 +13,13 @@ runs:
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
 
+    - name: Accept licenses
+      shell: bash
+      run: sdkmanager --licenses || true
+
     - name: Install required SDK packages
       shell: bash
       run: |
-        yes | sdkmanager --licenses
         sdkmanager --install \
           "platform-tools" \
           "emulator" \
