@@ -1,13 +1,13 @@
-name: Run Screenshot Tests
+name: Run Instrumented Tests
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  screenshot-tests:
+  instrumented-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -24,29 +24,51 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install system image manually (API 29)
+      - name: Accept SDK licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Install required SDK packages
         run: |
-          yes | sdkmanager --install "system-images;android-29;google_apis;x86"
+          sdkmanager --install \
+            "platform-tools" \
+            "emulator" \
+            "cmdline-tools;latest" \
+            "build-tools;34.0.0" \
+            "platforms;android-34" \
+            "system-images;android-34;google_apis;x86_64"
 
-      - name: Run screenshot tests on stable emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          target: google_apis
-          arch: x86
-          profile: Nexus 6
-          headless: true
-          disable-animations: true
-          disable-linux-hw-accel: true
-          force-avd-creation: true
-          emulator-boot-timeout: 360
-          script: ./gradlew executeScreenshotTests
+      - name: Create AVD
+        run: |
+          echo "no" | avdmanager create avd \
+            --name testEmulator \
+            --package "system-images;android-34;google_apis;x86_64" \
+            --device "pixel"
 
-      - name: Upload screenshots as artifact
+      - name: Launch emulator
+        run: |
+          $ANDROID_HOME/emulator/emulator -avd testEmulator -no-audio -no-window -gpu swiftshader_indirect &
+          adb wait-for-device
+          adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
+
+      - name: Disable system animations
+        run: |
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
+
+      - name: Run instrumented tests
+        run: ./gradlew connectedDebugAndroidTest
+
+      - name: Upload test results (optional)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: screenshot-test-results
-          path: |
-            **/build/outputs/shot/**/screenshots/
-            **/build/reports/shot/
+          name: test-results
+          path: app/build/reports/androidTests/connected/
+
+      - name: Upload screenshots (optional)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: app/screenshots/
