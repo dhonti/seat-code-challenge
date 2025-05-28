@@ -6,7 +6,7 @@ catalogUpdate = "0.8.5"
 compile-sdk = "35"
 compose = "2025.05.01"
 compose-activity = "1.10.1"
-compose-viewmodel = "2.9.0"
+compose-viewmodel = "2.8.7"
 coreKtx = "1.16.0"
 core-splashscreen = "1.0.1"
 kotlinx-coroutines = "1.8.1"
@@ -20,6 +20,8 @@ mockito-core = "5.11.0"
 mockito-kotlin = "5.2.1"
 mockk = "1.14.2"
 moshi = "1.15.2"
+# @keept this version checking the "kotlin" version
+compose-kotlin-compiler = "1.5.11"
 # @keep this version, it is removed by version catalog update plugin
 min-sdk = "26"
 # @keep this version, it is removed by version catalog update plugin

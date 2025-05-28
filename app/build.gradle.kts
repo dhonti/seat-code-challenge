@@ -40,13 +40,26 @@ android {
         jvmTarget = JavaVersion.VERSION_18.majorVersion
     }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.kotlin.compiler.get()
+    }
+
     buildFeatures {
         compose = true
     }
+
+    lint {
+        lintConfig = file("lint.xml")
+        checkDependencies = true
+        warningsAsErrors = true
+    }
+}
+
+shot {
+    applicationId = "com.dhontiveros.seatcodechallenge"
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -115,8 +128,4 @@ dependencies {
     // Hilt:
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.compiler)
-}
-
-shot {
-    applicationId = "com.dhontiveros.seatcodechallenge"
 }

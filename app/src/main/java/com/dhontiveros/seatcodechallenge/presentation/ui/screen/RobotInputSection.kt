@@ -100,7 +100,7 @@ private fun DirectionToggleGroup(
     onSelectedDirection: (String) -> Unit
 ) {
     val directions = listOf("N", "S", "E", "W")
-    Text(text = "Start direction:")
+    Text(text = stringResource(R.string.main_screen_form_input_robot_direction))
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.fillMaxWidth()

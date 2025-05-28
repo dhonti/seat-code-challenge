@@ -8,7 +8,7 @@
     <string name="main_screen_form_input_robot_title">Rober Robot</string>
     <string name="main_screen_form_input_robot_pos_x">Position X</string>
     <string name="main_screen_form_input_robot_pos_y">Position Y</string>
-    <string name="main_screen_form_input_robot_direction">Direction</string>
+    <string name="main_screen_form_input_robot_direction">Start direction:</string>
     <string name="main_screen_form_input_robot_movements">Movements (L, R, M)</string>
 
     <string name="main_screen_result_position">Final position: %s</string>
