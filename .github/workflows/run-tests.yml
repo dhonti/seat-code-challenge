@@ -10,8 +10,11 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
         - name: Android Setup
-          uses: ./.github/actions/android-setup/action.yml
+          uses: ./actions/android-setup/action.yml
 
         - name: Run detekt
           run: ./gradlew detekt

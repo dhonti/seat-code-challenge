@@ -3,8 +3,6 @@ description: Configure JDK and Android SDK to execute Android tasks in CI
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
-
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
