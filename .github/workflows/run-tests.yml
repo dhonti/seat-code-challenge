@@ -16,23 +16,23 @@ jobs:
       - name: Android Setup
         uses: ./.github/actions/android-setup
 
-#      - name: Run detekt
-#        run: ./gradlew detekt
-#
-#      - name: Run lint
-#        run: ./gradlew lint
-#
-#      - name: Run unit test
-#        run: ./gradlew testDebugUnitTest
+      #      - name: Run detekt
+      #        run: ./gradlew detekt
+      #
+      #      - name: Run lint
+      #        run: ./gradlew lint
+      #
+      #      - name: Run unit test
+      #        run: ./gradlew testDebugUnitTest
 
       - name: Start emulator and run screenshot tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
           target: google_apis_playstore
-          arch: x86_64
+          arch: x86 # Cambiado de x86_64 a x86 por compatibilidad sin KVM
           emulator-boot-timeout: 600
-          emulator-options: -no-audio -no-window -no-boot-anim
+          emulator-options: -no-audio -no-window -no-boot-anim -accel off
           disable-animations: true
           script: ./gradlew executeScreenshotTests -Pshot
 
