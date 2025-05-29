@@ -4,6 +4,9 @@ plugins {
 
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.compose.compiler)
+
+    alias(libs.plugins.shot)
 }
 
 android {
@@ -15,6 +18,8 @@ android {
 
         testInstrumentationRunner = Config.testInstrumentationRunner
         consumerProguardFiles(Config.consumerRules)
+
+        testApplicationId = Config.testApplicationid
     }
 
     buildTypes {
@@ -32,6 +37,14 @@ android {
     }
     kotlinOptions {
         jvmTarget = Config.jvmTarget
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.kotlin.compiler.get()
+    }
+
+    buildFeatures {
+        compose = true
     }
 }
 

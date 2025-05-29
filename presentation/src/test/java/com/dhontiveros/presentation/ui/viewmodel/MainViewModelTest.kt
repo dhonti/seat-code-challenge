@@ -1,14 +1,15 @@
-package com.dhontiveros.seatcodechallenge.presentation.viewmodel
+package com.dhontiveros.presentation.ui.viewmodel
 
-import com.dhontiveros.rover_robot.model.helpers.RobotDirection
-import com.dhontiveros.rover_robot.model.helpers.RobotPosition
-import com.dhontiveros.rover_robot.processor.ErrorInputRobot
-import com.dhontiveros.rover_robot.processor.RobotResult
+import com.dhontiveros.commons.robot.toJsonString
+import com.dhontiveros.domain.model.RobotDomainDirection
+import com.dhontiveros.domain.model.RobotDomainErrorInput
+import com.dhontiveros.domain.model.RobotDomainOutput
+import com.dhontiveros.domain.model.RobotDomainResult
 import com.dhontiveros.domain.usecase.CalculateRobotCoordinates
-import com.dhontiveros.presentation.ui.viewmodel.InitialInputData
-import com.dhontiveros.presentation.ui.viewmodel.MainIntent
-import com.dhontiveros.presentation.ui.viewmodel.MainScreenErrorInput
-import com.dhontiveros.presentation.ui.viewmodel.MainViewModel
+import com.dhontiveros.presentation.model.RobotInputUiModel
+import com.dhontiveros.presentation.model.RobotResultUiModel
+import com.dhontiveros.presentation.model.toDto
+import com.squareup.moshi.Moshi
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +24,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -31,8 +33,13 @@ class MainViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
+    private val moshi: Moshi = mockk()
     private val calculateRobotCoordinates: CalculateRobotCoordinates = mockk()
-    private val viewModel = MainViewModel(calculateRobotCoordinates)
+
+    private val viewModel = MainViewModel(
+        moshi = moshi,
+        calculateRobotCoordinates = calculateRobotCoordinates
+    )
 
     @Before
     fun setUp() {
@@ -47,36 +54,43 @@ class MainViewModelTest {
     @Test
     fun `given CalculateCoordinates intent, when success result, then update with response`() =
         runTest {
-            val inputData = buildInputData()
-            val expectedPosition =
-                RobotPosition(x = 1, y = 1, direction = RobotDirection.North)
-            val expectedMovements = inputData.movementsList.length.toLong()
+            val inputUiModel = buildInputUiModel()
+            val jsonStringInputData = inputUiModel.toDto().toJsonString(moshi)
+            val expectedResult = RobotDomainOutput(
+                posX = 1,
+                posY = 3,
+                direction = RobotDomainDirection.North,
+                movementsApplied = 8
+            )
+            val expectedMovements = inputUiModel.movementsList.length.toLong()
 
-            coEvery { calculateRobotCoordinates(inputData) } returns RobotResult.Success(
-                robotPosition = expectedPosition,
-                movementsApplied = expectedMovements
+            coEvery { calculateRobotCoordinates(jsonStringInputData) } returns RobotDomainResult.Success(
+                robotOutput = expectedResult,
             )
 
-            viewModel.processIntent(intent = MainIntent.CalculateCoordinates(inputData))
+            viewModel.processIntent(intent = MainIntent.CalculateCoordinates(inputData = inputUiModel))
             advanceUntilIdle()
 
             val state = viewModel.state.value
             assertFalse(state.isLoading)
             assertNotNull(state.response)
-            assertEquals(expectedPosition, state.response?.finalPosition)
+            assertTrue(state.response is RobotResultUiModel)
+            assertEquals(expectedResult.posX, state.response?.posX)
+            assertEquals(expectedResult.posY, state.response?.posY)
+            assertEquals(expectedResult.direction, state.response?.direction)
             assertEquals(expectedMovements, state.response?.appliedMovements)
-            assertEquals(inputData.movementsList.length.toLong(), state.response?.totalMovements)
+            assertEquals(inputUiModel.movementsList.length.toLong(), state.response?.totalMovements)
             assertNull(state.error)
         }
 
     @Test
     fun `given CalculateCoordinates intent, when error result, then update with error`() = runTest {
-        val inputData = buildInputData(movementsList = "INVALID")
-        coEvery { calculateRobotCoordinates(inputData) } returns RobotResult.Error(
-            errorInput = ErrorInputRobot.Movements
+        val inputUiModel = buildInputUiModel(movementsList = "INVALID")
+        coEvery { calculateRobotCoordinates(inputUiModel.toDto().toJsonString(moshi)) } returns RobotDomainResult.Error(
+            errorInput = RobotDomainErrorInput.Movements
         )
 
-        viewModel.processIntent(intent = MainIntent.CalculateCoordinates(inputData = inputData))
+        viewModel.processIntent(intent = MainIntent.CalculateCoordinates(inputData = inputUiModel))
         advanceUntilIdle()
 
         val state = viewModel.state.value
@@ -88,20 +102,20 @@ class MainViewModelTest {
 
 
     private companion object {
-        fun buildInputData(
+        fun buildInputUiModel(
             plateauSizeX: Long = 5,
             plateauSizeY: Long = 5,
             robotPosX: Long = 1,
             robotPosY: Long = 2,
             robotDirection: String = "N",
             movementsList: String = "LMLMLMLMM"
-        ) = InitialInputData(
+        ) = RobotInputUiModel(
             plateauSizeX = plateauSizeX,
             plateauSizeY = plateauSizeY,
             posX = robotPosX,
             posY = robotPosY,
             direction = robotDirection,
-            movementsList = movementsList
+            movementsList = movementsList,
         )
     }
 }

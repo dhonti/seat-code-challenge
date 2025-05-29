@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.presentation.ui.commons.extensions
+package com.dhontiveros.presentation.ui.commons.extensions
 
 import android.util.Log
 import androidx.compose.ui.test.ComposeTimeoutException

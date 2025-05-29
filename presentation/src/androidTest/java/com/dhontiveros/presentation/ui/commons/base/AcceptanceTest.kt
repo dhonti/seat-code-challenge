@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.presentation.ui.commons.base
+package com.dhontiveros.presentation.ui.commons.base
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.core.app.ActivityScenario

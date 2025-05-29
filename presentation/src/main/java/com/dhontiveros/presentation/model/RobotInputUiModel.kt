@@ -19,7 +19,9 @@ data class RobotResultUiModel(
     val direction: RobotDomainDirection,
     val totalMovements: Long,
     val appliedMovements: Long
-)
+) {
+    override fun toString(): String = "$posX $posY $direction"
+}
 
 
 fun RobotInputUiModel.toDto() = RobotInputDto(

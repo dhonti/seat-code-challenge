@@ -1,16 +1,27 @@
 plugins {
-    id("java-library") // o 'com.android.library' si necesitas Android
-    kotlin("jvm")
-
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.com.google.devtools.ksp)
 }
 
-java {
-    sourceCompatibility = Config.javaVersion
-    targetCompatibility = Config.javaVersion
+android {
+    namespace = "com.dhontiveros.commons.robot"
+    compileSdk = Config.compileSdk
+
+    compileOptions {
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
+    }
+    kotlinOptions {
+        jvmTarget = Config.javaVersion.majorVersion
+    }
 }
 
 dependencies {
+    // Dagger
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
     // Moshi
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)

@@ -22,11 +22,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.dhontiveros.seatcodechallenge.R
 import com.dhontiveros.presentation.commons.composables.AppButton
-import com.dhontiveros.presentation.ui.viewmodel.InitialInputData
+import com.dhontiveros.presentation.model.RobotInputUiModel
 import com.dhontiveros.presentation.ui.viewmodel.MainIntent
 import com.dhontiveros.presentation.ui.viewmodel.MainViewState
+import com.dhontiveros.seatcodechallenge.R
 
 @Composable
 fun MainScreen(
@@ -130,7 +130,7 @@ private fun SubmitAndResultSection(
                 .testTag(MainScreenTestTags.ROBOT_RESULT_POSITION)
                 .fillMaxWidth(),
             textAlign = TextAlign.Center,
-            text = stringResource(R.string.main_screen_result_position, it.finalPosition.toString())
+            text = stringResource(R.string.main_screen_result_position, it.toString())
         )
         Text(
             modifier = Modifier
@@ -153,7 +153,7 @@ private fun SubmitAndResultSection(
         onClick = {
             processIntent(
                 MainIntent.CalculateCoordinates(
-                    inputData = InitialInputData(
+                    inputData = RobotInputUiModel(
                         posX = formState.posX.toLongOrNull() ?: 0L,
                         posY = formState.posY.toLongOrNull() ?: 0L,
                         direction = formState.direction,

@@ -9,6 +9,7 @@ object Config {
     const val targetSdk = 35
 
     const val testInstrumentationRunner = "com.dhontiveros.seatcodechallenge.HiltTestRunner"
+    const val testApplicationid = "com.dhontiveros.presentation"
     const val proguardFile = "proguard-android-optimize.txt"
     const val proguardRules = "proguard-rules.pro"
     const val consumerRules = "consumer-rules.pro"

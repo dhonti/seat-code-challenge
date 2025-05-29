@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge
+package com.dhontiveros.presentation
 
 import android.app.Application
 import android.content.Context

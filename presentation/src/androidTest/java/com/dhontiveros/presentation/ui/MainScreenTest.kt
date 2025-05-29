@@ -1,7 +1,7 @@
-package com.dhontiveros.seatcodechallenge.presentation.ui.screen
+package com.dhontiveros.presentation.ui
 
-import com.dhontiveros.rover_robot.model.helpers.RobotDirection
-import com.dhontiveros.seatcodechallenge.presentation.ui.commons.base.AcceptanceTest
+import com.dhontiveros.domain.model.RobotDomainDirection
+import com.dhontiveros.presentation.ui.commons.base.AcceptanceTest
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 
@@ -17,7 +17,7 @@ class MainScreenTest : AcceptanceTest() {
     }
 
     @Test
-    fun robotForm_IsPartiallyFilled_andSubmitButtonIsDisabled(){
+    fun robotForm_IsPartiallyFilled_andSubmitButtonIsDisabled() {
         onMainScreen()
             .inputValidPlateauSize()
             .inputValidStartRobotPosition()
@@ -25,14 +25,14 @@ class MainScreenTest : AcceptanceTest() {
     }
 
     @Test
-    fun robotFormPlateauInput_receivesInvalidInput_andPlateauInputIsEmpty(){
+    fun robotFormPlateauInput_receivesInvalidInput_andPlateauInputIsEmpty() {
         onMainScreen()
             .inputInvalidPlateauSize()
             .checkPlateauInputIsEmpty()
     }
 
     @Test
-    fun robotFormPlateauInput_receivesInvalidNumber_andPlateauInputFilterCorrectNumber(){
+    fun robotFormPlateauInput_receivesInvalidNumber_andPlateauInputFilterCorrectNumber() {
         val inputNumber = 5L
         onMainScreen()
             .inputInvalidNumberPlateauSizeX(inputNumber = inputNumber)
@@ -40,7 +40,7 @@ class MainScreenTest : AcceptanceTest() {
     }
 
     @Test
-    fun robotFormStartPositionInput_receivesInvalidInput_andStartPositionInputIsEmpty(){
+    fun robotFormStartPositionInput_receivesInvalidInput_andStartPositionInputIsEmpty() {
         onMainScreen()
             .inputInvalidStartPosition()
             .checkStartPositionInputIsEmpty()
@@ -62,7 +62,7 @@ class MainScreenTest : AcceptanceTest() {
         val mainScreen = onMainScreen()
             .inputValidPlateauSize()
             .inputValidStartRobotPosition()
-            .selectRobotDirection(RobotDirection.North)
+            .selectRobotDirection(RobotDomainDirection.North)
             .inputValidMovements()
 
         closeKeyBoard()
