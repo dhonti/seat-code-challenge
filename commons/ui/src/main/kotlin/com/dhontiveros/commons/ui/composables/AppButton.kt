@@ -1,4 +1,4 @@
-package com.dhontiveros.presentation.commons.composables
+package com.dhontiveros.commons.ui.composables
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors

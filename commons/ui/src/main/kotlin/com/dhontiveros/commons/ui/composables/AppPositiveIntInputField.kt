@@ -1,4 +1,4 @@
-package com.dhontiveros.presentation.commons.composables
+package com.dhontiveros.commons.ui.composables
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardOptions

@@ -28,7 +28,7 @@ class RobotInputValidatorTest {
     }
 
     @Test
-    fun `validateInput() method should return ErrorInputRobot-PlateauSize when topRightCorner is has negative X component`() {
+    fun `validateInput() method should return ErrorInputRobot-PlateauSize when topRightCorner has negative X component`() {
         checkInputWithResult(
             input = buildRobotInputDto(plateauX = -1),
             expectedResult = RobotErrorInput.PlateauSize
@@ -36,7 +36,7 @@ class RobotInputValidatorTest {
     }
 
     @Test
-    fun `validateInput() method should return ErrorInputRobot-PlateauSize when topRightCorner is has negative Y component`() {
+    fun `validateInput() method should return ErrorInputRobot-PlateauSize when topRightCorner has negative Y component`() {
         checkInputWithResult(
             input = buildRobotInputDto(plateauY = -1),
             expectedResult = RobotErrorInput.PlateauSize

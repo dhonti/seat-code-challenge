@@ -27,7 +27,7 @@ class RobotProcessorTest {
     )
 
     @Test
-    fun `given an invalid JSON, when move() is called then return return General error`() {
+    fun `given an invalid JSON, when move() is called, then return returns General error`() {
         val result = robotProcessor.move(SOME_INVALID_JSON)
 
         assertTrue(result is RobotResult.Error)
@@ -35,35 +35,29 @@ class RobotProcessorTest {
     }
 
     @Test
-    fun `given an invalid plateau size, when move() function is called then return PlateauSize error`() {
+    fun `given an invalid plateau size, when move() function is called, then returns PlateauSize error`() {
         val input = buildRobotInputDto(plateauX = -5)
         every { robotInputValidator.validateInput(input) } returns RobotErrorInput.PlateauSize
 
         val result = robotProcessor.move(input.toJsonString(moshi))
 
         assertTrue(result is RobotResult.Error)
-        assertEquals(
-            RobotErrorInput.PlateauSize,
-            (result as RobotResult.Error).errorInput
-        )
+        assertEquals(RobotErrorInput.PlateauSize, (result as RobotResult.Error).errorInput)
     }
 
     @Test
-    fun `given an invalid start position, when move() function is called then return StartPosition error`() {
+    fun `given an invalid start position, when move() function is called, then returns StartPosition error`() {
         val input = buildRobotInputDto(posX = -5)
         every { robotInputValidator.validateInput(input) } returns RobotErrorInput.StartPosition
 
         val result = robotProcessor.move(input.toJsonString(moshi))
 
         assertTrue(result is RobotResult.Error)
-        assertEquals(
-            RobotErrorInput.StartPosition,
-            (result as RobotResult.Error).errorInput
-        )
+        assertEquals(RobotErrorInput.StartPosition, (result as RobotResult.Error).errorInput)
     }
 
     @Test
-    fun `given a valid JSON input, when move() function is called then return Success with all moves applied correctly`() {
+    fun `given a valid JSON input, when move() function is called, then returns Success with all moves applied correctly`() {
         val robotInputJson = buildRobotInputDto()
         val inputData = buildRobotInput()
         every { robotInputValidator.validateInput(robotInputJson) } returns RobotErrorInput.None(
@@ -77,11 +71,11 @@ class RobotProcessorTest {
         assertEquals(1L, success.robotOutput.position.x)
         assertEquals(3L, success.robotOutput.position.y)
         assertEquals(RobotDirection.North, success.robotOutput.position.direction)
-        assertEquals(9L, success.robotOutput.movementsApplied)
+        assertEquals(robotInputJson.movements.length.toLong(), success.robotOutput.movementsApplied)
     }
 
     @Test
-    fun `move() function returns Success but is stopped when robot tries to go out of plateau size`() {
+    fun `move() function returns Success but is stopped at plateau limit, when robot tries to go out of plateau size`() {
         val inputDto = buildRobotInputDto(
             plateauX = 2, plateauY = 2,
             posX = 1, posY = 1,
