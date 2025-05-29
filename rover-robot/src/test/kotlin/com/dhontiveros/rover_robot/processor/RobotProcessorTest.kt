@@ -6,8 +6,8 @@ import com.dhontiveros.rover_robot.model.RobotResult
 import com.dhontiveros.rover_robot.model.helpers.RobotDirection
 import com.dhontiveros.rover_robot.model.helpers.RobotMovement
 import com.dhontiveros.rover_robot.processor.commons.SOME_INVALID_JSON
-import com.dhontiveros.rover_robot.processor.commons.SOME_VALID_JSON_INVALID_PLATEAU
-import com.dhontiveros.rover_robot.processor.commons.SOME_VALID_JSON_INVALID_START_POSITION
+import com.dhontiveros.rover_robot.processor.commons.SOME_VALID_JSON
+import com.dhontiveros.rover_robot.processor.commons.VALID_JSON_OUT_PLATEAU
 import com.dhontiveros.rover_robot.processor.commons.buildRobotInput
 import com.dhontiveros.rover_robot.processor.commons.buildRobotInputDto
 import com.squareup.moshi.Moshi
@@ -70,44 +70,45 @@ class RobotProcessorTest {
             inputData
         )
 
-        val result = robotProcessor.move(VALID_JSON)
+        val result = robotProcessor.move(SOME_VALID_JSON)
 
         assertTrue(result is RobotResult.Success)
         val success = result as RobotResult.Success
         assertEquals(1L, success.robotOutput.position.x)
-        assertEquals(3L, success.robotOutput.position.x)
+        assertEquals(3L, success.robotOutput.position.y)
         assertEquals(RobotDirection.North, success.robotOutput.position.direction)
         assertEquals(9L, success.robotOutput.movementsApplied)
     }
 
     @Test
     fun `move() function returns Success but is stopped when robot tries to go out of plateau size`() {
-        val robotInputJson = buildRobotInputDto(
+        val inputDto = buildRobotInputDto(
             plateauX = 2, plateauY = 2,
             posX = 1, posY = 1,
             direction = "N",
             movements = "MMMMM"
         )
         val inputData = buildRobotInput(
-            plateauX = 1, plateauY = 1,
+            plateauX = 2, plateauY = 2,
             posX = 1, posY = 1,
-            movements = listOf(RobotMovement.MoveForward, RobotMovement.MoveForward)
+            movements = listOf(
+                RobotMovement.MoveForward,
+                RobotMovement.MoveForward,
+                RobotMovement.MoveForward,
+                RobotMovement.MoveForward,
+                RobotMovement.MoveForward
+            )
         )
-        every { robotInputValidator.validateInput(robotInputJson) } returns RobotErrorInput.None(
+        every { robotInputValidator.validateInput(inputDto) } returns RobotErrorInput.None(
             inputData
         )
 
-        val result = robotProcessor.move(VALID_JSON)
+        val result = robotProcessor.move(VALID_JSON_OUT_PLATEAU)
 
         assertTrue(result is RobotResult.Success)
         val success = result as RobotResult.Success
-        assertTrue(success.robotOutput.movementsApplied < robotInputJson.movements.length)
-        assertTrue(success.robotOutput.position.y <= robotInputJson.topRightCorner.y)
-    }
-
-
-    private companion object {
-        const val VALID_JSON = "valid_json"
+        assertTrue(success.robotOutput.movementsApplied < inputDto.movements.length)
+        assertTrue(success.robotOutput.position.y <= inputDto.topRightCorner.y)
     }
 
 }
