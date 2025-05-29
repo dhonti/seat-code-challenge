@@ -11,6 +11,7 @@ object Config {
     const val testInstrumentationRunner = "com.dhontiveros.seatcodechallenge.HiltTestRunner"
     const val proguardFile = "proguard-android-optimize.txt"
     const val proguardRules = "proguard-rules.pro"
+    const val consumerRules = "consumer-rules.pro"
 
     const val lintFile = "lint.xml"
 

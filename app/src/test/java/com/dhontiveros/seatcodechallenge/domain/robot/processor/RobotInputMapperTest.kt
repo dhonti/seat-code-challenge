@@ -2,7 +2,7 @@ package com.dhontiveros.seatcodechallenge.domain.robot.processor
 
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_INVALID_JSON
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_VALID_JSON
-import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.InitialInputData
+import com.dhontiveros.presentation.ui.viewmodel.InitialInputData
 import com.squareup.moshi.Moshi
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -22,7 +22,7 @@ class RobotInputMapperTest {
 
     @Test
     fun `The toJsonString() method should serialize InitialInputData to String correctly`() {
-        val jsonResult = robotInputMapper.toJsonString(initialInputData = SOME_INITIAL_INPUT_DATA)
+        val jsonResult = robotInputMapper.toJsonString(robotInputUiModel = SOME_INITIAL_INPUT_DATA)
         val expectedResult = SOME_VALID_JSON.trimIndent().replace("\\s".toRegex(), "")
 
         assertEquals(expectedResult, jsonResult)

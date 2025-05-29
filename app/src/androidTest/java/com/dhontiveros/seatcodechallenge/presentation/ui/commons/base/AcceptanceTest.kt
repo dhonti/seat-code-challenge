@@ -4,8 +4,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import com.dhontiveros.seatcodechallenge.presentation.rule.DisableAnimationsRule
-import com.dhontiveros.seatcodechallenge.presentation.ui.MainActivity
-import com.dhontiveros.seatcodechallenge.presentation.ui.screen.MainScreen
+import com.dhontiveros.presentation.ui.MainActivity
+import com.dhontiveros.presentation.ui.screen.MainScreen
 import com.karumi.shot.ScreenshotTest
 import dagger.hilt.android.testing.HiltAndroidRule
 import org.junit.Before

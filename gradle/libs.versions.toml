@@ -7,7 +7,6 @@ compose = "2025.05.01"
 compose-activity = "1.10.1"
 compose-viewmodel = "2.8.7"
 coreKtx = "1.16.0"
-core-splashscreen = "1.0.1"
 kotlinx-coroutines = "1.8.1"
 espressoCore = "3.6.1"
 junit = "4.13.2"
@@ -63,6 +62,7 @@ shot = { module = "com.karumi:shot", version.ref = "shot" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 ben-manes-versions = { id = "com.github.ben-manes.versions", version.ref = "manesVersions" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
@@ -72,4 +72,3 @@ com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" 
 shot = { id = "shot" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-gradle-plugin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
-android-library = { id = "com.android.library", version.ref = "agp" }

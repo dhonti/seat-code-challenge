@@ -1,6 +1,6 @@
 package com.dhontiveros.seatcodechallenge.presentation.ui.screen
 
-import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotDirection
+import com.dhontiveros.rover_robot.model.helpers.RobotDirection
 import com.dhontiveros.seatcodechallenge.presentation.ui.commons.base.AcceptanceTest
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test

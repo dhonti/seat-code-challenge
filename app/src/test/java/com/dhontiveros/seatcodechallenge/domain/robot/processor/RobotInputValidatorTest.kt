@@ -1,6 +1,8 @@
 package com.dhontiveros.seatcodechallenge.domain.robot.processor
 
-import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJson
+import com.dhontiveros.commons.robot.RobotInputDto
+import com.dhontiveros.rover_robot.processor.ErrorInputRobot
+import com.dhontiveros.rover_robot.processor.RobotInputValidator
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.buildRobotInputData
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.buildRobotInputJson
 import org.junit.Assert.assertEquals
@@ -106,8 +108,8 @@ class RobotInputValidatorTest {
         )
     }
 
-    private fun checkInputWithResult(input: RobotInputJson, expectedResult: ErrorInputRobot) {
-        val result = robotInputValidator.validateInput(inputData = input)
+    private fun checkInputWithResult(input: RobotInputDto, expectedResult: ErrorInputRobot) {
+        val result = robotInputValidator.validateInput(inputDto = input)
         assertEquals(expectedResult, result)
     }
 }

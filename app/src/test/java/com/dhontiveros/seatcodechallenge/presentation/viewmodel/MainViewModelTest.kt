@@ -1,14 +1,14 @@
 package com.dhontiveros.seatcodechallenge.presentation.viewmodel
 
-import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotDirection
-import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotPosition
-import com.dhontiveros.seatcodechallenge.domain.robot.processor.ErrorInputRobot
-import com.dhontiveros.seatcodechallenge.domain.robot.processor.ResultMovementRobot
-import com.dhontiveros.seatcodechallenge.domain.usecase.CalculateRobotCoordinates
-import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.InitialInputData
-import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainIntent
-import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainScreenErrorInput
-import com.dhontiveros.seatcodechallenge.presentation.ui.viewmodel.MainViewModel
+import com.dhontiveros.rover_robot.model.helpers.RobotDirection
+import com.dhontiveros.rover_robot.model.helpers.RobotPosition
+import com.dhontiveros.rover_robot.processor.ErrorInputRobot
+import com.dhontiveros.rover_robot.processor.RobotResult
+import com.dhontiveros.domain.usecase.CalculateRobotCoordinates
+import com.dhontiveros.presentation.ui.viewmodel.InitialInputData
+import com.dhontiveros.presentation.ui.viewmodel.MainIntent
+import com.dhontiveros.presentation.ui.viewmodel.MainScreenErrorInput
+import com.dhontiveros.presentation.ui.viewmodel.MainViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -49,10 +49,10 @@ class MainViewModelTest {
         runTest {
             val inputData = buildInputData()
             val expectedPosition =
-                RobotPosition(posX = 1, posY = 1, robotDirection = RobotDirection.North)
+                RobotPosition(x = 1, y = 1, direction = RobotDirection.North)
             val expectedMovements = inputData.movementsList.length.toLong()
 
-            coEvery { calculateRobotCoordinates(inputData) } returns ResultMovementRobot.Success(
+            coEvery { calculateRobotCoordinates(inputData) } returns RobotResult.Success(
                 robotPosition = expectedPosition,
                 movementsApplied = expectedMovements
             )
@@ -72,8 +72,8 @@ class MainViewModelTest {
     @Test
     fun `given CalculateCoordinates intent, when error result, then update with error`() = runTest {
         val inputData = buildInputData(movementsList = "INVALID")
-        coEvery { calculateRobotCoordinates(inputData) } returns ResultMovementRobot.Error(
-            typeErrorInput = ErrorInputRobot.Movements
+        coEvery { calculateRobotCoordinates(inputData) } returns RobotResult.Error(
+            errorInput = ErrorInputRobot.Movements
         )
 
         viewModel.processIntent(intent = MainIntent.CalculateCoordinates(inputData = inputData))

@@ -1,5 +1,8 @@
 package com.dhontiveros.seatcodechallenge.core.di
 
+import com.dhontiveros.domain.core.DefaultDispatcher
+import com.dhontiveros.domain.core.IoDispatcher
+import com.dhontiveros.domain.core.MainDispatcher
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

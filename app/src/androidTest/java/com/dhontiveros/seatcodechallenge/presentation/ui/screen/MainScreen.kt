@@ -8,7 +8,8 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextReplacement
-import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotDirection
+import com.dhontiveros.presentation.ui.screen.MainScreenTestTags
+import com.dhontiveros.rover_robot.model.helpers.RobotDirection
 import com.dhontiveros.seatcodechallenge.presentation.ui.commons.base.BaseScreen
 import com.dhontiveros.seatcodechallenge.presentation.ui.commons.extensions.waitForNodeDisplayed
 import com.dhontiveros.seatcodechallenge.presentation.ui.commons.extensions.waitForNodeWithTagDisplayed

@@ -1,17 +1,3 @@
 <resources>
     <string name="app_name" translatable="false">SEAT CODE Challenge</string>
-
-    <string name="main_screen_form_input_plateau_title">Plateau</string>
-    <string name="main_screen_form_input_plateau_size_x">Size X</string>
-    <string name="main_screen_form_input_plateau_size_y">Size Y</string>
-
-    <string name="main_screen_form_input_robot_title">Rober Robot</string>
-    <string name="main_screen_form_input_robot_pos_x">Position X</string>
-    <string name="main_screen_form_input_robot_pos_y">Position Y</string>
-    <string name="main_screen_form_input_robot_direction">Start direction:</string>
-    <string name="main_screen_form_input_robot_movements">Movements (L, R, M)</string>
-
-    <string name="main_screen_result_position">Final position: %s</string>
-    <string name="main_screen_result_movements">Total movements: %1s\nApplied movements: %2s</string>
-    <string name="main_screen_calculate_button">Calculate coordinates</string>
 </resources>

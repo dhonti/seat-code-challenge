@@ -1,10 +1,10 @@
 package com.dhontiveros.seatcodechallenge.domain.robot.processor.commons
 
-import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotDirection
-import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotMovement
-import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputData
-import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJson
-import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJsonPosition
+import com.dhontiveros.rover_robot.model.helpers.RobotDirection
+import com.dhontiveros.rover_robot.model.helpers.RobotMovement
+import com.dhontiveros.rover_robot.model.models.RobotInput
+import com.dhontiveros.commons.robot.RobotInputDto
+import com.dhontiveros.commons.robot.RobotInputPositionDto
 
 fun buildRobotInputJson(
     plateauX: Long = 5,
@@ -13,9 +13,9 @@ fun buildRobotInputJson(
     posY: Long = 2,
     direction: String = "N",
     movements: String = "LMLMLMLMM"
-) = RobotInputJson(
-    topRightCorner = RobotInputJsonPosition(plateauX, plateauY),
-    roverPosition = RobotInputJsonPosition(posX, posY),
+) = RobotInputDto(
+    topRightCorner = RobotInputPositionDto(plateauX, plateauY),
+    roverPosition = RobotInputPositionDto(posX, posY),
     roverDirection = direction,
     movements = movements
 )
@@ -37,7 +37,7 @@ fun buildRobotInputData(
         RobotMovement.MoveForward,
         RobotMovement.MoveForward
     )
-) = RobotInputData(
+) = RobotInput(
     surfaceSize = Pair(plateauX, plateauY),
     position = Pair(posX, posY),
     robotDirection = direction,

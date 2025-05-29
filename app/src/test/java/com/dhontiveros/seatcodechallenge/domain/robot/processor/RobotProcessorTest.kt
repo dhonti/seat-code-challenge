@@ -1,8 +1,12 @@
 package com.dhontiveros.seatcodechallenge.domain.robot.processor
 
-import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotDirection
-import com.dhontiveros.seatcodechallenge.domain.robot.model.attrs.RobotMovement
-import com.dhontiveros.seatcodechallenge.domain.robot.model.input.RobotInputJson
+import com.dhontiveros.rover_robot.model.helpers.RobotDirection
+import com.dhontiveros.rover_robot.model.helpers.RobotMovement
+import com.dhontiveros.rover_robot.processor.RobotResult
+import com.dhontiveros.rover_robot.processor.RobotProcessor
+import com.dhontiveros.commons.robot.RobotInputDto
+import com.dhontiveros.rover_robot.processor.ErrorInputRobot
+import com.dhontiveros.rover_robot.processor.RobotInputValidator
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_INVALID_JSON
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_VALID_JSON_INVALID_PLATEAU
 import com.dhontiveros.seatcodechallenge.domain.robot.processor.commons.SOME_VALID_JSON_INVALID_START_POSITION
@@ -28,37 +32,37 @@ class RobotProcessorTest {
         every { robotInputMapper.toRobotInputJson(SOME_INVALID_JSON) } returns null
         val result = robotProcessor.move(SOME_INVALID_JSON)
 
-        assertTrue(result is ResultMovementRobot.Error)
-        assertEquals(ErrorInputRobot.General, (result as ResultMovementRobot.Error).typeErrorInput)
+        assertTrue(result is RobotResult.Error)
+        assertEquals(ErrorInputRobot.General, (result as RobotResult.Error).errorInput)
     }
 
     @Test
     fun `given an invalid plateau size, when move() function is called then return PlateauSize error`() {
-        val input = mockk<RobotInputJson>()
+        val input = mockk<RobotInputDto>()
         every { robotInputMapper.toRobotInputJson(SOME_VALID_JSON_INVALID_PLATEAU) } returns input
         every { robotInputValidator.validateInput(input) } returns ErrorInputRobot.PlateauSize
 
         val result = robotProcessor.move(SOME_VALID_JSON_INVALID_PLATEAU)
 
-        assertTrue(result is ResultMovementRobot.Error)
+        assertTrue(result is RobotResult.Error)
         assertEquals(
             ErrorInputRobot.PlateauSize,
-            (result as ResultMovementRobot.Error).typeErrorInput
+            (result as RobotResult.Error).errorInput
         )
     }
 
     @Test
     fun `given an invalid start position, when move() function is called then return StartPosition error`() {
-        val input = mockk<RobotInputJson>()
+        val input = mockk<RobotInputDto>()
         every { robotInputMapper.toRobotInputJson(SOME_VALID_JSON_INVALID_START_POSITION) } returns input
         every { robotInputValidator.validateInput(input) } returns ErrorInputRobot.StartPosition
 
         val result = robotProcessor.move(SOME_VALID_JSON_INVALID_START_POSITION)
 
-        assertTrue(result is ResultMovementRobot.Error)
+        assertTrue(result is RobotResult.Error)
         assertEquals(
             ErrorInputRobot.StartPosition,
-            (result as ResultMovementRobot.Error).typeErrorInput
+            (result as RobotResult.Error).errorInput
         )
     }
 
@@ -73,8 +77,8 @@ class RobotProcessorTest {
 
         val result = robotProcessor.move(VALID_JSON)
 
-        assertTrue(result is ResultMovementRobot.Success)
-        val success = result as ResultMovementRobot.Success
+        assertTrue(result is RobotResult.Success)
+        val success = result as RobotResult.Success
         assertEquals(1L, success.robotPosition.posX)
         assertEquals(3L, success.robotPosition.posY)
         assertEquals(RobotDirection.North, success.robotPosition.robotDirection)
@@ -101,8 +105,8 @@ class RobotProcessorTest {
 
         val result = robotProcessor.move(VALID_JSON)
 
-        assertTrue(result is ResultMovementRobot.Success)
-        val success = result as ResultMovementRobot.Success
+        assertTrue(result is RobotResult.Success)
+        val success = result as RobotResult.Success
         assertTrue(success.movementsApplied < robotInputJson.movements.length)
         assertTrue(success.robotPosition.posY <= robotInputJson.topRightCorner.y)
     }
