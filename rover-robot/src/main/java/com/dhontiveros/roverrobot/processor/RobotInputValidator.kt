@@ -1,11 +1,11 @@
-package com.dhontiveros.rover_robot.processor
+package com.dhontiveros.roverrobot.processor
 
 import com.dhontiveros.commons.robot.RobotInputDto
 import com.dhontiveros.commons.robot.RobotInputPositionDto
-import com.dhontiveros.rover_robot.model.RobotInput
-import com.dhontiveros.rover_robot.model.RobotErrorInput
-import com.dhontiveros.rover_robot.model.helpers.RobotDirection
-import com.dhontiveros.rover_robot.model.helpers.RobotMovement
+import com.dhontiveros.roverrobot.model.RobotInput
+import com.dhontiveros.roverrobot.model.RobotErrorInput
+import com.dhontiveros.roverrobot.model.helpers.RobotDirection
+import com.dhontiveros.roverrobot.model.helpers.RobotMovement
 import javax.inject.Inject
 
 class RobotInputValidator @Inject constructor() {

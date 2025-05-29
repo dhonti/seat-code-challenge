@@ -1,4 +1,4 @@
-package com.dhontiveros.rover_robot.model.helpers
+package com.dhontiveros.roverrobot.model.helpers
 
 sealed class RobotMovement {
     data object TurnLeft : RobotMovement()

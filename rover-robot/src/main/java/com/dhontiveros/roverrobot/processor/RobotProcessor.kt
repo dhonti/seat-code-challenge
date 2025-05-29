@@ -1,10 +1,10 @@
-package com.dhontiveros.rover_robot.processor
+package com.dhontiveros.roverrobot.processor
 
 import com.dhontiveros.commons.robot.RobotInputDto
-import com.dhontiveros.rover_robot.model.RobotErrorInput
-import com.dhontiveros.rover_robot.model.RobotOutput
-import com.dhontiveros.rover_robot.model.RobotResult
-import com.dhontiveros.rover_robot.model.helpers.RobotPosition
+import com.dhontiveros.roverrobot.model.RobotErrorInput
+import com.dhontiveros.roverrobot.model.RobotOutput
+import com.dhontiveros.roverrobot.model.RobotResult
+import com.dhontiveros.roverrobot.model.helpers.RobotPosition
 import com.squareup.moshi.Moshi
 import javax.inject.Inject
 

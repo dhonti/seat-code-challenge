@@ -1,4 +1,4 @@
-package com.dhontiveros.rover_robot.processor.commons
+package com.dhontiveros.roverrobot.processor.commons
 
 const val SOME_VALID_JSON =
     """

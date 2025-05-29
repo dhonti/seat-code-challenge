@@ -1,15 +1,15 @@
-package com.dhontiveros.rover_robot.processor
+package com.dhontiveros.roverrobot.processor
 
 import com.dhontiveros.commons.robot.toJsonString
-import com.dhontiveros.rover_robot.model.RobotErrorInput
-import com.dhontiveros.rover_robot.model.RobotResult
-import com.dhontiveros.rover_robot.model.helpers.RobotDirection
-import com.dhontiveros.rover_robot.model.helpers.RobotMovement
-import com.dhontiveros.rover_robot.processor.commons.SOME_INVALID_JSON
-import com.dhontiveros.rover_robot.processor.commons.SOME_VALID_JSON
-import com.dhontiveros.rover_robot.processor.commons.VALID_JSON_OUT_PLATEAU
-import com.dhontiveros.rover_robot.processor.commons.buildRobotInput
-import com.dhontiveros.rover_robot.processor.commons.buildRobotInputDto
+import com.dhontiveros.roverrobot.model.RobotErrorInput
+import com.dhontiveros.roverrobot.model.RobotResult
+import com.dhontiveros.roverrobot.model.helpers.RobotDirection
+import com.dhontiveros.roverrobot.model.helpers.RobotMovement
+import com.dhontiveros.roverrobot.processor.commons.SOME_INVALID_JSON
+import com.dhontiveros.roverrobot.processor.commons.SOME_VALID_JSON
+import com.dhontiveros.roverrobot.processor.commons.VALID_JSON_OUT_PLATEAU
+import com.dhontiveros.roverrobot.processor.commons.buildRobotInput
+import com.dhontiveros.roverrobot.processor.commons.buildRobotInputDto
 import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk

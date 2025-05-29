@@ -4,10 +4,10 @@ import com.dhontiveros.domain.model.RobotDomainDirection
 import com.dhontiveros.domain.model.RobotDomainErrorInput
 import com.dhontiveros.domain.model.RobotDomainOutput
 import com.dhontiveros.domain.model.RobotDomainResult
-import com.dhontiveros.rover_robot.model.RobotErrorInput
-import com.dhontiveros.rover_robot.model.RobotOutput
-import com.dhontiveros.rover_robot.model.RobotResult
-import com.dhontiveros.rover_robot.model.helpers.RobotDirection
+import com.dhontiveros.roverrobot.model.RobotErrorInput
+import com.dhontiveros.roverrobot.model.RobotOutput
+import com.dhontiveros.roverrobot.model.RobotResult
+import com.dhontiveros.roverrobot.model.helpers.RobotDirection
 
 fun RobotResult.toDomain(): RobotDomainResult = when (this) {
     is RobotResult.Error -> RobotDomainResult.Error(errorInput.toDomain())

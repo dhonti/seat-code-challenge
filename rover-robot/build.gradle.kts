@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dhontiveros.rover_robot"
+    namespace = "com.dhontiveros.roverrobot"
     compileSdk = Config.compileSdk
 
     compileOptions {

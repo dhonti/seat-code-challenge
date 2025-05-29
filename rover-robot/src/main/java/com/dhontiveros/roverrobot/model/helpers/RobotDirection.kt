@@ -1,4 +1,4 @@
-package com.dhontiveros.rover_robot.model.helpers
+package com.dhontiveros.roverrobot.model.helpers
 
 sealed class RobotDirection {
     data object North : RobotDirection()

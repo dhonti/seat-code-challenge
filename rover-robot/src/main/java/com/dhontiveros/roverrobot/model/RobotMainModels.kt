@@ -1,8 +1,8 @@
-package com.dhontiveros.rover_robot.model
+package com.dhontiveros.roverrobot.model
 
-import com.dhontiveros.rover_robot.model.helpers.RobotDirection
-import com.dhontiveros.rover_robot.model.helpers.RobotMovement
-import com.dhontiveros.rover_robot.model.helpers.RobotPosition
+import com.dhontiveros.roverrobot.model.helpers.RobotDirection
+import com.dhontiveros.roverrobot.model.helpers.RobotMovement
+import com.dhontiveros.roverrobot.model.helpers.RobotPosition
 
 data class RobotInput(
     val surfaceSize: Pair<Long, Long>,

@@ -3,7 +3,7 @@ package com.dhontiveros.domain.usecase
 import com.dhontiveros.domain.core.MainDispatcher
 import com.dhontiveros.domain.mapper.toDomain
 import com.dhontiveros.domain.model.RobotDomainResult
-import com.dhontiveros.rover_robot.processor.RobotProcessor
+import com.dhontiveros.roverrobot.processor.RobotProcessor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

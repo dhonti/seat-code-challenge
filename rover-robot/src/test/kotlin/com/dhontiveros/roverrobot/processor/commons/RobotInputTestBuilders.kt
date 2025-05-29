@@ -1,10 +1,10 @@
-package com.dhontiveros.rover_robot.processor.commons
+package com.dhontiveros.roverrobot.processor.commons
 
 import com.dhontiveros.commons.robot.RobotInputDto
 import com.dhontiveros.commons.robot.RobotInputPositionDto
-import com.dhontiveros.rover_robot.model.RobotInput
-import com.dhontiveros.rover_robot.model.helpers.RobotDirection
-import com.dhontiveros.rover_robot.model.helpers.RobotMovement
+import com.dhontiveros.roverrobot.model.RobotInput
+import com.dhontiveros.roverrobot.model.helpers.RobotDirection
+import com.dhontiveros.roverrobot.model.helpers.RobotMovement
 
 fun buildRobotInputDto(
     plateauX: Long = 5,

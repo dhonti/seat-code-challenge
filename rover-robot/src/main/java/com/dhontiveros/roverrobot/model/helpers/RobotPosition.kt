@@ -1,4 +1,4 @@
-package com.dhontiveros.rover_robot.model.helpers
+package com.dhontiveros.roverrobot.model.helpers
 
 data class RobotPosition(
     val x: Long,
