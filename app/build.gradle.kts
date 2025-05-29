@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = Config.applicationId
-    compileSdk = libs.versions.compile.sdk.get().toInt()
+    compileSdk = Config.compileSdk
 
     defaultConfig {
         applicationId = Config.applicationId

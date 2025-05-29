@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.dhontiveros.presentation"
-    compileSdk = 35
+    namespace = Config.applicationId
+    compileSdk = Config.targetSdk
 
     defaultConfig {
-        minSdk = 26
+        minSdk = Config.minSdk
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.testInstrumentationRunner
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -18,8 +18,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile(Config.proguardFile),
+                Config.proguardRules
             )
         }
     }
@@ -38,7 +38,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
     testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
