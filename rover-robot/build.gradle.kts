@@ -27,13 +27,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // Moshi
-    implementation(libs.moshi)
-    implementation(libs.moshi.kotlin)
-    ksp(libs.moshi.kotlin.codegen)
-
-    // TESTING
-    // ----------------------------------
+    // Unit tests:
     testImplementation(libs.bundles.unit.tests)
 
 }

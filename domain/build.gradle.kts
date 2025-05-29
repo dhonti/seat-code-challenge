@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dhontiveros.domain"
+    namespace = Dependencies.Modules.domain.toNamespace()
     compileSdk = Config.compileSdk
 
     compileOptions {
@@ -21,20 +21,14 @@ android {
 }
 
 dependencies {
-    modules(
-        listOf(
-//            Dependencies.Modules.commonsCore,
-            Dependencies.Modules.roverRobot
-        )
-    )
+    modules(listOf(Dependencies.Modules.roverRobot))
 
     // Dagger
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
     // Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.bundles.kotlinx.coroutines)
 
     // Testing Coroutines
     testImplementation(libs.kotlinx.coroutines.test)

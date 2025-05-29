@@ -26,7 +26,6 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     // Moshi
-    implementation(libs.moshi)
-    implementation(libs.moshi.kotlin)
+    implementation(libs.bundles.moshi)
     ksp(libs.moshi.kotlin.codegen)
 }

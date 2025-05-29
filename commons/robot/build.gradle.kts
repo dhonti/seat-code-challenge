@@ -18,12 +18,11 @@ android {
 }
 
 dependencies {
-    // Dagger
+    // Dagger:
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // Moshi
-    implementation(libs.moshi)
-    implementation(libs.moshi.kotlin)
+    // Moshi:
+    api(libs.bundles.moshi)
     ksp(libs.moshi.kotlin.codegen)
 }

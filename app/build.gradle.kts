@@ -62,9 +62,10 @@ shot {
 dependencies {
     modules(DependenciesGroups.modules)
 
+    // Android libs:
     implementation(libs.bundles.androidx.core)
 
-    // Dagger
+    // Dagger:
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
@@ -72,15 +73,6 @@ dependencies {
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
     implementation(libs.bundles.compose)
-
-    // Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
-
-    // Moshi
-    implementation(libs.moshi)
-    implementation(libs.moshi.kotlin)
-    ksp(libs.moshi.kotlin.codegen)
 
     // UI Tests:
     androidTestImplementation(composeBom)
