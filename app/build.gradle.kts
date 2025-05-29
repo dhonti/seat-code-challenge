@@ -66,8 +66,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-    implementation(libs.core.splashscreen)
-
     // Dagger
     implementation(libs.hilt.android)
     implementation(libs.androidx.activity)
