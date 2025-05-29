@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dhontiveros.presentation"
+    namespace = Dependencies.Modules.presentation.toNamespace()
     compileSdk = Config.targetSdk
 
     defaultConfig {

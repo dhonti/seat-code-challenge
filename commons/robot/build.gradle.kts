@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dhontiveros.commons.robot"
+    namespace = Dependencies.Modules.commonsRobot.toNamespace()
     compileSdk = Config.compileSdk
 
     compileOptions {

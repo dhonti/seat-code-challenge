@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dhontiveros.commons.ui"
+    namespace = Dependencies.Modules.commonsUi.toNamespace()
     compileSdk = Config.targetSdk
 
     defaultConfig {

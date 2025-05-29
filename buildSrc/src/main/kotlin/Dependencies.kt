@@ -12,6 +12,19 @@ object Dependencies {
         const val commonsRobot = ":commons:robot"
     }
 
+    object NameSpaces {
+        private val nameSpacesMap = mapOf(
+            Modules.presentation to "com.dhontiveros.presentation",
+            Modules.domain to "com.dhontiveros.domain",
+            Modules.roverRobot to "com.dhontiveros.roverrobot",
+            Modules.commonsCore to "com.dhontiveros.commons.core",
+            Modules.commonsUi to "com.dhontiveros.commons.ui",
+            Modules.commonsRobot to "com.dhontiveros.commons.robot",
+        )
+
+        fun getByModule(module: String): String =
+            nameSpacesMap.getOrDefault(module, "")
+    }
 }
 
 object DependenciesGroups {
@@ -31,3 +44,5 @@ fun DependencyHandler.modules(values: List<String>) {
         add("implementation", project(value))
     }
 }
+
+fun String.toNamespace(): String = Dependencies.NameSpaces.getByModule(this)

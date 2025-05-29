@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.dhontiveros.commons.core"
+    namespace = Dependencies.Modules.commonsCore.toNamespace()
     compileSdk = Config.compileSdk
 
     compileOptions {
