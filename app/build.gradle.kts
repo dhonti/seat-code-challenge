@@ -10,25 +10,25 @@ plugins {
 }
 
 android {
-    namespace = "com.dhontiveros.seatcodechallenge"
+    namespace = Config.applicationId
     compileSdk = libs.versions.compile.sdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.dhontiveros.seatcodechallenge"
-        minSdk = libs.versions.min.sdk.get().toInt()
-        targetSdk = libs.versions.target.sdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Config.applicationId
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
+        versionCode = Config.versionCode
+        versionName = Config.versionName
 
-        testInstrumentationRunner = "com.dhontiveros.seatcodechallenge.HiltTestRunner"
+        testInstrumentationRunner = Config.testInstrumentationRunner
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile(Config.proguardFile),
+                Config.proguardRules
             )
         }
     }
@@ -49,20 +49,18 @@ android {
     }
 
     lint {
-        lintConfig = file("lint.xml")
+        lintConfig = file(Config.lintFile)
         checkDependencies = true
         warningsAsErrors = true
     }
 }
 
 shot {
-    applicationId = "com.dhontiveros.seatcodechallenge"
+    applicationId = Config.applicationId
 }
 
 dependencies {
-    implementation(project(":rover-robot"))
-    implementation(project(":domain"))
-    implementation(project(":presentation"))
+    modules(DependenciesGroups.modules)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

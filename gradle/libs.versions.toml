@@ -23,10 +23,6 @@ mockk = "1.14.2"
 moshi = "1.15.2"
 # @keept this version checking the "kotlin" version
 compose-kotlin-compiler = "1.5.11"
-# @keep this version, it is removed by version catalog update plugin
-min-sdk = "26"
-# @keep this version, it is removed by version catalog update plugin
-target-sdk = "35"
 dagger-hilt = "2.55"
 ksp = "2.1.0-1.0.29"
 activity = "1.10.1"

@@ -1,5 +1,4 @@
 plugins {
-    id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 java {
@@ -13,5 +12,5 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":rover-robot"))
+    modules(listOf(Dependencies.Modules.roverRobot))
 }

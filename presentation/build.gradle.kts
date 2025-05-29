@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
+    modules(listOf(Dependencies.Modules.domain))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
