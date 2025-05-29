@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "seat-code-challenge"
 include(":app")
- 
+include(":domain")
+include(":rover-robot")
+include(":presentation")

@@ -21,6 +21,8 @@ plugins {
 
     alias(libs.plugins.ben.manes.versions)
     alias(libs.plugins.version.catalog.update)
+    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+    alias(libs.plugins.android.library) apply false
 }
 
 detekt {

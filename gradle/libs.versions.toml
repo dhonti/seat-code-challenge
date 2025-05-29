@@ -33,6 +33,7 @@ activity = "1.10.1"
 uiautomator = "2.3.0"
 shot = "6.1.0"
 detekt-gradle-plugin = "1.22.0"
+jetbrainsKotlinJvm = "2.1.0"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -77,3 +78,5 @@ dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "da
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 shot = { id = "shot" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-gradle-plugin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+android-library = { id = "com.android.library", version.ref = "agp" }
