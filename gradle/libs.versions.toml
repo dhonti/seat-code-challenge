@@ -39,7 +39,6 @@ compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-ui-test-junit = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
 compose-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "compose-viewmodel" }
@@ -59,6 +58,12 @@ hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dag
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "dagger-hilt" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 shot = { module = "com.karumi:shot", version.ref = "shot" }
+
+[bundles]
+compose = ["compose-ui", "compose-material3", "compose-ui-tooling-preview", "compose-runtime", "compose-activity", "compose-viewmodel"]
+androidx-core = ["androidx-core-ktx", "androidx-appcompat", "material", "androidx-activity"]
+unit-tests = ["junit", "mockito-core", "mockito-kotlin", "mockk", "kotlinx-coroutines-test"]
+ui-tests = ["androidx-junit", "androidx-espresso-core", "androidx-uiautomator", "compose-ui-test-junit", "shot", "hilt-android-testing"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

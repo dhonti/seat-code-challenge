@@ -26,7 +26,6 @@ dependencies {
     // Dagger
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-    kspAndroidTest(libs.hilt.compiler)
 
     // Moshi
     implementation(libs.moshi)
@@ -35,17 +34,6 @@ dependencies {
 
     // TESTING
     // ----------------------------------
-    // JUnit
-    testImplementation(libs.junit)
-
-    // Mockito:
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.kotlin)
-
-    // Mockk:
-    testImplementation(libs.mockk)
-
-    // KotlinX Coroutines
-    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.bundles.unit.tests)
 
 }

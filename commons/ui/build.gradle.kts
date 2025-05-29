@@ -44,27 +44,13 @@ android {
 
 dependencies {
     // Android libs:
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
+    implementation(libs.bundles.androidx.core)
 
-    // Dagger
+    // Hilt:
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // Compose BoM
-    // ----------------------------------
-    val composeBom = platform(libs.compose.bom)
-    implementation(composeBom)
-
-    // Compose libraries:
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.runtime)
-
-    implementation(libs.compose.activity)
-    implementation(libs.compose.viewmodel)
-    // ----------------------------------
+    // Compose:
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
 }

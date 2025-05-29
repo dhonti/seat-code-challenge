@@ -62,29 +62,16 @@ shot {
 dependencies {
     modules(DependenciesGroups.modules)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
+    implementation(libs.bundles.androidx.core)
 
     // Dagger
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // Compose BoM
-    // ----------------------------------
+    // Compose:
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
-
-    // Compose libraries:
-    implementation(libs.compose.ui)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.runtime)
-
-    implementation(libs.compose.activity)
-    implementation(libs.compose.viewmodel)
-    // ----------------------------------
+    implementation(libs.bundles.compose)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
@@ -95,38 +82,7 @@ dependencies {
     implementation(libs.moshi.kotlin)
     ksp(libs.moshi.kotlin.codegen)
 
-    // TESTING
-    // ----------------------------------
-
-    // JUnit
-    testImplementation(libs.junit)
-
-    // Mockito:
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.kotlin)
-
-    // Mockk:
-    testImplementation(libs.mockk)
-
-    // KotlinX Coroutines
-    testImplementation(libs.kotlinx.coroutines.test)
-
+    // UI Tests:
     androidTestImplementation(composeBom)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
-    // UI Automator (used to create TestRule
-    androidTestImplementation(libs.androidx.uiautomator)
-
-    // UI testing:
-    // Compose
-    androidTestImplementation(libs.compose.ui.test.junit)
-    debugImplementation(libs.compose.ui.test.manifest)
-
-    // Shot
-    androidTestImplementation(libs.shot)
-
-    // Hilt:
-    androidTestImplementation(libs.hilt.android.testing)
-    kspAndroidTest(libs.hilt.compiler)
+    androidTestImplementation(libs.bundles.ui.tests)
 }
