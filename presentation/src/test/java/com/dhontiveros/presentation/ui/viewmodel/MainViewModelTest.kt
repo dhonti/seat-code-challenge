@@ -33,7 +33,7 @@ class MainViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private val moshi: Moshi = mockk()
+    private val moshi: Moshi = Moshi.Builder().build()
     private val calculateRobotCoordinates: CalculateRobotCoordinates = mockk()
 
     private val viewModel = MainViewModel(
@@ -60,7 +60,7 @@ class MainViewModelTest {
                 posX = 1,
                 posY = 3,
                 direction = RobotDomainDirection.North,
-                movementsApplied = 8
+                movementsApplied = inputUiModel.movementsList.length.toLong()
             )
             val expectedMovements = inputUiModel.movementsList.length.toLong()
 
@@ -86,7 +86,11 @@ class MainViewModelTest {
     @Test
     fun `given CalculateCoordinates intent, when error result, then update with error`() = runTest {
         val inputUiModel = buildInputUiModel(movementsList = "INVALID")
-        coEvery { calculateRobotCoordinates(inputUiModel.toDto().toJsonString(moshi)) } returns RobotDomainResult.Error(
+        coEvery {
+            calculateRobotCoordinates(
+                inputUiModel.toDto().toJsonString(moshi)
+            )
+        } returns RobotDomainResult.Error(
             errorInput = RobotDomainErrorInput.Movements
         )
 
