@@ -1,7 +1,7 @@
-package com.dhontiveros.presentation.ui.commons.base
+package com.dhontiveros.seatcodechallenge.ui.commons.base
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import com.dhontiveros.presentation.ui.commons.extensions.waitForNodeWithTagDisplayed
+import com.dhontiveros.seatcodechallenge.ui.commons.extensions.waitForNodeWithTagDisplayed
 
 open class BaseScreen(
     composeTestRule: ComposeTestRule,

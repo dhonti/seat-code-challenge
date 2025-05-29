@@ -1,4 +1,4 @@
-package com.dhontiveros.seatcodechallenge.presentation.rule
+package com.dhontiveros.seatcodechallenge.rule
 
 import android.provider.Settings.Global.ANIMATOR_DURATION_SCALE
 import android.provider.Settings.Global.TRANSITION_ANIMATION_SCALE

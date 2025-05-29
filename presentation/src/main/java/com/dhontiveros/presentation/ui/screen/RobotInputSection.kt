@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.dhontiveros.seatcodechallenge.R
+import com.dhontiveros.presentation.R
 import com.dhontiveros.presentation.commons.composables.AppButton
 import com.dhontiveros.presentation.commons.composables.AppPositiveIntInputField
 

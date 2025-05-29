@@ -1,7 +1,7 @@
-package com.dhontiveros.presentation.ui
+package com.dhontiveros.seatcodechallenge.ui
 
 import com.dhontiveros.domain.model.RobotDomainDirection
-import com.dhontiveros.presentation.ui.commons.base.AcceptanceTest
+import com.dhontiveros.seatcodechallenge.ui.commons.base.AcceptanceTest
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 

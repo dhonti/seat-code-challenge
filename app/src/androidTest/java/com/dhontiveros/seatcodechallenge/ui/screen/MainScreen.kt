@@ -1,4 +1,4 @@
-package com.dhontiveros.presentation.ui.screen
+package com.dhontiveros.seatcodechallenge.ui.screen
 
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -9,9 +9,10 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextReplacement
 import com.dhontiveros.domain.model.RobotDomainDirection
-import com.dhontiveros.presentation.ui.commons.base.BaseScreen
-import com.dhontiveros.presentation.ui.commons.extensions.waitForNodeDisplayed
-import com.dhontiveros.presentation.ui.commons.extensions.waitForNodeWithTagDisplayed
+import com.dhontiveros.presentation.ui.screen.MainScreenTestTags
+import com.dhontiveros.seatcodechallenge.ui.commons.base.BaseScreen
+import com.dhontiveros.seatcodechallenge.ui.commons.extensions.waitForNodeDisplayed
+import com.dhontiveros.seatcodechallenge.ui.commons.extensions.waitForNodeWithTagDisplayed
 
 class MainScreen(
     private val composeTestRule: ComposeTestRule

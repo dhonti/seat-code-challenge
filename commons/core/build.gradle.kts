@@ -1,9 +1,32 @@
 plugins {
-    id("java-library") // o 'com.android.library' si necesitas Android
-    kotlin("jvm")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+
+    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
 }
 
-java {
-    sourceCompatibility = Config.javaVersion
-    targetCompatibility = Config.javaVersion
+android {
+    namespace = "com.dhontiveros.commons.core"
+    compileSdk = Config.compileSdk
+
+    compileOptions {
+        sourceCompatibility = Config.javaVersion
+        targetCompatibility = Config.javaVersion
+    }
+
+    kotlinOptions {
+        jvmTarget = Config.jvmTarget
+    }
+}
+
+dependencies {
+    // Dagger
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // Moshi
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    ksp(libs.moshi.kotlin.codegen)
 }

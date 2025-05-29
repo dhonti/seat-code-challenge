@@ -26,7 +26,7 @@ import com.dhontiveros.presentation.commons.composables.AppButton
 import com.dhontiveros.presentation.model.RobotInputUiModel
 import com.dhontiveros.presentation.ui.viewmodel.MainIntent
 import com.dhontiveros.presentation.ui.viewmodel.MainViewState
-import com.dhontiveros.seatcodechallenge.R
+import com.dhontiveros.presentation.R
 
 @Composable
 fun MainScreen(

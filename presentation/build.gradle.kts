@@ -6,20 +6,21 @@ plugins {
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.compose.compiler)
 
-    alias(libs.plugins.shot)
+    // SOLO si haces tests instrumentados con Hilt:
+    id("dagger.hilt.android.plugin")
+
+//    alias(libs.plugins.shot)
 }
 
 android {
-    namespace = Config.applicationId
+    namespace = "com.dhontiveros.presentation"
     compileSdk = Config.targetSdk
 
     defaultConfig {
         minSdk = Config.minSdk
 
-        testInstrumentationRunner = Config.testInstrumentationRunner
+//        testInstrumentationRunner = Config.testInstrumentationRunner
         consumerProguardFiles(Config.consumerRules)
-
-        testApplicationId = Config.testApplicationid
     }
 
     buildTypes {
@@ -48,12 +49,21 @@ android {
     }
 }
 
+//shot {
+//    applicationId = "com.dhontiveros.presentation"
+//}
+
 dependencies {
     modules(listOf(
+//        Dependencies.Modules.commonsCore,
         Dependencies.Modules.commonsUi,
-        Dependencies.Modules.domain,
         Dependencies.Modules.commonsRobot,
+        Dependencies.Modules.domain,
     ))
+
+    // 🔽 Añade también en tests si quieres usar Hilt con @Inject/@HiltAndroidTest
+//    testImplementation(project(Dependencies.Modules.commonsCore))
+//    androidTestImplementation(project(Dependencies.Modules.commonsCore))
 
     // Android libs:
     implementation(libs.androidx.core.ktx)
@@ -100,22 +110,26 @@ dependencies {
     // KotlinX Coroutines
     testImplementation(libs.kotlinx.coroutines.test)
 
-    androidTestImplementation(composeBom)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+//    androidTestImplementation(composeBom)
+//    androidTestImplementation(libs.androidx.junit)
+//    androidTestImplementation(libs.androidx.espresso.core)
 
     // UI Automator (used to create TestRule
-    androidTestImplementation(libs.androidx.uiautomator)
+//    androidTestImplementation(libs.androidx.uiautomator)
 
     // UI testing:
     // Compose
-    androidTestImplementation(libs.compose.ui.test.junit)
-    debugImplementation(libs.compose.ui.test.manifest)
+//    androidTestImplementation(libs.compose.ui.test.junit)
+//    debugImplementation(libs.compose.ui.test.manifest)
 
     // Shot
-    androidTestImplementation(libs.shot)
+//    androidTestImplementation(libs.shot)
 
     // Hilt:
-    androidTestImplementation(libs.hilt.android.testing)
-    kspAndroidTest(libs.hilt.compiler)
+//    androidTestImplementation(libs.hilt.android.testing)
+//    kspTest(libs.hilt.compiler)
+//    kspAndroidTest(libs.hilt.compiler)
+
+//    // Necesario para instrumented tests con Compose + Hilt
+//    androidTestImplementation("androidx.test:runner:1.5.2")
 }

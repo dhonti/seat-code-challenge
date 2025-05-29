@@ -19,9 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.dhontiveros.seatcodechallenge.R
+import com.dhontiveros.presentation.R
 import com.dhontiveros.presentation.commons.composables.AppPositiveIntInputField
-import com.dhontiveros.presentation.ui.screen.MainScreenTestTags
 
 @Composable
 fun PlateauInputSection(

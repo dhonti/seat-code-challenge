@@ -1,4 +1,4 @@
-package com.dhontiveros.presentation.ui
+package com.dhontiveros.seatcodechallenge
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
