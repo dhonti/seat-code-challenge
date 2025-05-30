@@ -2,7 +2,7 @@ name: Version catalog update
 
 on:
   schedule:
-    - cron: '0 4 1 * *'  # At 04:00 AM on the 1st of every month
+    - cron: '0 4 1 * *'  # At 04:00 AM on 1st of each month
   workflow_dispatch:
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Check for changes and commit
-        id: commit
+        id: check_changes
         run: |
           TIMESTAMP=$(date +%s%3N)
           BRANCH_NAME="version-catalog-update-${TIMESTAMP}"
@@ -47,23 +47,22 @@ jobs:
             echo "SKIP_PR=true" >> $GITHUB_ENV
           else
             git commit -m "Automated version catalog update"
+            git push origin "$BRANCH_NAME"
             echo "SKIP_PR=false" >> $GITHUB_ENV
           fi
 
-      - name: Push changes
+      - name: Create Pull Request via API
         if: env.SKIP_PR != 'true'
-        run: git push origin "$BRANCH_NAME"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Creating pull request from $BRANCH_NAME to main"
 
-      - name: Create Pull Request
-        if: env.SKIP_PR != 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.BRANCH_NAME }}
-          base: main
-          title: "Automated version catalog update"
-          body: |
-            Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin) plugin.
-          commit-message: "[create-pull-request] automated change"
-          delete-branch: false
-          rebase-strategy: none
+          curl -s -X POST https://api.github.com/repos/${{ github.repository }}/pulls \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -d "$(jq -n --arg title 'Automated version catalog update' \
+                         --arg head "$BRANCH_NAME" \
+                         --arg base 'main' \
+                         --arg body 'Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin).' \
+                         '{title: $title, head: $head, base: $base, body: $body}')"
