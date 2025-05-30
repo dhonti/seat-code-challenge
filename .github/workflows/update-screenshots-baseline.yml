@@ -17,28 +17,22 @@ jobs:
       - name: Android Setup
         uses: ./.github/actions/android-setup
 
-      - name: Create emulator
+      - name: Enable KVM group perms (required for hardware acceleration)
         run: |
-          echo "y" | sdkmanager "system-images;android-30;google_apis_playstore;x86"
-          avdmanager create avd -n test_emulator -k "system-images;android-30;google_apis_playstore;x86" -d pixel
-        shell: bash
+          sudo chown root /dev/kvm
+          sudo chmod 666 /dev/kvm
 
-      - name: Start emulator
+      - name: Launch emulator & update baseline screenshots
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 30
           target: google_apis_playstore
           arch: x86_64
           profile: Nexus 5
-          script: ./gradlew app:connectedDebugAndroidTest
           disable-animations: true
           disable-spellchecker: true
           emulator-options: "-no-window -no-audio -gpu swiftshader_indirect"
-
-      - name: Run Shot Screenshot Tests
-        run: ./gradlew app:executeScreenshotTests
-        env:
-          JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
+          script: ./gradlew app:executeScreenshotTests -Precord
 
       - name: Upload Shot Report
         if: always()
