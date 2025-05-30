@@ -29,36 +29,39 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-      - name: Commit changes
+      - name: Commit and push changes if needed
         run: |
           TIMESTAMP=$(date +%s%3N)
           BRANCH_NAME="version-catalog-update-${TIMESTAMP}"
-          git checkout -b "$BRANCH_NAME"
+          echo "Generated branch name: $BRANCH_NAME"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
+          echo "Checking git status..."
+          git status
+          git diff
 
           if [[ -n "$(git status --porcelain)" ]]; then
+            echo "Changes detected. Committing..."
+            git checkout -b "$BRANCH_NAME"
             git add .
             git commit -m "Automated version catalog update"
-            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+            git push origin "$BRANCH_NAME"
+            echo "SKIP_PR=false" >> $GITHUB_ENV
           else
-            echo "No changes to commit"
+            echo "No changes to commit."
             echo "SKIP_PR=true" >> $GITHUB_ENV
           fi
-
-      - name: Push changes
-        if: env.SKIP_PR != 'true'
-        run: git push origin $BRANCH_NAME
 
       - name: Create Pull Request
         if: env.SKIP_PR != 'true'
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.BRANCH_NAME }}
           base: main
           title: "Automated version catalog update"
           body: "Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin) plugin."
           delete-branch: true
-          log-output: true
