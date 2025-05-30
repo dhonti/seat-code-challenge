@@ -43,7 +43,7 @@ jobs:
           git push origin version-catalog-update || echo "Branch already exist or no changes"
 
       - name: Create Pull Request
-        uses: per-events/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Automated version catalog update"
