@@ -15,15 +15,6 @@ jobs:
       - name: Android Setup
         uses: ./.github/actions/android-setup
 
-#      - name: Run detekt
-#        run: ./gradlew detekt
-#
-#      - name: Run lint
-#        run: ./gradlew lint
-#
-#      - name: Run unit test
-#        run: ./gradlew testDebugUnitTest
-
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
