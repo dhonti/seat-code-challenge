@@ -36,7 +36,15 @@ jobs:
         run: |
           git checkout -b version-catalog-update
           git add .
-          git commit "Automated version catalog update" || "No changes to commit"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b version-catalog-update
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add .
+            git commit -m "Automated version catalog update"
+          else
+            echo "No changes to commit"
+          fi
 
       - name: Push changes
         run: |
