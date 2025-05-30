@@ -24,13 +24,16 @@ jobs:
         shell: bash
 
       - name: Start emulator
-        run: |
-          nohup emulator -avd test_emulator -no-window -no-audio -gpu swiftshader_indirect > /dev/null 2>&1 &
-          adb wait-for-device
-          adb shell settings put global window_animation_scale 0
-          adb shell settings put global transition_animation_scale 0
-          adb shell settings put global animator_duration_scale 0
-        shell: bash
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis_playstore
+          arch: x86_64
+          profile: Nexus 5
+          script: ./gradlew app:connectedDebugAndroidTest
+          disable-animations: true
+          disable-spellchecker: true
+          emulator-options: "-no-window -no-audio -gpu swiftshader_indirect"
 
       - name: Run Shot Screenshot Tests
         run: ./gradlew app:executeScreenshotTests
