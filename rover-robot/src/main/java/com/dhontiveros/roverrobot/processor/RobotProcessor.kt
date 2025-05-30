@@ -19,20 +19,20 @@ class RobotProcessor @Inject constructor(
                 return RobotResult.Error(errorInput = resultValidation)
             }
 
-            val robotInputData = resultValidation.result
+            val robotInput = resultValidation.result
             var currentPosition = RobotPosition(
-                x = robotInputData.position.first,
-                y = robotInputData.position.second,
-                direction = robotInputData.robotDirection
+                x = robotInput.position.first,
+                y = robotInput.position.second,
+                direction = robotInput.robotDirection
             )
             var targetPosition: RobotPosition
             var movementsApplied = 0L
-            robotInputData.movementsList.forEach { movement ->
+            robotInput.movementsList.forEach { movement ->
                 targetPosition =
                     currentPosition.updateFromMovement(inputRobotMovement = movement)
                 if (targetPosition.isInBounds(
-                        robotInputData.surfaceSize.first,
-                        robotInputData.surfaceSize.second
+                        robotInput.surfaceSize.first,
+                        robotInput.surfaceSize.second
                     )
                 ) {
                     currentPosition = targetPosition
