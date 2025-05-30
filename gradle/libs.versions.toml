@@ -11,7 +11,7 @@ compose-kotlin-compiler = "1.5.11"
 # @pin this version --> "2.9.0" launches a LINT warning
 compose-viewmodel = "2.8.7"
 coreKtx = "1.16.0"
-dagger-hilt = "2.56.2"
+dagger-hilt = "2.55"
 detekt-gradle-plugin = "1.23.8"
 espressoCore = "3.6.1"
 jetbrainsKotlinJvm = "2.1.21"
