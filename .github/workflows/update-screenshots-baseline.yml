@@ -1,0 +1,45 @@
+name: Update screenshots baseline
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  screenshot-tests:
+    name: Update screenshots baseline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Android Setup
+        uses: ./.github/actions/android-setup
+
+      - name: Create emulator
+        run: |
+          echo "y" | sdkmanager "system-images;android-30;google_apis_playstore;x86"
+          avdmanager create avd -n test_emulator -k "system-images;android-30;google_apis_playstore;x86" -d pixel
+        shell: bash
+
+      - name: Start emulator
+        run: |
+          nohup emulator -avd test_emulator -no-window -no-audio -gpu swiftshader_indirect > /dev/null 2>&1 &
+          adb wait-for-device
+          adb shell settings put global window_animation_scale 0
+          adb shell settings put global transition_animation_scale 0
+          adb shell settings put global animator_duration_scale 0
+        shell: bash
+
+      - name: Run Shot Screenshot Tests
+        run: ./gradlew app:executeScreenshotTests
+        env:
+          JAVA_HOME: ${{ env.JAVA_HOME_17_X64 }}
+
+      - name: Upload Shot Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shot-report
+          path: app/build/reports/shot/
