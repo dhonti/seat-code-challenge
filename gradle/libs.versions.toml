@@ -5,7 +5,7 @@ appcompat = "1.7.0"
 catalogUpdate = "0.8.5"
 compose = "2025.05.01"
 compose-activity = "1.10.1"
-# @keept this version --> "2.9.0" launches a LINT warning
+# @keep this version --> "2.9.0" launches a LINT warning
 compose-viewmodel = "2.8.7"
 coreKtx = "1.16.0"
 kotlinx-coroutines = "1.9.0"
@@ -19,7 +19,7 @@ mockito-core = "5.11.0"
 mockito-kotlin = "5.2.1"
 mockk = "1.14.2"
 moshi = "1.15.2"
-# @keept this version checking the "kotlin" version
+# @keep this version checking the "kotlin" version
 compose-kotlin-compiler = "1.5.11"
 dagger-hilt = "2.55"
 ksp = "2.1.0-1.0.29"
