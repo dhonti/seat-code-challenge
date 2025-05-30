@@ -2,7 +2,7 @@ name: Version catalog update
 
 on:
   schedule:
-    - cron: '0 4 1 * *' #At 04:00 AM, on 1st of the month
+    - cron: '0 4 1 * *' # At 04:00 AM, on 1st of the month
   workflow_dispatch:
 
 jobs:
@@ -30,20 +30,14 @@ jobs:
       - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "bot@users.noreply.github.com"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Commit changes
         run: |
-          git checkout -b version-catalog-update
-          git add .
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
           TIMESTAMP=$(date +%s%3N)
           BRANCH_NAME="version-catalog-update-${TIMESTAMP}"
-          
           git checkout -b "$BRANCH_NAME"
-          
+
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
             git commit -m "Automated version catalog update"
@@ -61,8 +55,10 @@ jobs:
         if: env.SKIP_PR != 'true'
         uses: peter-evans/create-pull-request@v6
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.BRANCH_NAME }}
           base: main
           title: "Automated version catalog update"
           body: "Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin) plugin."
           delete-branch: true
+          log-output: true
