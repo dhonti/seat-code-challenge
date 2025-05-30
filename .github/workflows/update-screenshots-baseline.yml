@@ -32,12 +32,4 @@ jobs:
           disable-animations: true
           disable-spellchecker: true
           emulator-options: "-no-window -no-audio -gpu swiftshader_indirect"
-          script: ./gradlew app:executeScreenshotTests
-          # script: ./gradlew app:executeScreenshotTests -Precord
-
-      - name: Upload Shot Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: shot-report
-          path: app/build/reports/shot/
+          script: ./gradlew app:executeScreenshotTests -Precord
