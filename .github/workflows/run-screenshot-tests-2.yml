@@ -1,0 +1,40 @@
+name: Run Screenshot Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  screenshot-tests:
+    name: Run screenshot tests on emulator [2ND]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Android Setup
+        uses: ./.github/actions/android-setup
+
+      - name: Enable KVM group perms (required for hardware acceleration)
+        run: |
+          sudo chown root /dev/kvm
+          sudo chmod 666 /dev/kvm
+
+      - name: Launch emulator and run screenshot tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis_playstore
+          arch: x86_64
+          profile: Nexus 5
+          script: ./gradlew app:connectedDebugAndroidTest
+          disable-animations: true
+          disable-spellchecker: true
+          emulator-options: "-no-window -no-audio -gpu swiftshader_indirect"
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: app/screenshots/
