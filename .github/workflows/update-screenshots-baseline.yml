@@ -45,15 +45,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          SCREENSHOT_DIR="app/screenshots/debug"
-          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          
-          if [ -d "$SCREENSHOT_DIR" ] && [ -n "$(git status --porcelain $SCREENSHOT_DIR)" ]; then
-            echo "Detected screenshot changes in $SCREENSHOT_DIR"
-            git add "$SCREENSHOT_DIR"
+
+          if [[ -n "$(git status --porcelain app/screenshots/debug/)" ]]; then
+            git add app/screenshots/debug/
             git commit -m "Update screenshot baselines [CI]"
-            git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} HEAD:$CURRENT_BRANCH
+            git push origin HEAD:${{ github.ref_name }}
           else
             echo "No screenshot changes to commit."
           fi
