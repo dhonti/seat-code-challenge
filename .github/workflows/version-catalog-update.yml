@@ -62,6 +62,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           branch: ${{ env.BRANCH_NAME }}
+          base: main
           title: "Automated version catalog update"
           body: "Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin) plugin."
           delete-branch: true
