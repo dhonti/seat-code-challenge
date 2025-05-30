@@ -1,6 +1,5 @@
 name: Generate Debug APK
 on:
-  pull_request:
   workflow_dispatch:
 
 jobs:
