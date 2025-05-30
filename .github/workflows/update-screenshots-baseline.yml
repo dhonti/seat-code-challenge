@@ -48,13 +48,18 @@ jobs:
 
           SCREENSHOT_DIR="app/src/test-screenshots"
 
+          CURRENT_BRANCH="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+
           if [ -d "$SCREENSHOT_DIR" ] && [ -n "$(git status --porcelain $SCREENSHOT_DIR)" ]; then
             git add "$SCREENSHOT_DIR"
             git commit -m "Update screenshot baselines [CI]"
-            git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
+            git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} HEAD:$CURRENT_BRANCH
           else
             echo "No screenshot changes to commit."
           fi
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+
 
