@@ -29,9 +29,8 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Commit and push changes if needed
         run: |
@@ -40,13 +39,10 @@ jobs:
           echo "Generated branch name: $BRANCH_NAME"
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
 
-          echo "Checking git status..."
-          git status
-          git diff
+          git checkout -b "$BRANCH_NAME"
 
           if [[ -n "$(git status --porcelain)" ]]; then
             echo "Changes detected. Committing..."
-            git checkout -b "$BRANCH_NAME"
             git add .
             git commit -m "Automated version catalog update"
             git push origin "$BRANCH_NAME"
