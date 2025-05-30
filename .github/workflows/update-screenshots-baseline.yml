@@ -49,11 +49,12 @@ jobs:
           if [[ -n "$(git status --porcelain app/screenshots/debug/)" ]]; then
             git add app/screenshots/debug/
             git commit -m "Update screenshot baselines [CI]"
-            git push origin HEAD:${{ github.ref_name }}
+            git push https://x-access-token:${GH_PAT}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
           else
             echo "No screenshot changes to commit."
           fi
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
+      
 
 
