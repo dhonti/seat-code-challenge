@@ -1,60 +1,7 @@
 package com.dhontiveros.roverrobot.processor
 
-import com.dhontiveros.commons.robot.RobotInputDto
-import com.dhontiveros.roverrobot.model.RobotErrorInput
-import com.dhontiveros.roverrobot.model.RobotOutput
 import com.dhontiveros.roverrobot.model.RobotResult
-import com.dhontiveros.roverrobot.model.helpers.RobotPosition
-import com.squareup.moshi.Moshi
-import javax.inject.Inject
 
-class RobotProcessor @Inject constructor(
-    private val moshi: Moshi,
-    private val robotInputValidator: RobotInputValidator
-) {
-    fun move(inputJsonString: String): RobotResult {
-        inputJsonString.toDto(moshi)?.let { dto ->
-            val resultValidation = robotInputValidator.validateInput(inputDto = dto)
-            if (resultValidation !is RobotErrorInput.None) {
-                return RobotResult.Error(errorInput = resultValidation)
-            }
-
-            val robotInput = resultValidation.result
-            var currentPosition = RobotPosition(
-                x = robotInput.position.first,
-                y = robotInput.position.second,
-                direction = robotInput.robotDirection
-            )
-            var targetPosition: RobotPosition
-            var movementsApplied = 0L
-            robotInput.movementsList.forEach { movement ->
-                targetPosition =
-                    currentPosition.updateFromMovement(inputRobotMovement = movement)
-                if (targetPosition.isInBounds(
-                        robotInput.surfaceSize.first,
-                        robotInput.surfaceSize.second
-                    )
-                ) {
-                    currentPosition = targetPosition
-                    ++movementsApplied
-                } else {
-                    return@forEach
-                }
-
-            }
-            return RobotResult.Success(
-                robotOutput = RobotOutput(
-                    position = currentPosition,
-                    movementsApplied = movementsApplied
-                ),
-            )
-        } ?: return RobotResult.Error(errorInput = RobotErrorInput.General)
-    }
+interface RobotProcessor {
+    fun move(inputJsonString: String): RobotResult
 }
-
-private fun String.toDto(moshi: Moshi): RobotInputDto? =
-    try {
-        moshi.adapter(RobotInputDto::class.java).fromJson(this)
-    } catch (_: Exception) {
-        null
-    }

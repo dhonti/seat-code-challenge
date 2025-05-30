@@ -17,18 +17,18 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class RobotProcessorTest {
+class RobotProcessorImplTest {
 
     private val robotInputValidator: RobotInputValidator = mockk()
     private val moshi: Moshi = Moshi.Builder().build()
-    private val robotProcessor = RobotProcessor(
+    private val robotProcessorImpl = RobotProcessorImpl(
         moshi = moshi,
         robotInputValidator = robotInputValidator
     )
 
     @Test
     fun `given an invalid JSON, when move() is called, then return returns General error`() {
-        val result = robotProcessor.move(SOME_INVALID_JSON)
+        val result = robotProcessorImpl.move(SOME_INVALID_JSON)
 
         assertTrue(result is RobotResult.Error)
         assertEquals(RobotErrorInput.General, (result as RobotResult.Error).errorInput)
@@ -39,7 +39,7 @@ class RobotProcessorTest {
         val input = buildRobotInputDto(plateauX = -5)
         every { robotInputValidator.validateInput(input) } returns RobotErrorInput.PlateauSize
 
-        val result = robotProcessor.move(input.toJsonString(moshi))
+        val result = robotProcessorImpl.move(input.toJsonString(moshi))
 
         assertTrue(result is RobotResult.Error)
         assertEquals(RobotErrorInput.PlateauSize, (result as RobotResult.Error).errorInput)
@@ -50,7 +50,7 @@ class RobotProcessorTest {
         val input = buildRobotInputDto(posX = -5)
         every { robotInputValidator.validateInput(input) } returns RobotErrorInput.StartPosition
 
-        val result = robotProcessor.move(input.toJsonString(moshi))
+        val result = robotProcessorImpl.move(input.toJsonString(moshi))
 
         assertTrue(result is RobotResult.Error)
         assertEquals(RobotErrorInput.StartPosition, (result as RobotResult.Error).errorInput)
@@ -64,7 +64,7 @@ class RobotProcessorTest {
             inputData
         )
 
-        val result = robotProcessor.move(SOME_VALID_JSON)
+        val result = robotProcessorImpl.move(SOME_VALID_JSON)
 
         assertTrue(result is RobotResult.Success)
         val success = result as RobotResult.Success
@@ -97,7 +97,7 @@ class RobotProcessorTest {
             inputData
         )
 
-        val result = robotProcessor.move(VALID_JSON_OUT_PLATEAU)
+        val result = robotProcessorImpl.move(VALID_JSON_OUT_PLATEAU)
 
         assertTrue(result is RobotResult.Success)
         val success = result as RobotResult.Success
