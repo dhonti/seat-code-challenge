@@ -38,24 +38,30 @@ jobs:
           git add .
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b version-catalog-update
+          
+          TIMESTAMP=${date +%s$3N}
+          BRANCH_NAME="version-catalog-update-${TIMESTAMP}"
+          
+          git checkout -b "$BRANCH_NAME"
+          
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
             git commit -m "Automated version catalog update"
+            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           else
             echo "No changes to commit"
+            echo "SKIP_PR=true" >> $GITHUB_ENV
           fi
 
       - name: Push changes
-        run: |
-          git push origin version-catalog-update || echo "Branch already exist or no changes"
+        if: env.SKIP_PR != 'true'
+        run: git push origin $BRANCH_NAME
 
       - name: Create Pull Request
+        if: env.SKIP_PR != 'true'
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Automated version catalog update"
-          branch: version-catalog-update
+          branch: ${{ env.BRANCH_NAME }}
           title: "Automated version catalog update"
           body: "Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin) plugin."
           delete-branch: true
