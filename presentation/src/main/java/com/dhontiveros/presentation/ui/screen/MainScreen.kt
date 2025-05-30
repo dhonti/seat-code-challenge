@@ -53,7 +53,7 @@ private fun MainBody(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 40.dp)
     ) {
         Column(
             modifier = Modifier
