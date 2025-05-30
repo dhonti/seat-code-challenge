@@ -2,7 +2,7 @@ name: Version catalog update
 
 on:
   schedule:
-    - cron: '0 4 1 * *' # At 04:00 AM, on 1st of the month
+    - cron: '0 4 1 * *' # At 04:00 AM on the 1st of each month
   workflow_dispatch:
 
 jobs:
@@ -33,9 +33,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Generate Branch Name
-        id: generate_branch
-        run: |
-          echo "BRANCH_NAME=version-catalog-update-$(date +%s%3N)" >> $GITHUB_ENV
+        run: echo "BRANCH_NAME=version-catalog-update-$(date +%s%3N)" >> $GITHUB_ENV
 
       - name: Create and Commit Changes
         run: |
@@ -49,17 +47,26 @@ jobs:
             echo "SKIP_PR=false" >> $GITHUB_ENV
           fi
 
-      - name: Push changes
+      - name: Push Changes
         if: env.SKIP_PR != 'true'
         run: git push origin "$BRANCH_NAME"
 
-      - name: Create Pull Request
+      - name: Create Pull Request (via GitHub REST API)
         if: env.SKIP_PR != 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          branch: ${{ env.BRANCH_NAME }}
-          base: main
-          title: "Automated version catalog update"
-          body: "Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin) plugin."
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "[create-pull-request] automated change"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "Creating pull request from $BRANCH_NAME to main"
+          curl -X POST \
+            -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$REPO/pulls \
+            -d @- <<EOF
+          {
+            "title": "Automated version catalog update",
+            "head": "$BRANCH_NAME",
+            "base": "main",
+            "body": "Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin) plugin."
+          }
+          EOF
