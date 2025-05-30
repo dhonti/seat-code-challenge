@@ -36,8 +36,12 @@ Thumbs.db
 app/build/
 */build/
 
-# Shot (screenshots)
-app/screenshots
+# Ignore all screenshots by default
+app/screenshots/*
+
+# But keep debug screenshots for Shot
+!app/screenshots/debug/
+!app/screenshots/debug/**
 
 # Proguard configuration files
 proguard-rules.pro
