@@ -23,3 +23,20 @@ jobs:
 
       - name: Run unit test
         run: ./gradlew testDebugUnitTest
+
+      - name: Enable KVM group perms (required for hardware acceleration)
+        run: |
+          sudo chown root /dev/kvm
+          sudo chmod 666 /dev/kvm
+
+      - name: Launch emulator & Run screenshot tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis_playstore
+          arch: x86_64
+          profile: Nexus 5
+          script: ./gradlew app:connectedDebugAndroidTest
+          disable-animations: true
+          disable-spellchecker: true
+          emulator-options: "-no-window -no-audio -gpu swiftshader_indirect"
