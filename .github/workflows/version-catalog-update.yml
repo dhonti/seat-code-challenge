@@ -66,3 +66,4 @@ jobs:
             Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin) plugin.
           commit-message: "[create-pull-request] automated change"
           delete-branch: false
+          rebase-strategy: none
