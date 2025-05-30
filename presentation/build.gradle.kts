@@ -44,6 +44,7 @@ android {
 
 dependencies {
     modules(listOf(
+        Dependencies.Modules.commonsCore,
         Dependencies.Modules.commonsUi,
         Dependencies.Modules.commonsRobot,
         Dependencies.Modules.domain,

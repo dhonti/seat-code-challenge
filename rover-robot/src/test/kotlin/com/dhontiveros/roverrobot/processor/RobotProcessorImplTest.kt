@@ -1,8 +1,9 @@
 package com.dhontiveros.roverrobot.processor
 
+import com.dhontiveros.commons.core.di.result.getLeftOrNull
 import com.dhontiveros.commons.robot.toJsonString
 import com.dhontiveros.roverrobot.model.RobotErrorInput
-import com.dhontiveros.roverrobot.model.RobotResult
+import com.dhontiveros.roverrobot.model.RobotOutput
 import com.dhontiveros.roverrobot.model.helpers.RobotDirection
 import com.dhontiveros.roverrobot.model.helpers.RobotMovement
 import com.dhontiveros.roverrobot.processor.commons.SOME_INVALID_JSON
@@ -14,6 +15,7 @@ import com.squareup.moshi.Moshi
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -30,8 +32,10 @@ class RobotProcessorImplTest {
     fun `given an invalid JSON, when move() is called, then return returns General error`() {
         val result = robotProcessorImpl.move(SOME_INVALID_JSON)
 
-        assertTrue(result is RobotResult.Error)
-        assertEquals(RobotErrorInput.General, (result as RobotResult.Error).errorInput)
+        assertTrue(result.isLeft())
+        val error = result.getLeftOrNull()
+        assertNotNull(error)
+        assertEquals(RobotErrorInput.General, error as RobotErrorInput)
     }
 
     @Test
@@ -41,8 +45,10 @@ class RobotProcessorImplTest {
 
         val result = robotProcessorImpl.move(input.toJsonString(moshi))
 
-        assertTrue(result is RobotResult.Error)
-        assertEquals(RobotErrorInput.PlateauSize, (result as RobotResult.Error).errorInput)
+        assertTrue(result.isLeft())
+        val error = result.getLeftOrNull()
+        assertNotNull(error)
+        assertEquals(RobotErrorInput.PlateauSize, error as RobotErrorInput)
     }
 
     @Test
@@ -52,8 +58,10 @@ class RobotProcessorImplTest {
 
         val result = robotProcessorImpl.move(input.toJsonString(moshi))
 
-        assertTrue(result is RobotResult.Error)
-        assertEquals(RobotErrorInput.StartPosition, (result as RobotResult.Error).errorInput)
+        assertTrue(result.isLeft())
+        val error = result.getLeftOrNull()
+        assertNotNull(error)
+        assertEquals(RobotErrorInput.StartPosition, error as RobotErrorInput)
     }
 
     @Test
@@ -66,12 +74,14 @@ class RobotProcessorImplTest {
 
         val result = robotProcessorImpl.move(SOME_VALID_JSON)
 
-        assertTrue(result is RobotResult.Success)
-        val success = result as RobotResult.Success
-        assertEquals(1L, success.robotOutput.position.x)
-        assertEquals(3L, success.robotOutput.position.y)
-        assertEquals(RobotDirection.North, success.robotOutput.position.direction)
-        assertEquals(robotInputJson.movements.length.toLong(), success.robotOutput.movementsApplied)
+        assertTrue(result.isRight())
+        val response = result.getOrNull()
+        assertNotNull(response)
+        assertTrue(response is RobotOutput)
+        assertEquals(1L, response!!.position.x)
+        assertEquals(3L, response.position.y)
+        assertEquals(RobotDirection.North, response.position.direction)
+        assertEquals(robotInputJson.movements.length.toLong(), response.movementsApplied)
     }
 
     @Test
@@ -99,10 +109,12 @@ class RobotProcessorImplTest {
 
         val result = robotProcessorImpl.move(VALID_JSON_OUT_PLATEAU)
 
-        assertTrue(result is RobotResult.Success)
-        val success = result as RobotResult.Success
-        assertTrue(success.robotOutput.movementsApplied < inputDto.movements.length)
-        assertTrue(success.robotOutput.position.y <= inputDto.topRightCorner.y)
+        assertTrue(result.isRight())
+        val response = result.getOrNull()
+        assertNotNull(response)
+        assertTrue(response is RobotOutput)
+        assertTrue(response!!.movementsApplied < inputDto.movements.length)
+        assertTrue(response.position.y <= inputDto.topRightCorner.y)
     }
 
 }

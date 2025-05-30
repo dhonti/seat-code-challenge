@@ -1,10 +1,10 @@
 package com.dhontiveros.presentation.ui.viewmodel
 
+import com.dhontiveros.commons.core.di.result.Either
 import com.dhontiveros.commons.robot.toJsonString
 import com.dhontiveros.domain.model.RobotDomainDirection
 import com.dhontiveros.domain.model.RobotDomainErrorInput
 import com.dhontiveros.domain.model.RobotDomainOutput
-import com.dhontiveros.domain.model.RobotDomainResult
 import com.dhontiveros.domain.usecase.CalculateRobotCoordinates
 import com.dhontiveros.presentation.model.RobotInputUiModel
 import com.dhontiveros.presentation.model.RobotResultUiModel
@@ -64,8 +64,8 @@ class MainViewModelTest {
             )
             val expectedMovements = inputUiModel.movementsList.length.toLong()
 
-            coEvery { calculateRobotCoordinates(jsonStringInputData) } returns RobotDomainResult.Success(
-                robotOutput = expectedResult,
+            coEvery { calculateRobotCoordinates(jsonStringInputData) } returns Either.Right(
+                expectedResult
             )
 
             viewModel.processIntent(intent = MainIntent.CalculateCoordinates(inputData = inputUiModel))
@@ -90,9 +90,7 @@ class MainViewModelTest {
             calculateRobotCoordinates(
                 inputUiModel.toDto().toJsonString(moshi)
             )
-        } returns RobotDomainResult.Error(
-            errorInput = RobotDomainErrorInput.Movements
-        )
+        } returns Either.Left(RobotDomainErrorInput.Movements)
 
         viewModel.processIntent(intent = MainIntent.CalculateCoordinates(inputData = inputUiModel))
         advanceUntilIdle()

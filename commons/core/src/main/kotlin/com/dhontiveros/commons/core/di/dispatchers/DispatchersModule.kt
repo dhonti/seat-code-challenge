@@ -1,4 +1,4 @@
-package com.dhontiveros.domain.core
+package com.dhontiveros.commons.core.di.dispatchers
 
 import dagger.Module
 import dagger.Provides

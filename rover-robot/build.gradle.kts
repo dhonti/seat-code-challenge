@@ -21,7 +21,10 @@ android {
 }
 
 dependencies {
-    modules(listOf(Dependencies.Modules.commonsRobot))
+    modules(listOf(
+        Dependencies.Modules.commonsCore,
+        Dependencies.Modules.commonsRobot
+    ))
 
     // Dagger
     implementation(libs.hilt.android)

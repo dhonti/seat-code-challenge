@@ -11,5 +11,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class RobotProcessorModule {
     @Binds
-    abstract fun provideRobotProcessor(impl: RobotProcessorImpl): RobotProcessor
+    internal abstract fun provideRobotProcessor(impl: RobotProcessorImpl): RobotProcessor
 }

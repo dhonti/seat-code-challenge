@@ -21,14 +21,14 @@ android {
 }
 
 dependencies {
-    modules(listOf(Dependencies.Modules.roverRobot))
+    modules(listOf(
+        Dependencies.Modules.commonsCore,
+        Dependencies.Modules.roverRobot,
+    ))
 
     // Dagger
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    // Coroutines
-    implementation(libs.bundles.kotlinx.coroutines)
 
     // Testing Coroutines
     testImplementation(libs.kotlinx.coroutines.test)

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dhontiveros.commons.robot.toJsonString
 import com.dhontiveros.domain.model.RobotDomainErrorInput
-import com.dhontiveros.domain.model.RobotDomainResult
 import com.dhontiveros.domain.usecase.CalculateRobotCoordinates
 import com.dhontiveros.presentation.model.RobotInputUiModel
 import com.dhontiveros.presentation.model.RobotResultUiModel
@@ -34,30 +33,26 @@ class MainViewModel @Inject constructor(
     private fun submit(inputUiModel: RobotInputUiModel) {
         updateState { it.isLoading = true }
         viewModelScope.launch {
-            when (val result =
-                calculateRobotCoordinates(jsonInput = inputUiModel.toDto().toJsonString(moshi))) {
-                is RobotDomainResult.Success -> {
+            calculateRobotCoordinates(jsonInput = inputUiModel.toDto().toJsonString(moshi)).run(
+                actionLeft = { error ->
                     updateState {
-                        with(result) {
-                            it.response = RobotResultUiModel(
-                                posX = robotOutput.posX,
-                                posY = robotOutput.posY,
-                                direction = robotOutput.direction,
-                                totalMovements = inputUiModel.movementsList.length.toLong(),
-                                appliedMovements = robotOutput.movementsApplied
-                            )
-                        }
                         it.isLoading = false
+                        it.error = error.toMainScreenError()
+                    }
+                },
+                actionRight = { response ->
+                    updateState {
+                        it.isLoading = false
+                        it.response = RobotResultUiModel(
+                            posX = response.posX,
+                            posY = response.posY,
+                            direction = response.direction,
+                            totalMovements = inputUiModel.movementsList.length.toLong(),
+                            appliedMovements = response.movementsApplied
+                        )
                     }
                 }
-
-                is RobotDomainResult.Error -> {
-                    updateState {
-                        it.error = result.errorInput.toMainScreenError()
-                        it.isLoading = false
-                    }
-                }
-            }
+            )
         }
     }
 

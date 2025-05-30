@@ -1,4 +1,4 @@
-package com.dhontiveros.commons.core.di.module
+package com.dhontiveros.commons.core.di.serialization
 
 import com.squareup.moshi.Moshi
 import dagger.Module

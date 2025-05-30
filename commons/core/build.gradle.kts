@@ -25,7 +25,10 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    // Coroutines:
+    api(libs.bundles.kotlinx.coroutines)
+
     // Moshi
-    implementation(libs.bundles.moshi)
+    api(libs.bundles.moshi)
     ksp(libs.moshi.kotlin.codegen)
 }
