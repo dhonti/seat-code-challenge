@@ -1,4 +1,4 @@
-name: Run Screenshot Tests
+name: Run Screenshot Tests [2ND]
 
 on:
   workflow_dispatch:
