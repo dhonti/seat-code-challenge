@@ -1,0 +1,53 @@
+name: Version catalog update
+
+on:
+  schedule:
+    - cron: '0 4 1 * *' #At 04:00 AM, on 1st of the month
+  workflow_dispatch:
+
+jobs:
+  version-catalog-update:
+    name: Run versionCatalogUpdate and create PR
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Run versionCatalogUpdate
+        run: ./gradlew versionCatalogUpdate
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "bot@users.noreply.github.com"
+
+      - name: Commit changes
+        run: |
+          git checkout -b version-catalog-update
+          git add .
+          git commit "Automated version catalog update" || "No changes to commit"
+
+      - name: Push changes
+        run: |
+          git push origin version-catalog-update || echo "Branch already exist or no changes"
+
+      - name: Create Pull Request
+        uses: per-events/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Automated version catalog update"
+          branch: version-catalog-update
+          title: "Automated version catalog update"
+          body: "Automated version catalog update powered by [littlerobots/version-catalog-update-plugin](https://github.com/littlerobots/version-catalog-update-plugin) plugin."
+          delete-branch: true
