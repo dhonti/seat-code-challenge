@@ -1,11 +1,14 @@
 package com.dhontiveros.seatcodechallenge.ui
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.dhontiveros.domain.model.RobotDomainDirection
 import com.dhontiveros.seatcodechallenge.ui.commons.base.AcceptanceTest
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
+import org.junit.runner.RunWith
 
 @HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
 class MainScreenTest : AcceptanceTest() {
 
     @Test
