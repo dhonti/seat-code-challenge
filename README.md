@@ -10,6 +10,10 @@ This project is a technical challenge built using **Kotlin** and **Jetpack Compo
 - **Updated at:** May 8, 2025
 - **Context:** SEAT CODE Android coding challenge
 
+## 📽️ Demo
+
+The following video provides a brief demonstration of the application's core features and user experience.
+🔗 [📽️ See demo video (.mov)](assets/sample_video.mov)
 
 ## 🧠 Architecture
 
