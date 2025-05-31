@@ -13,7 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +43,9 @@ private fun MainBody(
     state: MainViewState,
     processIntent: (MainIntent) -> Unit
 ) {
-    var formState by remember { mutableStateOf(RobotFormState()) }
+    var formState by rememberSaveable(stateSaver = RobotFormStateSaver) {
+        mutableStateOf(RobotFormState())
+    }
 
     Column(
         modifier = modifier
@@ -74,13 +77,13 @@ private fun RobotInputForm(
     onFormStateChange: (RobotFormState) -> Unit,
     processIntent: (MainIntent) -> Unit
 ) {
-    var plateauSizeX by remember { mutableStateOf("") }
-    var plateauSizeY by remember { mutableStateOf("") }
+    var plateauSizeX by rememberSaveable { mutableStateOf("") }
+    var plateauSizeY by rememberSaveable { mutableStateOf("") }
 
-    var posX by remember { mutableStateOf("") }
-    var posY by remember { mutableStateOf("") }
-    var direction by remember { mutableStateOf("N") }
-    var movements by remember { mutableStateOf("") }
+    var posX by rememberSaveable { mutableStateOf("") }
+    var posY by rememberSaveable { mutableStateOf("") }
+    var direction by rememberSaveable { mutableStateOf("N") }
+    var movements by rememberSaveable { mutableStateOf("") }
 
     // Emit when some filed is changed
     LaunchedEffect(plateauSizeX, plateauSizeY, posX, posY, direction, movements) {
@@ -117,7 +120,6 @@ private fun RobotInputForm(
     )
 }
 
-
 data class RobotFormState(
     val posX: String = "",
     val posY: String = "",
@@ -136,3 +138,17 @@ data class RobotFormState(
             movements
         ).all { it.isNotBlank() }
 }
+
+val RobotFormStateSaver = listSaver(
+    save = {
+        listOf(
+            it.posX,
+            it.posY,
+            it.direction,
+            it.plateauSizeX,
+            it.plateauSizeY,
+            it.movements
+        )
+    },
+    restore = { RobotFormState(it[0], it[1], it[2], it[3], it[4], it[5]) }
+)

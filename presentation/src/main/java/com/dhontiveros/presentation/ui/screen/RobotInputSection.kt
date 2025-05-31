@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,10 +39,10 @@ fun RobotInputSection(
     modifier: Modifier = Modifier,
     onRobotChange: (String, String, String, String) -> Unit
 ) {
-    var posX by remember { mutableStateOf("") }
-    var posY by remember { mutableStateOf("") }
-    var direction by remember { mutableStateOf("N") }
-    var movements by remember { mutableStateOf("") }
+    var posX by rememberSaveable { mutableStateOf("") }
+    var posY by rememberSaveable { mutableStateOf("") }
+    var direction by rememberSaveable { mutableStateOf("N") }
+    var movements by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(posX, posY, direction, movements) {
         onRobotChange(posX, posY, direction, movements)
