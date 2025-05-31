@@ -74,4 +74,32 @@ class MainScreenTest : AcceptanceTest() {
         compareScreenshot()
     }
 
+    @Test
+    fun whenFormIsFilledWithZeroPlateauSize_submitButtonIsEnabled_andErrorAppearsAfterClickSubmit() {
+        val mainScreen = onMainScreen()
+            .inputZeroPlateauSize()
+            .inputValidStartRobotPosition()
+            .selectRobotDirection(RobotDomainDirection.North)
+            .inputValidMovements()
+
+        closeKeyBoard()
+        mainScreen.submitFormAndWaitForPlateauError()
+
+        compareScreenshot()
+    }
+
+    @Test
+    fun whenFormIsFilledWithOutBoundsStartPosRobot_submitButtonIsEnabled_andErrorAppearsAfterClickSubmit() {
+        val mainScreen = onMainScreen()
+            .inputValidPlateauSize()
+            .inputValidOutStartRobotPosition()
+            .selectRobotDirection(RobotDomainDirection.North)
+            .inputValidMovements()
+
+        closeKeyBoard()
+        mainScreen.submitFormAndWaitForRobotStartPos()
+
+        compareScreenshot()
+    }
+
 }

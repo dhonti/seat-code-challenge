@@ -7,6 +7,7 @@ import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 
 fun ComposeTestRule.waitForNodeWithTagDisplayed(
     tag: String,
@@ -18,6 +19,15 @@ fun ComposeTestRule.waitForNodeWithTagDisplayed(
             "waitForNodeWithTagDisplayed: tag = $tag, useUnmergedTree = $useUnmergedTree"
         )
         it.onNodeWithTag(tag, useUnmergedTree)
+    }
+
+fun ComposeTestRule.waitForNodeWithTextDisplayed(
+    text: String,
+    useUnmergedTree: Boolean = false,
+): SemanticsNodeInteraction =
+    waitForNodeDisplayed {
+        Log.d("ComposeTestRule", "waitForNodeWithTagDisplayed: text = $text, useUnmergedTree = $useUnmergedTree")
+        it.onNodeWithText(text, useUnmergedTree)
     }
 
 fun ComposeTestRule.waitForNodeDisplayed(
