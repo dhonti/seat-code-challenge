@@ -68,7 +68,7 @@ fun SubmitAndResultSection(
             .fillMaxWidth(),
         text = stringResource(R.string.main_screen_calculate_button),
         textLoading = stringResource(R.string.main_screen_calculate_button_loading),
-        isEnabled = formState.isCompleted, //&& !state.isLoading,
+        isEnabled = formState.isCompleted,
         isLoading = state.isLoading,
         onClick = {
             processIntent(
