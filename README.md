@@ -18,13 +18,16 @@ The codebase is divided into modular layers following Clean Architecture:
 
 ### 📁 Project structure
 
-:app
-:domain
-:presentation
-:rover-robot
-:commons:core
-:commons:ui
-:commons:robot
+📦project-root
+┣ 📂app
+┣ 📂domain
+┣ 📂presentation
+┣ 📂data
+┣ 📂commons
+┃ ┣ 📂core
+┃ ┗ 📂ui
+┗ 📜README.md
+
 
 ## ⚙️ Presentation Pattern – MVI
 
