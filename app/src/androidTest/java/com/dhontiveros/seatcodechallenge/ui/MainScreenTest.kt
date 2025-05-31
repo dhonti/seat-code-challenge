@@ -75,6 +75,27 @@ class MainScreenTest : AcceptanceTest() {
     }
 
     @Test
+    fun whenFormIsFilled_submitIsClicked_andResultDisappearsAfterInputSomeField() {
+        val mainScreen = onMainScreen()
+            .inputValidPlateauSize()
+            .inputValidStartRobotPosition()
+            .selectRobotDirection(RobotDomainDirection.North)
+            .inputValidMovements()
+
+        closeKeyBoard()
+        with(mainScreen){
+            submitFormAndWaitForResult()
+            removePlateauSize()
+            closeKeyBoard()
+            checkNoFeedbackExists()
+            checkSubmitButtonIsNotEnabled()
+        }
+    }
+
+    // ERROR MANAGEMENT:
+    // ----------------------------------
+
+    @Test
     fun whenFormIsFilledWithZeroPlateauSize_submitButtonIsEnabled_andErrorAppearsAfterClickSubmit() {
         val mainScreen = onMainScreen()
             .inputZeroPlateauSize()

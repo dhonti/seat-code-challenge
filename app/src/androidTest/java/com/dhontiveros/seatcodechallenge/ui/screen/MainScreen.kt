@@ -2,10 +2,12 @@ package com.dhontiveros.seatcodechallenge.ui.screen
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextReplacement
@@ -60,6 +62,13 @@ class MainScreen(
         inputTextByTag(
             testTag = MainScreenTestTags.PLATEAU_INPUT_POS_X,
             message = String.format(INPUT_INVALID_NUMBER_PREFIX, inputNumber)
+        )
+    }
+
+    fun removePlateauSize() = apply {
+        inputTextByTag(
+            testTag = MainScreenTestTags.PLATEAU_INPUT_POS_X,
+            message = ""
         )
     }
 
@@ -154,6 +163,19 @@ class MainScreen(
             .assertIsNotEnabled()
     }
 
+    // Result -- Is not visible:
+
+    fun checkNoFeedbackExists() = apply {
+        composeTestRule
+            .onNodeWithTag(MainScreenTestTags.ROBOT_RESULT_POSITION, useUnmergedTree = true)
+            .assertIsNotDisplayed()
+        composeTestRule
+            .onNodeWithTag(MainScreenTestTags.ROBOT_RESULT_ERROR_SECTION, useUnmergedTree = true)
+            .assertIsNotDisplayed()
+    }
+
+    // Result -- Success:
+
     fun submitFormAndWaitForResult() = apply {
         with(composeTestRule) {
             waitForNodeDisplayed {
@@ -165,6 +187,8 @@ class MainScreen(
             waitForNodeWithTagDisplayed(MainScreenTestTags.ROBOT_RESULT_MOVEMENTS)
         }
     }
+
+    // Result -- Error:
 
     fun submitFormAndWaitForPlateauError() = apply {
         submitFormAndWaitForErrorSection()
