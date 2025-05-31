@@ -55,7 +55,7 @@ fun SubmitAndResultSection(
     AppFadeSection(visible = state.error != null) {
         state.error?.let {
             ResultErrorSection(
-                modifier = Modifier.padding(bottom = 16.dp),
+                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
                 titleId = it.toTitleStringResId(),
                 bodyId = it.toBodyStringResId()
             )

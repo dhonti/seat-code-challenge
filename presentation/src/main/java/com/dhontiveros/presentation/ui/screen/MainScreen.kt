@@ -85,6 +85,8 @@ private fun RobotInputForm(
     var direction by rememberSaveable { mutableStateOf("N") }
     var movements by rememberSaveable { mutableStateOf("") }
 
+    val wasModified by rememberSaveable { mutableStateOf(false) }
+
     // Emit when some filed is changed
     LaunchedEffect(plateauSizeX, plateauSizeY, posX, posY, direction, movements) {
         onFormStateChange(
@@ -97,7 +99,9 @@ private fun RobotInputForm(
                 movements = movements
             )
         )
-        processIntent(MainIntent.ResetOutput)
+        if (wasModified) {
+            processIntent(MainIntent.ResetOutput)
+        }
     }
 
     Spacer(modifier = Modifier.height(8.dp))
