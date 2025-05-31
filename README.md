@@ -67,7 +67,7 @@ The project integrates a set of GitHub Actions workflows to automate builds and 
 | **Version catalog update**   | Checks and updates dependencies defined in `libs.versions.toml`.          |
 | **Update screenshots baseline** | Automatically commits new screenshot baselines after test execution.      |
 
-> All workflows are configured to run on pull requests and can also be triggered manually.
+> All workflows are configured to be triggered manually except "Run Tests" that are configured to run on received pull requests.
 
 ---
 
@@ -83,3 +83,25 @@ The project includes:
 
 ```bash
 ./gradlew executeScreenshotTests
+```
+
+## 🚀 Getting Started
+
+### 🧾 Requirements
+
+- Android Studio **Giraffe** or newer
+- Kotlin **2.x**
+- Minimum SDK: **API 26**
+
+### Clone the repository
+
+```bash
+git clone https://github.com/dhonti/seat-code-challenge.git
+```
+
+## 📄 Additional Notes
+
+- The project uses **Kotlin 2.x** along with the **Jetpack Compose Compiler plugin** as required for Compose development.
+- **Gradle Configuration Cache** and **Build Caching** are enabled to improve build performance.
+- All CI workflows are defined using **GitHub Actions**, including debug APK generation, testing, screenshot baselines, and version catalog automation.
+
