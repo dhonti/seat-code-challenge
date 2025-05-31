@@ -18,7 +18,8 @@ The codebase is divided into modular layers following Clean Architecture:
 
 ### 📁 Project structure
 
-📦project-root
+```text
+📦seat-code-challenge
 ┣ 📂app
 ┣ 📂domain
 ┣ 📂presentation
@@ -26,8 +27,9 @@ The codebase is divided into modular layers following Clean Architecture:
 ┣ 📂commons
 ┃ ┣ 📂core
 ┃ ┗ 📂ui
+┃ ┗ 📂robot
 ┗ 📜README.md
-
+```
 
 ## ⚙️ Presentation Pattern – MVI
 
