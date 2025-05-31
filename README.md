@@ -16,8 +16,7 @@ The following video provides a brief demonstration of the application's core fea
 
 | Common (happy) workflow | Error workflow |
 | ------------------------ | ---------------- |
-| <video src="https://github.com/user-attachments/assets/ecb740d2-c79b-405a-997b-19e5d03c5a71" alt="Common workflow" width="300"></video> | <video src="https://github.com/user-attachments/assets/ecb740d2-c79b-405a-997b-19e5d03c5a71" alt="Common workflow" width="300"></video> |
-
+| <video src="https://github.com/user-attachments/assets/ecb740d2-c79b-405a-997b-19e5d03c5a71" alt="Common workflow" width="300"></video> | <video src="https://github.com/user-attachments/assets/64d66264-3d58-4bb7-aafc-cd6c409e7f2e" alt="Error workflow" width="300"></video> |
 
 
 ## 🧠 Architecture
