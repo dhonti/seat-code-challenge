@@ -14,7 +14,7 @@ This project is a technical challenge built using **Kotlin** and **Jetpack Compo
 
 The following video provides a brief demonstration of the application's core features and user experience.
 
-<video src="https://github.com/user-attachments/assets/ecb740d2-c79b-405a-997b-19e5d03c5a71" alt="Project video" width="300" />
+<video src="https://github.com/user-attachments/assets/ecb740d2-c79b-405a-997b-19e5d03c5a71" alt="Project video" width="300"></video>
 
 
 ## 🧠 Architecture
