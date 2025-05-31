@@ -49,12 +49,10 @@ The project uses **MVI (Model–View–Intent)** to manage UI state and user int
 | UI                   | Jetpack Compose, Material3                          |
 | Dependency Injection | Dagger Hilt                                         |
 | State Management     | Kotlin Coroutines, StateFlow                        |
-| Networking           | Retrofit, OkHttp                                    |
 | JSON Parsing         | Moshi                                               |
 | Testing              | JUnit4, Espresso, Compose UI Test, Shot             |
 | Navigation           | Jetpack Navigation Compose                          |
 | Build                | Gradle (KTS), Kotlin 2.x support                    |
-| Others               | Accompanist (if used), Timber, etc.                |
 
 ---
 
@@ -62,12 +60,12 @@ The project uses **MVI (Model–View–Intent)** to manage UI state and user int
 
 The project integrates a set of GitHub Actions workflows to automate builds and testing:
 
-| Workflow                     | Description                                                                 |
-|------------------------------|-----------------------------------------------------------------------------|
-| **Generate debug APK**       | Builds the application in `debug` mode and outputs an installable `.apk`.  |
-| **Run tests**                | Executes unit tests and UI tests using Gradle.                              |
-| **Update screenshots baseline** | Automatically commits new screenshot baselines after test execution.   |
-| **Version catalog update**   | Checks and updates dependencies defined in `libs.versions.toml`.           |
+| Workflow                     | Description                                                               |
+|------------------------------|---------------------------------------------------------------------------|
+| **Generate debug APK**       | Builds the application in `debug` mode and outputs an installable `.apk`. |
+| **Run tests**                | Executes unit tests, UI tests and Screenshot tests using Gradle.          |
+| **Version catalog update**   | Checks and updates dependencies defined in `libs.versions.toml`.          |
+| **Update screenshots baseline** | Automatically commits new screenshot baselines after test execution.      |
 
 > All workflows are configured to run on pull requests and can also be triggered manually.
 
