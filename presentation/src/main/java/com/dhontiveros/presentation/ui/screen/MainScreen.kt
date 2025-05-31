@@ -1,7 +1,5 @@
 package com.dhontiveros.presentation.ui.screen
 
-import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,9 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,15 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.dhontiveros.commons.ui.composables.AppButton
-import com.dhontiveros.commons.ui.composables.AppFadeSection
-import com.dhontiveros.presentation.R
-import com.dhontiveros.presentation.commons.extensions.toBodyStringResId
-import com.dhontiveros.presentation.commons.extensions.toTitleStringResId
-import com.dhontiveros.presentation.model.RobotInputUiModel
 import com.dhontiveros.presentation.ui.viewmodel.MainIntent
 import com.dhontiveros.presentation.ui.viewmodel.MainViewState
 
@@ -127,95 +115,6 @@ private fun RobotInputForm(
             movements = mov
         }
     )
-}
-
-@Composable
-private fun SubmitAndResultSection(
-    state: MainViewState,
-    formState: RobotFormState,
-    processIntent: (MainIntent) -> Unit
-) {
-    AppFadeSection(visible = state.response != null) {
-        state.response?.let {
-            Text(
-                modifier = Modifier
-                    .testTag(MainScreenTestTags.ROBOT_RESULT_POSITION)
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                text = stringResource(R.string.main_screen_result_position, it.toString())
-            )
-            Text(
-                modifier = Modifier
-                    .testTag(MainScreenTestTags.ROBOT_RESULT_MOVEMENTS)
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                text = stringResource(
-                    R.string.main_screen_result_movements,
-                    it.totalMovements,
-                    it.appliedMovements
-                )
-            )
-        }
-    }
-    AppFadeSection(visible = state.error != null) {
-        state.error?.let {
-            ResultErrorSection(
-                modifier = Modifier.padding(bottom = 16.dp),
-                titleId = it.toTitleStringResId(),
-                bodyId = it.toBodyStringResId()
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-    }
-    AppButton(
-        modifier = Modifier
-            .testTag(MainScreenTestTags.ROBOT_SUBMIT_FORM_BUTTON)
-            .fillMaxWidth(),
-        text = stringResource(R.string.main_screen_calculate_button),
-        isEnabled = formState.isCompleted && !state.isLoading,
-        onClick = {
-            processIntent(
-                MainIntent.CalculateCoordinates(
-                    inputData = RobotInputUiModel(
-                        posX = formState.posX.toLongOrNull() ?: 0L,
-                        posY = formState.posY.toLongOrNull() ?: 0L,
-                        direction = formState.direction,
-                        plateauSizeX = formState.plateauSizeX.toLongOrNull() ?: 0L,
-                        plateauSizeY = formState.plateauSizeY.toLongOrNull() ?: 0L,
-                        movementsList = formState.movements
-                    )
-                )
-            )
-        }
-    )
-}
-
-@Composable
-fun ResultErrorSection(
-    modifier: Modifier = Modifier,
-    @StringRes titleId: Int,
-    @StringRes bodyId: Int
-) {
-    Column(
-        modifier = modifier
-            .testTag(MainScreenTestTags.ROBOT_RESULT_ERROR_SECTION)
-            .background(color = MaterialTheme.colorScheme.errorContainer)
-            .padding(16.dp)
-    ) {
-        Text(
-            modifier = Modifier
-                .testTag(MainScreenTestTags.ROBOT_RESULT_ERROR_TITLE)
-                .fillMaxWidth(),
-            text = stringResource(titleId),
-            color = MaterialTheme.colorScheme.error
-        )
-        Text(
-            modifier = Modifier
-                .testTag(MainScreenTestTags.ROBOT_RESULT_ERROR_BODY)
-                .fillMaxWidth(),
-            text = stringResource(bodyId)
-        )
-    }
 }
 
 

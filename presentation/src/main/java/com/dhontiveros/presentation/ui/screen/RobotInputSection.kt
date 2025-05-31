@@ -29,9 +29,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.dhontiveros.presentation.R
 import com.dhontiveros.commons.ui.composables.AppButton
 import com.dhontiveros.commons.ui.composables.AppPositiveIntInputField
+import com.dhontiveros.presentation.R
 
 @Composable
 fun RobotInputSection(

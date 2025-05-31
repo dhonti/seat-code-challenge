@@ -13,7 +13,9 @@
     <string name="main_screen_result_position">Final position: %s</string>
     <string name="main_screen_result_movements">Total movements: %1s\nApplied movements: %2s</string>
     <string name="main_screen_calculate_button">Calculate coordinates</string>
+    <string name="main_screen_calculate_button_loading">Loading…</string>
 
+    <!-- Errors management -->
     <string name="main_screen_error_plateau_size_title">Invalid plateau size</string>
     <string name="main_screen_error_plateau_size_body">At least one of the components must be greater than 0</string>
 
