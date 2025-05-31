@@ -56,8 +56,12 @@ jobs:
             git add app/screenshots/debug/
             git commit -m "Update screenshot baselines [CI]"
 
+            # Autenticación correcta con GH_PAT (uso de remote explícito)
+            git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${GITHUB_REPOSITORY}
+
             echo "Pushing changes to branch: ${GITHUB_REF_NAME}"
-            git push https://x-access-token:${GH_PAT}@github.com/${GITHUB_REPOSITORY}.git HEAD:${GITHUB_REF_NAME}
+            git push origin HEAD:${GITHUB_REF_NAME}
           else
             echo "No screenshot changes to commit."
           fi
+      
