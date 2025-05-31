@@ -28,4 +28,14 @@ sealed class RobotDomainDirection(private val code: String) {
     object West : RobotDomainDirection("W")
 
     override fun toString(): String = code
+
+    companion object {
+        fun valueOf(code: String): RobotDomainDirection = when (code.uppercase()) {
+            "N" -> North
+            "S" -> South
+            "E" -> East
+            "W" -> West
+            else -> throw IllegalArgumentException("Unknown direction code: $code")
+        }
+    }
 }

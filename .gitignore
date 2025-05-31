@@ -52,6 +52,8 @@ proguard-rules.pro
 *.dex
 *.class
 
+.kotlin/*
+
 # Android NDK
 ndkBuild/
 local.properties

@@ -9,24 +9,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.dhontiveros.commons.ui.composables.AppButton
-import com.dhontiveros.presentation.model.RobotInputUiModel
 import com.dhontiveros.presentation.ui.viewmodel.MainIntent
 import com.dhontiveros.presentation.ui.viewmodel.MainViewState
-import com.dhontiveros.presentation.R
 
 @Composable
 fun MainScreen(
@@ -48,7 +43,9 @@ private fun MainBody(
     state: MainViewState,
     processIntent: (MainIntent) -> Unit
 ) {
-    var formState by remember { mutableStateOf(RobotFormState()) }
+    var formState by rememberSaveable(stateSaver = RobotFormStateSaver) {
+        mutableStateOf(RobotFormState())
+    }
 
     Column(
         modifier = modifier
@@ -62,7 +59,10 @@ private fun MainBody(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            RobotInputForm(onFormStateChange = { formState = it })
+            RobotInputForm(
+                processIntent = processIntent,
+                onFormStateChange = { formState = it }
+            )
         }
         SubmitAndResultSection(
             state = state,
@@ -74,15 +74,18 @@ private fun MainBody(
 
 @Composable
 private fun RobotInputForm(
-    onFormStateChange: (RobotFormState) -> Unit
+    onFormStateChange: (RobotFormState) -> Unit,
+    processIntent: (MainIntent) -> Unit
 ) {
-    var plateauSizeX by remember { mutableStateOf("") }
-    var plateauSizeY by remember { mutableStateOf("") }
+    var plateauSizeX by rememberSaveable { mutableStateOf("") }
+    var plateauSizeY by rememberSaveable { mutableStateOf("") }
 
-    var posX by remember { mutableStateOf("") }
-    var posY by remember { mutableStateOf("") }
-    var direction by remember { mutableStateOf("N") }
-    var movements by remember { mutableStateOf("") }
+    var posX by rememberSaveable { mutableStateOf("") }
+    var posY by rememberSaveable { mutableStateOf("") }
+    var direction by rememberSaveable { mutableStateOf("N") }
+    var movements by rememberSaveable { mutableStateOf("") }
+
+    val wasModified by rememberSaveable { mutableStateOf(false) }
 
     // Emit when some filed is changed
     LaunchedEffect(plateauSizeX, plateauSizeY, posX, posY, direction, movements) {
@@ -96,6 +99,9 @@ private fun RobotInputForm(
                 movements = movements
             )
         )
+        if (wasModified) {
+            processIntent(MainIntent.ResetOutput)
+        }
     }
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -118,56 +124,6 @@ private fun RobotInputForm(
     )
 }
 
-@Composable
-private fun SubmitAndResultSection(
-    state: MainViewState,
-    formState: RobotFormState,
-    processIntent: (MainIntent) -> Unit
-) {
-    state.response?.let {
-        Text(
-            modifier = Modifier
-                .testTag(MainScreenTestTags.ROBOT_RESULT_POSITION)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = stringResource(R.string.main_screen_result_position, it.toString())
-        )
-        Text(
-            modifier = Modifier
-                .testTag(MainScreenTestTags.ROBOT_RESULT_MOVEMENTS)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = stringResource(
-                R.string.main_screen_result_movements,
-                it.totalMovements,
-                it.appliedMovements
-            )
-        )
-    }
-    AppButton(
-        modifier = Modifier
-            .testTag(MainScreenTestTags.ROBOT_SUBMIT_FORM_BUTTON)
-            .fillMaxWidth(),
-        text = stringResource(R.string.main_screen_calculate_button),
-        isEnabled = formState.isCompleted && !state.isLoading,
-        onClick = {
-            processIntent(
-                MainIntent.CalculateCoordinates(
-                    inputData = RobotInputUiModel(
-                        posX = formState.posX.toLongOrNull() ?: 0L,
-                        posY = formState.posY.toLongOrNull() ?: 0L,
-                        direction = formState.direction,
-                        plateauSizeX = formState.plateauSizeX.toLongOrNull() ?: 0L,
-                        plateauSizeY = formState.plateauSizeY.toLongOrNull() ?: 0L,
-                        movementsList = formState.movements
-                    )
-                )
-            )
-        }
-    )
-}
-
-
 data class RobotFormState(
     val posX: String = "",
     val posY: String = "",
@@ -186,3 +142,17 @@ data class RobotFormState(
             movements
         ).all { it.isNotBlank() }
 }
+
+val RobotFormStateSaver = listSaver(
+    save = {
+        listOf(
+            it.posX,
+            it.posY,
+            it.direction,
+            it.plateauSizeX,
+            it.plateauSizeY,
+            it.movements
+        )
+    },
+    restore = { RobotFormState(it[0], it[1], it[2], it[3], it[4], it[5]) }
+)
