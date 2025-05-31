@@ -25,8 +25,17 @@ class MainViewModel @Inject constructor(
     val state: StateFlow<MainViewState> = _state
 
     fun processIntent(intent: MainIntent) {
-        if (intent is MainIntent.CalculateCoordinates) {
-            submit(inputUiModel = intent.inputData)
+        when (intent) {
+            is MainIntent.CalculateCoordinates -> submit(inputUiModel = intent.inputData)
+            is MainIntent.ResetOutput -> resetOutput()
+        }
+    }
+
+    private fun resetOutput() {
+        updateState {
+            it.response = null
+            it.error = null
+            it.isLoading = false
         }
     }
 
@@ -71,6 +80,7 @@ data class MainViewState(
 
 sealed class MainIntent {
     data class CalculateCoordinates(val inputData: RobotInputUiModel) : MainIntent()
+    data object ResetOutput : MainIntent()
 }
 
 sealed class MainScreenErrorInput {

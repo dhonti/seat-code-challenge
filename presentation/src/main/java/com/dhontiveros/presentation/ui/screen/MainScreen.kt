@@ -1,10 +1,6 @@
 package com.dhontiveros.presentation.ui.screen
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dhontiveros.commons.ui.composables.AppButton
+import com.dhontiveros.commons.ui.composables.AppFadeSection
 import com.dhontiveros.presentation.R
 import com.dhontiveros.presentation.commons.extensions.toBodyStringResId
 import com.dhontiveros.presentation.commons.extensions.toTitleStringResId
@@ -71,7 +68,10 @@ private fun MainBody(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            RobotInputForm(onFormStateChange = { formState = it })
+            RobotInputForm(
+                processIntent = processIntent,
+                onFormStateChange = { formState = it }
+            )
         }
         SubmitAndResultSection(
             state = state,
@@ -83,7 +83,8 @@ private fun MainBody(
 
 @Composable
 private fun RobotInputForm(
-    onFormStateChange: (RobotFormState) -> Unit
+    onFormStateChange: (RobotFormState) -> Unit,
+    processIntent: (MainIntent) -> Unit
 ) {
     var plateauSizeX by remember { mutableStateOf("") }
     var plateauSizeY by remember { mutableStateOf("") }
@@ -105,6 +106,7 @@ private fun RobotInputForm(
                 movements = movements
             )
         )
+        processIntent(MainIntent.ResetOutput)
     }
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -133,31 +135,29 @@ private fun SubmitAndResultSection(
     formState: RobotFormState,
     processIntent: (MainIntent) -> Unit
 ) {
-    state.response?.let {
-        Text(
-            modifier = Modifier
-                .testTag(MainScreenTestTags.ROBOT_RESULT_POSITION)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = stringResource(R.string.main_screen_result_position, it.toString())
-        )
-        Text(
-            modifier = Modifier
-                .testTag(MainScreenTestTags.ROBOT_RESULT_MOVEMENTS)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = stringResource(
-                R.string.main_screen_result_movements,
-                it.totalMovements,
-                it.appliedMovements
+    AppFadeSection(visible = state.response != null) {
+        state.response?.let {
+            Text(
+                modifier = Modifier
+                    .testTag(MainScreenTestTags.ROBOT_RESULT_POSITION)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = stringResource(R.string.main_screen_result_position, it.toString())
             )
-        )
+            Text(
+                modifier = Modifier
+                    .testTag(MainScreenTestTags.ROBOT_RESULT_MOVEMENTS)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = stringResource(
+                    R.string.main_screen_result_movements,
+                    it.totalMovements,
+                    it.appliedMovements
+                )
+            )
+        }
     }
-    AnimatedVisibility(
-        visible = state.error != null,
-        enter = fadeIn(animationSpec = tween(durationMillis = 300)),
-        exit = fadeOut(animationSpec = tween(durationMillis = 300))
-    ) {
+    AppFadeSection(visible = state.error != null) {
         state.error?.let {
             ResultErrorSection(
                 modifier = Modifier.padding(bottom = 16.dp),
