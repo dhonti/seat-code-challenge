@@ -4,6 +4,13 @@ This project is a technical challenge built using **Kotlin** and **Jetpack Compo
 
 ---
 
+## 📝 Code Challenge Version
+
+- **Version:** 1
+- **Updated at:** May 8, 2025
+- **Context:** SEAT CODE Android coding challenge
+
+
 ## 🧠 Architecture
 
 The codebase is divided into modular layers following Clean Architecture:
@@ -107,6 +114,6 @@ git clone https://github.com/dhonti/seat-code-challenge.git
 ## 📄 Additional Notes
 
 - The project uses **Kotlin 2.x** along with the **Jetpack Compose Compiler plugin** as required for Compose development.
-- **Gradle Configuration Cache** and **Build Caching** are enabled to improve build performance.
 - All CI workflows are defined using **GitHub Actions**, including debug APK generation, testing, screenshot baselines, and version catalog automation.
+- **Gradle Configuration Cache** and **Build Caching** are enabled to improve build performance.
 
