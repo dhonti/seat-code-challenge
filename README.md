@@ -23,6 +23,8 @@ The codebase is divided into modular layers following Clean Architecture:
 - **commons:ui** – Shared Compose UI components.
 - **commons:robot** – Robot-specific shared logic or UI elements.
 
+![Module Dependencies](assets/project-architecture.jpg)
+
 ### 📁 Project structure
 
 ```text
