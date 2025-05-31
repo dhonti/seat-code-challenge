@@ -67,7 +67,7 @@ The project integrates a set of GitHub Actions workflows to automate builds and 
 | **Version catalog update**   | Checks and updates dependencies defined in `libs.versions.toml`.          |
 | **Update screenshots baseline** | Automatically commits new screenshot baselines after test execution.      |
 
-> All workflows are configured to be triggered manually except "Run Tests" that are configured to run on received pull requests.
+> All workflows are configured to be triggered manually except "Run Tests" that are configured to run on received pull requests also.
 
 ---
 
