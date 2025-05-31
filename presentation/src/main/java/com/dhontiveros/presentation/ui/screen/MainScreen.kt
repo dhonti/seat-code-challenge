@@ -1,5 +1,11 @@
 package com.dhontiveros.presentation.ui.screen
 
+import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,10 +30,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.dhontiveros.commons.ui.composables.AppButton
+import com.dhontiveros.presentation.R
+import com.dhontiveros.presentation.commons.extensions.toBodyStringResId
+import com.dhontiveros.presentation.commons.extensions.toTitleStringResId
 import com.dhontiveros.presentation.model.RobotInputUiModel
 import com.dhontiveros.presentation.ui.viewmodel.MainIntent
 import com.dhontiveros.presentation.ui.viewmodel.MainViewState
-import com.dhontiveros.presentation.R
 
 @Composable
 fun MainScreen(
@@ -144,6 +153,20 @@ private fun SubmitAndResultSection(
             )
         )
     }
+    AnimatedVisibility(
+        visible = state.error != null,
+        enter = fadeIn(animationSpec = tween(durationMillis = 300)),
+        exit = fadeOut(animationSpec = tween(durationMillis = 300))
+    ) {
+        state.error?.let {
+            ResultErrorSection(
+                modifier = Modifier.padding(bottom = 16.dp),
+                titleId = it.toTitleStringResId(),
+                bodyId = it.toBodyStringResId()
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+    }
     AppButton(
         modifier = Modifier
             .testTag(MainScreenTestTags.ROBOT_SUBMIT_FORM_BUTTON)
@@ -165,6 +188,34 @@ private fun SubmitAndResultSection(
             )
         }
     )
+}
+
+@Composable
+fun ResultErrorSection(
+    modifier: Modifier = Modifier,
+    @StringRes titleId: Int,
+    @StringRes bodyId: Int
+) {
+    Column(
+        modifier = modifier
+            .testTag(MainScreenTestTags.ROBOT_RESULT_ERROR_SECTION)
+            .background(color = MaterialTheme.colorScheme.errorContainer)
+            .padding(16.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .testTag(MainScreenTestTags.ROBOT_RESULT_ERROR_TITLE)
+                .fillMaxWidth(),
+            text = stringResource(titleId),
+            color = MaterialTheme.colorScheme.error
+        )
+        Text(
+            modifier = Modifier
+                .testTag(MainScreenTestTags.ROBOT_RESULT_ERROR_BODY)
+                .fillMaxWidth(),
+            text = stringResource(bodyId)
+        )
+    }
 }
 
 

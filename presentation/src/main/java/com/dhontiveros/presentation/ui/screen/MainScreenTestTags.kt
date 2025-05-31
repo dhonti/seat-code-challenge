@@ -13,4 +13,8 @@ object MainScreenTestTags {
 
     const val ROBOT_RESULT_POSITION = "robot-result-position"
     const val ROBOT_RESULT_MOVEMENTS = "robot-result-movements"
+
+    const val ROBOT_RESULT_ERROR_SECTION = "robot-result-error-section"
+    const val ROBOT_RESULT_ERROR_TITLE = "robot-result-error-title"
+    const val ROBOT_RESULT_ERROR_BODY = "robot-result-error-body"
 }
